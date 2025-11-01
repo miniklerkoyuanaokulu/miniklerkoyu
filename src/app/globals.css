@@ -59,6 +59,11 @@
   --background: #ffffff;
   --foreground: var(--neutral-dark);
 
+  --success: #6fcf97; /* pastel yeşil */
+  --warning: #ffd166; /* sıcak sarı */
+  --info: #4cc9f0; /* açık mavi */
+  --error: #ef476f; /* pembemsi kırmızı */
+
   --card: var(--background);
   --card-foreground: var(--foreground);
   --popover: var(--background);
@@ -132,6 +137,10 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+  html,
+  body {
+    @apply m-0 p-0;
   }
   body {
     @apply bg-background text-foreground;

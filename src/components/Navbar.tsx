@@ -97,21 +97,30 @@ export function Navbar() {
   // Anasayfa kontrolü
   const isHomePage = pathname === "/";
 
-  // Anasayfada şeffaf, diğer sayfalarda gradient
+  // Anasayfada şeffaf, diğer sayfalarda beyaz
   const headerBg = isHomePage
     ? "bg-transparent border-transparent"
-    : "bg-gradient-to-r from-primary to-accent shadow-lg border-b border-border";
+    : "bg-white shadow-md border-b border-gray-200";
 
-  const linkColor = "text-white";
+  const linkColor = isHomePage ? "text-white" : "text-gray-700";
 
   // Desktop menü öğesi sınıfı
-  const itemClass = (href: string) =>
-    `px-3 py-2 text-sm font-medium rounded-lg transition
-     ${
-       isActive(href)
-         ? "text-white bg-white/20"
-         : "text-white hover:bg-white/10"
-     }`;
+  const itemClass = (href: string) => {
+    if (isHomePage) {
+      return `px-3 py-2 text-sm font-medium rounded-lg transition
+        ${
+          isActive(href)
+            ? "text-white bg-white/20"
+            : "text-white hover:bg-white/10"
+        }`;
+    }
+    return `px-3 py-2 text-sm font-medium rounded-lg transition
+      ${
+        isActive(href)
+          ? "text-[color:var(--primary)] bg-orange-50"
+          : "text-gray-700 hover:bg-orange-50 hover:text-[color:var(--primary)]"
+      }`;
+  };
 
   // Alt menü link sınıfı
   const subItemClass = (href: string) =>
@@ -191,8 +200,11 @@ export function Navbar() {
 
           <Link
             href="/iletisim"
-            className="ml-2 inline-flex items-center rounded-full px-5 py-2.5
-                       bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm transition"
+            className={`ml-2 inline-flex items-center rounded-full px-5 py-2.5 font-medium shadow-sm transition ${
+              isHomePage
+                ? "bg-primary text-primary-foreground hover:bg-primary-hover"
+                : "border-2 border-[color:var(--primary)] text-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+            }`}
           >
             Ön Kayıt
           </Link>
@@ -200,7 +212,11 @@ export function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden inline-flex items-center justify-center rounded-lg p-2 border border-white/30 transition-colors"
+          className={`md:hidden inline-flex items-center justify-center rounded-lg p-2 border transition-colors ${
+            isHomePage
+              ? "border-white/30"
+              : "border-gray-300 hover:border-[color:var(--primary)]"
+          }`}
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Menüyü aç/kapat"
           aria-expanded={mobileOpen}
@@ -283,8 +299,11 @@ export function Navbar() {
               <Link
                 href="/iletisim"
                 onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center rounded-lg px-4 py-2
-                           bg-primary text-primary-foreground hover:bg-primary-hover transition"
+                className={`inline-flex items-center rounded-lg px-4 py-2 font-medium transition ${
+                  isHomePage
+                    ? "bg-primary text-primary-foreground hover:bg-primary-hover"
+                    : "border-2 border-[color:var(--primary)] text-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+                }`}
               >
                 Ön Kayıt
               </Link>
