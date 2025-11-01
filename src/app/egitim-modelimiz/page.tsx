@@ -3,7 +3,6 @@
 
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, cubicBezier } from "framer-motion";
 import {
@@ -14,7 +13,6 @@ import {
   LuTheater,
   LuLanguages,
   LuClock3,
-  LuGraduationCap,
   LuUsers,
   LuCamera,
   LuEye,
@@ -229,11 +227,11 @@ export default function EgitimModelimizPage() {
                 {/* Metin */}
                 <motion.div {...fadeUp} className="prose max-w-none">
                   <p>
-                    Her sabah, miniklerimizi sevgi dolu bir "günaydın halkası"
-                    karşılar. Sabah 08.00 itibariyle herkes sınıflarında
-                    derslerine başlar. Ardından sıcak taze kahvaltılarını yapıp
-                    bahçede öğretmenleri eşliğinde etkinlikler yapar, oyunlar
-                    oynarlar.
+                    Her sabah, miniklerimizi sevgi dolu bir &quot;günaydın
+                    halkası&quot; karşılar. Sabah 08.00 itibariyle herkes
+                    sınıflarında derslerine başlar. Ardından sıcak taze
+                    kahvaltılarını yapıp bahçede öğretmenleri eşliğinde
+                    etkinlikler yapar, oyunlar oynarlar.
                   </p>
                   <p>
                     Öğle yemeğine, ortak yemekhanemizde günlük, taze ve ev
@@ -259,7 +257,7 @@ export default function EgitimModelimizPage() {
                   </p>
                   <p>
                     Her etkinlik, bir beceri kazandırmak kadar, çocuklara
-                    "kendini iyi hissetme" alanı da sunar.
+                    &quot;kendini iyi hissetme&quot; alanı da sunar.
                   </p>
                 </motion.div>
 

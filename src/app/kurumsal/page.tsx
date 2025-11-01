@@ -323,7 +323,7 @@ export default function KurumsalPage() {
                   },
                   {
                     k: "Amfi Tiyatro",
-                    v: "60 m²",
+                    v: "100 m²",
                     icon: "🎭",
                     color: "from-indigo-500 to-blue-500",
                   },

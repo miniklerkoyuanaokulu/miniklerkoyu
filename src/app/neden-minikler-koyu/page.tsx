@@ -8,24 +8,18 @@ import Link from "next/link";
 import { motion, cubicBezier } from "framer-motion";
 import {
   LuApple,
-  LuChefHat,
+  LuCookie,
   LuHeartHandshake,
   LuShieldCheck,
-  LuSprout,
-  LuSunMedium,
+  LuLeaf,
   LuShield,
+  LuFileText,
 } from "react-icons/lu";
+import { PageHero } from "@/components/PageHero";
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-10%" },
-  transition: { duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) },
-};
-
-const fadeIn = {
-  initial: { opacity: 0 },
-  whileInView: { opacity: 1 },
   viewport: { once: true, margin: "-10%" },
   transition: { duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) },
 };
@@ -75,280 +69,307 @@ function Card({
 
 export default function NedenPage() {
   return (
-    <main className="mx-auto max-w-5xl px-4">
+    <>
       {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div
-            className="absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl opacity-30"
-            style={{
-              background:
-                "radial-gradient(closest-side, var(--primary), transparent)",
-            }}
-          />
-          <div
-            className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full blur-3xl opacity-30"
-            style={{
-              background:
-                "radial-gradient(closest-side, var(--secondary), transparent)",
-            }}
-          />
-        </div>
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-20 grid md:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
-          <motion.div {...fadeUp}>
-            <p className="text-sm tracking-wide uppercase text-muted-foreground">
-              Neden Minikler Köyü?
-            </p>
-            <h1 className="mt-2 text-3xl md:text-5xl font-extrabold leading-tight">
-              <span className="text-[color:var(--primary)]">
-                Doğal, güvenli,
-              </span>{" "}
-              sevgiyle büyüyen bir okul
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-prose">
-              Organik beslenme, geniş oyun alanları ve titiz güvenlik
-              prosedürleri ile miniklerin doğayla iç içe geliştiği bir ortam.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="#beslenme"
-                className="inline-flex items-center rounded-xl px-5 py-3 bg-primary text-primary-foreground hover:bg-primary-hover"
-              >
-                Beslenme
-              </Link>
-              <Link
-                href="#fiziksel-kosullar"
-                className="inline-flex items-center rounded-xl px-5 py-3 border border-border hover:bg-[color:var(--neutral-light)]"
-              >
-                Fiziksel Koşullar
-              </Link>
-              <Link
-                href="#guvenlik"
-                className="inline-flex items-center rounded-xl px-5 py-3 border border-border hover:bg-[color:var(--neutral-light)]"
-              >
-                Güvenlik
-              </Link>
-            </div>
-          </motion.div>
+      <PageHero
+        eyebrow="Neden Minikler Köyü?"
+        description="Organik beslenme, geniş oyun alanları ve titiz güvenlik prosedürleri ile miniklerin doğayla iç içe geliştiği bir ortam."
+      />
 
+      <main className="mx-auto max-w-5xl px-4">
+        {/* BESLENME */}
+        <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <motion.div
-            {...fadeIn}
-            className="relative h-64 md:h-80 rounded-2xl border border-border bg-gradient-to-br from-[color:var(--neutral-light)] via-[color:var(--background)] to-white"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
           >
-            <svg
-              className="absolute inset-0 h-full w-full opacity-60"
-              viewBox="0 0 200 200"
-              aria-hidden
-            >
-              <defs>
-                <linearGradient id="g3" x1="0" x2="1">
-                  <stop offset="0%" stopColor="var(--primary)" />
-                  <stop offset="100%" stopColor="var(--secondary)" />
-                </linearGradient>
-              </defs>
-              <circle cx="48" cy="58" r="24" fill="url(#g3)" />
-              <rect
-                x="122"
-                y="44"
-                width="46"
-                height="32"
-                rx="10"
-                fill="var(--accent)"
-              />
-              <path
-                d="M10 160 C 60 110, 100 200, 190 130"
-                stroke="var(--primary)"
-                strokeWidth="6"
-                fill="none"
-              />
-            </svg>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* BESLENME */}
-      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
-          <div>
-            <SectionTitle
+            <p className="text-xs tracking-wider uppercase text-muted-foreground">
+              Organik & Taze
+            </p>
+            <h2
               id="beslenme"
-              title="Beslenme"
-              eyebrow="Organik & Taze"
-            />
-            <motion.div {...fadeUp} className="prose max-w-none mt-5">
-              <p>
-                Çocuklarımızın beslenme ile ilgili özel durumları velilerimizden
-                bilgi alınarak menü oluştururken bize destek olur. Okulumuzun
-                mutfağında tecrübeli bir anne ve aşçı olan{" "}
-                <strong>Elif ablamızın</strong> tamamen organik ürünlerle
-                hazırladığı taze yemekler sabah kahvaltısı, öğle yemeği ve
-                ikindi kahvaltısı şeklinde miniklerimiz ve öğretmenlerimize
-                servis edilir.
-              </p>
-              <p>
-                Organik süt ile ev yapımı yoğurt, ev salçası, haftalık taze
-                sebze ve meyve ile çocuklarımıza güvenle beslenme olanağı
-                sunuyoruz. Dönemlik turşu kurma, zeytin kırma etkinliklerimizle
-                çocuklarımızı da beslenme süreçlerinde eğlenerek öğrenmeye dâhil
-                ediyoruz.
-              </p>
-            </motion.div>
-            <motion.div {...fadeIn} className="mt-6 grid sm:grid-cols-2 gap-3">
-              {[
-                {
-                  icon: <LuApple />,
-                  k: "Organik Ürünler",
-                  v: "Günlük taze menü",
-                },
-                { icon: <LuChefHat />, k: "El Yapımı", v: "Yoğurt & salça" },
-                { icon: <LuSprout />, k: "Etkinlik", v: "Turşu & zeytin" },
-                {
-                  icon: <LuHeartHandshake />,
-                  k: "İş Birliği",
-                  v: "Veli bilgilendirme",
-                },
-              ].map((it, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 rounded-xl border border-border bg-[color:var(--neutral-light)]/60 p-3"
-                >
-                  <div className="text-xl">{it.icon}</div>
-                  <div>
-                    <div className="text-xs text-muted-foreground">{it.k}</div>
-                    <div className="font-medium">{it.v}</div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-          <motion.div {...fadeIn}>
-            <Card className="overflow-hidden">
-              <div className="relative h-72 w-full">
-                <Image
-                  src="/images/neden/beslenme.jpg"
-                  alt="Organik beslenme"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-4 text-sm text-muted-foreground">
-                Organik ve ev yapımı ürünlerle hazırlanan taze menüler
-              </div>
-            </Card>
+              className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]"
+            >
+              Beslenme
+            </h2>
+            <div className="mt-3 h-1 w-20 rounded-full bg-[color:var(--secondary)]" />
           </motion.div>
-        </div>
-      </section>
-
-      {/* FİZİKSEL KOŞULLAR */}
-      <section className="relative">
-        <div className="absolute inset-0 -z-10 bg-[color:var(--neutral-light)]/50" />
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <SectionTitle
-            id="fiziksel-kosullar"
-            title="Fiziksel Koşullar"
-            eyebrow="Geniş Oyun Alanları"
-          />
-
           <div className="mt-8 grid md:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
-            <motion.div {...fadeUp} className="prose max-w-none">
-              <p>
-                Okulumuzda çocuklarımızın gelişimi için; <strong>110 m²</strong>{" "}
-                Kum Havuzu, <strong>180 m²</strong> Hobi Bahçesi,{" "}
-                <strong>130 m²</strong> Oyun-Park Alanı, <strong>100 m²</strong>{" "}
-                Açık Amfi Tiyatro, <strong>200 m²</strong> Survivor Parkuru ve
-                Zipline, toplamda <strong>1100 m²</strong> Oyun Alanı
-                miniklerimizi beklemektedir.
-              </p>
-            </motion.div>
-
-            {/* Metrik kartları */}
-            <motion.div {...fadeIn}>
-              <Card className="p-4">
-                <ul className="grid grid-cols-2 gap-3 text-sm">
-                  {[
-                    { k: "Kum Havuzu", v: "110 m²" },
-                    { k: "Hobi Bahçesi", v: "180 m²" },
-                    { k: "Oyun-Park", v: "130 m²" },
-                    { k: "Amfi Tiyatro", v: "100 m²" },
-                    { k: "Survivor & Zipline", v: "200 m²" },
-                    { k: "Toplam Oyun Alanı", v: "1100 m²" },
-                  ].map((it) => (
-                    <li
-                      key={it.k}
-                      className="rounded-lg border border-border p-3 bg-[color:var(--neutral-light)]/60"
-                    >
-                      <div className="text-xs text-muted-foreground">
-                        {it.k}
-                      </div>
-                      <div className="font-semibold">{it.v}</div>
-                    </li>
-                  ))}
-                </ul>
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="prose max-w-none"
+              >
+                <div className="p-6 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+                  <p>
+                    Çocuklarımızın beslenme ile ilgili özel durumları
+                    velilerimizden bilgi alınarak menü oluştururken bize destek
+                    olur. Okulumuzun mutfağında tecrübeli bir anne ve aşçı olan{" "}
+                    <strong>Elif ablamızın</strong> tamamen organik ürünlerle
+                    hazırladığı taze yemekler sabah kahvaltısı, öğle yemeği ve
+                    ikindi kahvaltısı şeklinde miniklerimiz ve öğretmenlerimize
+                    servis edilir.
+                  </p>
+                  <p>
+                    Organik süt ile ev yapımı yoğurt, ev salçası, haftalık taze
+                    sebze ve meyve ile çocuklarımıza güvenle beslenme olanağı
+                    sunuyoruz. Dönemlik turşu kurma, zeytin kırma
+                    etkinliklerimizle çocuklarımızı da beslenme süreçlerinde
+                    eğlenerek öğrenmeye dâhil ediyoruz.
+                  </p>
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="mt-6 grid sm:grid-cols-2 gap-3"
+              >
+                {[
+                  {
+                    icon: <LuApple className="w-6 h-6" />,
+                    k: "Organik Ürünler",
+                    v: "Günlük taze menü",
+                    color: "from-red-500 to-rose-500",
+                  },
+                  {
+                    icon: <LuCookie className="w-6 h-6" />,
+                    k: "El Yapımı",
+                    v: "Yoğurt & salça",
+                    color: "from-amber-500 to-orange-500",
+                  },
+                  {
+                    icon: <LuLeaf className="w-6 h-6" />,
+                    k: "Etkinlik",
+                    v: "Turşu & zeytin",
+                    color: "from-green-500 to-emerald-500",
+                  },
+                  {
+                    icon: <LuHeartHandshake className="w-6 h-6" />,
+                    k: "İş Birliği",
+                    v: "Veli bilgilendirme",
+                    color: "from-blue-500 to-cyan-500",
+                  },
+                ].map((it, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ scale: 1.05 }}
+                    className={`p-4 rounded-xl bg-gradient-to-br ${it.color} text-white shadow-md cursor-pointer transition-all`}
+                  >
+                    <div className="flex items-center gap-3 mb-1">
+                      <div className="text-2xl">{it.icon}</div>
+                      <div className="font-bold">{it.k}</div>
+                    </div>
+                    <div className="text-sm opacity-90">{it.v}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <Card className="overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 hover:border-green-300">
+                <div className="relative h-72 w-full">
+                  <Image
+                    src="/images/neden/beslenme.jpg"
+                    alt="Organik beslenme"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <div className="p-4 text-sm text-muted-foreground">
+                  Organik ve ev yapımı ürünlerle hazırlanan taze menüler
+                </div>
               </Card>
             </motion.div>
           </div>
+        </section>
 
-          {/* Görsel grid */}
-          <motion.div
-            {...fadeIn}
-            className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3"
-          >
-            {["kum", "hobi", "park", "amfi"].map((key, i) => (
-              <div
-                key={i}
-                className="relative h-36 rounded-xl overflow-hidden border border-border"
-              >
-                <Image
-                  src={`/images/neden/${key}.jpg`}
-                  alt={key}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* GÜVENLİK */}
-      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
-          <motion.div {...fadeIn}>
-            <Card className="overflow-hidden">
-              <div className="relative h-64 w-full">
-                <Image
-                  src="/images/neden/guvenlik.jpg"
-                  alt="Güvenlik"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-4 grid grid-cols-2 gap-3 text-sm">
-                {[
-                  { icon: <LuShieldCheck />, t: "Yetkili Teslim" },
-                  { icon: <LuShield />, t: "Kimlik Kontrol" },
-                  { icon: <LuHeartHandshake />, t: "Veli Onayı" },
-                  { icon: <LuSunMedium />, t: "Huzurlu Ortam" },
-                ].map((it, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <span className="text-[color:var(--primary)]">
-                      {it.icon}
-                    </span>
-                    {it.t}
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-
-          <div>
+        {/* FİZİKSEL KOŞULLAR */}
+        <section className="relative">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50" />
+          <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
             <SectionTitle
-              id="guvenlik"
-              title="Güvenlik"
-              eyebrow="Önceliğimiz"
+              id="fiziksel-kosullar"
+              title="Fiziksel Koşullar"
+              eyebrow="Geniş Oyun Alanları"
             />
-            <motion.div {...fadeUp} className="prose max-w-none mt-5">
-              <p>
+
+            <div className="mt-8 grid md:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="prose max-w-none"
+              >
+                <div className="p-6 rounded-xl bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-200">
+                  <p>
+                    Okulumuzda çocuklarımızın gelişimi için;{" "}
+                    <strong>110 m²</strong> Kum Havuzu, <strong>180 m²</strong>{" "}
+                    Hobi Bahçesi, <strong>130 m²</strong> Oyun-Park Alanı,{" "}
+                    <strong>100 m²</strong> Açık Amfi Tiyatro,{" "}
+                    <strong>200 m²</strong> Survivor Parkuru ve Zipline,
+                    toplamda <strong className="text-cyan-700">1100 m²</strong>{" "}
+                    Oyun Alanı miniklerimizi beklemektedir.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Metrik kartları */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="space-y-3"
+              >
+                {/* 5 Alan Kartı */}
+                <div className="grid grid-cols-1 gap-3">
+                  {[
+                    {
+                      k: "Kum Havuzu",
+                      v: "110 m²",
+                      icon: "🏖️",
+                      color: "from-amber-500 to-yellow-500",
+                    },
+                    {
+                      k: "Hobi Bahçesi",
+                      v: "180 m²",
+                      icon: "🌿",
+                      color: "from-green-500 to-emerald-500",
+                    },
+                    {
+                      k: "Oyun-Park",
+                      v: "130 m²",
+                      icon: "🎪",
+                      color: "from-purple-500 to-pink-500",
+                    },
+                    {
+                      k: "Amfi Tiyatro",
+                      v: "100 m²",
+                      icon: "🎭",
+                      color: "from-red-500 to-rose-500",
+                    },
+                    {
+                      k: "Survivor & Zipline",
+                      v: "200 m²",
+                      icon: "🧗",
+                      color: "from-orange-500 to-amber-500",
+                    },
+                  ].map((it) => (
+                    <motion.div
+                      key={it.k}
+                      whileHover={{ scale: 1.02, x: 4 }}
+                      className={`rounded-xl p-3 bg-gradient-to-r ${it.color} text-white shadow-md cursor-pointer transition-all flex items-center justify-between`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="text-2xl">{it.icon}</div>
+                        <div className="text-sm font-medium">{it.k}</div>
+                      </div>
+                      <div className="text-xl font-bold">{it.v}</div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Toplam Kartı */}
+                <motion.div
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  className="rounded-xl p-5 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 text-white shadow-xl cursor-pointer transition-all border-2 border-white/50 relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="text-4xl">🎯</div>
+                      <div>
+                        <div className="text-xs font-medium opacity-90 uppercase tracking-wide">
+                          Toplam Oyun Alanı
+                        </div>
+                        <div className="text-3xl font-bold">1100 m²</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs opacity-90">5 Farklı</div>
+                      <div className="text-lg font-bold">Alan</div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+
+            {/* Görsel grid */}
+            {/*
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4"
+            >
+              {[
+                {
+                  key: "kum",
+                  label: "Kum Havuzu",
+                  color: "from-amber-500/90 to-yellow-500/90",
+                },
+                {
+                  key: "hobi",
+                  label: "Hobi Bahçesi",
+                  color: "from-green-500/90 to-emerald-500/90",
+                },
+                {
+                  key: "park",
+                  label: "Oyun-Park",
+                  color: "from-purple-500/90 to-pink-500/90",
+                },
+                {
+                  key: "amfi",
+                  label: "Amfi Tiyatro",
+                  color: "from-red-500/90 to-rose-500/90",
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.05, y: -4 }}
+                  className="relative h-40 rounded-xl overflow-hidden border-2 border-white shadow-lg group cursor-pointer"
+                >
+                  <Image
+                    src={`/images/neden/${item.key}.jpg`}
+                    alt={item.label}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-30 transition-opacity duration-300`}
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <div className="text-white font-bold text-sm drop-shadow-lg">
+                      {item.label}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+            */}
+          </div>
+        </section>
+
+        {/* GÜVENLİK */}
+        <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <SectionTitle id="guvenlik" title="Güvenlik" eyebrow="Önceliğimiz" />
+
+          {/* Açıklama */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mt-8"
+          >
+            <div className="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200">
+              <p className="text-gray-700 leading-relaxed">
                 Çocuklarımızın güvenliği ve huzuru ilk hedefimiz olduğu için
                 sabah teslim eden veli ve teslim alacak kişilerin önceden
                 bilgilendirmesi veliden rica edilir. Velinin kayıt ettirdiği
@@ -356,64 +377,161 @@ export default function NedenPage() {
                 bilgilendirmesi alınarak ve kimlik kontrolleri yapılarak
                 miniğimizi teslim edip evine yolcu ederiz.
               </p>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Adım adım prosedür kartı */}
-            <motion.div {...fadeIn} className="mt-6">
-              <Card className="p-5">
-                <ol className="relative ms-3">
-                  {[
-                    {
-                      t: "Teslimat Bilgisi",
-                      d: "Veliden teslim edecek/alayacak kişi bilgisi alınır.",
-                    },
-                    {
-                      t: "Kimlik Kontrolü",
-                      d: "Kayıtlı kişiye kimlik kontrolü yapılır.",
-                    },
-                    {
-                      t: "Teslim Onayı",
-                      d: "Veli onayı ve imza prosedürü tamamlanır.",
-                    },
-                    {
-                      t: "Güvenli Çıkış",
-                      d: "Minik güvenle ailesine teslim edilir.",
-                    },
-                  ].map((row, i) => (
-                    <li key={i} className="mb-4 ps-6">
-                      <span className="absolute -start-3 mt-1 h-2 w-2 rounded-full bg-[color:var(--primary)]" />
-                      <div className="font-medium">{row.t}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {row.d}
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Alt CTA */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <Card className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 className="text-xl md:text-2xl font-semibold text-[color:var(--primary)]">
-              Yerimizi ziyaret edin
-            </h3>
-            <p className="text-muted-foreground">
-              Bahçemizi, sınıflarımızı ve oyun alanlarını birlikte gezelim.
-            </p>
-          </div>
-          <Link
-            href="/iletisim"
-            className="inline-flex items-center rounded-xl px-5 py-3 bg-primary text-primary-foreground hover:bg-primary-hover"
+          {/* 4 Güvenlik Özelliği */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4"
           >
-            Ön Kayıt / İletişim
-          </Link>
-        </Card>
-      </section>
-    </main>
+            {[
+              {
+                icon: <LuFileText className="w-6 h-6" />,
+                t: "Veli Bilgilendirme",
+                color: "from-purple-500 to-violet-500",
+              },
+              {
+                icon: <LuShield className="w-6 h-6" />,
+                t: "Kimlik Kontrol",
+                color: "from-indigo-500 to-blue-500",
+              },
+              {
+                icon: <LuShieldCheck className="w-6 h-6" />,
+                t: "Kayıtlı Kişiler",
+                color: "from-pink-500 to-rose-500",
+              },
+              {
+                icon: <LuHeartHandshake className="w-6 h-6" />,
+                t: "Güvenli Teslim",
+                color: "from-amber-500 to-orange-500",
+              },
+            ].map((it, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.05, y: -2 }}
+                className={`flex flex-col items-center gap-3 p-5 rounded-xl bg-gradient-to-br ${it.color} text-white shadow-md cursor-pointer transition-all text-center`}
+              >
+                <div className="text-3xl">{it.icon}</div>
+                <div className="text-sm font-semibold">{it.t}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* 4 Prosedür Adımı */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="mt-8 grid md:grid-cols-2 gap-4"
+          >
+            {[
+              {
+                t: "Veli Bilgilendirmesi",
+                d: "Sabah teslim eden veli ve teslim alacak kişilerin önceden bilgilendirmesi alınır.",
+                icon: <LuFileText className="w-6 h-6" />,
+                color: "from-purple-500 to-violet-500",
+                num: "01",
+              },
+              {
+                t: "Kimlik Kontrolü",
+                d: "Teslim alacak kişinin kimlik kontrolü yapılır.",
+                icon: <LuShield className="w-6 h-6" />,
+                color: "from-indigo-500 to-blue-500",
+                num: "02",
+              },
+              {
+                t: "Liste Kontrolü",
+                d: "Sadece velinin kayıt ettirdiği kişilere teslim edilir.",
+                icon: <LuShieldCheck className="w-6 h-6" />,
+                color: "from-cyan-500 to-teal-500",
+                num: "03",
+              },
+              {
+                t: "Güvenli Teslim",
+                d: "Miniğimiz güvenle evine yolcu edilir.",
+                icon: <LuHeartHandshake className="w-6 h-6" />,
+                color: "from-pink-500 to-rose-500",
+                num: "04",
+              },
+            ].map((row, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.02 }}
+                className="group relative"
+              >
+                <div className="h-full flex items-start gap-4 p-5 rounded-xl bg-white border-2 border-gray-100 hover:border-purple-200 shadow-sm hover:shadow-md transition-all cursor-pointer">
+                  {/* Numara */}
+                  <div
+                    className={`shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${row.color} text-white flex items-center justify-center font-bold`}
+                  >
+                    {row.num}
+                  </div>
+
+                  {/* İçerik */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div
+                        className={`text-transparent bg-gradient-to-r ${row.color} bg-clip-text`}
+                      >
+                        {row.icon}
+                      </div>
+                      <div className="font-bold text-gray-800">{row.t}</div>
+                    </div>
+                    <div className="text-sm text-gray-600">{row.d}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* Alt CTA */}
+        <section className="mx-auto max-w-6xl px-4 py-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Card className="relative overflow-hidden border-2 border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                  <h3 className="text-2xl md:text-3xl font-bold text-orange-600 mb-2">
+                    Bahçemizi ve alanlarımızı keşfedin!
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Okulu yerinde görmek ve sorularınız için bizimle iletişime
+                    geçin.
+                  </p>
+                </div>
+
+                <Link
+                  href="/iletisim"
+                  className="group flex-shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                >
+                  Ön Kayıt / İletişim
+                  <svg
+                    className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </Link>
+              </div>
+            </Card>
+          </motion.div>
+        </section>
+      </main>
+    </>
   );
 }

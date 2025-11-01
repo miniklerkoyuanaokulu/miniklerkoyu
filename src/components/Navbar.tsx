@@ -51,7 +51,7 @@ const menu: MenuItem[] = [
     ],
   },
   {
-    label: "Neden Minikler Köyü",
+    label: "Neden Minikler Köyü?",
     href: "/neden-minikler-koyu",
     children: [
       { label: "Beslenme", href: "/neden-minikler-koyu#beslenme" },
