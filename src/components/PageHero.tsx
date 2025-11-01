@@ -14,7 +14,7 @@ export function PageHero({ eyebrow, description }: PageHeroProps) {
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/pages/hero-for-pages.png"
+          src="/images/pages/hero-for-pages2.png"
           alt="Hero background"
           fill
           className="object-cover blur-[2px] scale-105"
@@ -33,13 +33,13 @@ export function PageHero({ eyebrow, description }: PageHeroProps) {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           {eyebrow && (
-            <h1 className="text-2xl md:text-3xl lg:text-4xl tracking-wide uppercase text-white font-bold mb-4">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl tracking-wide uppercase text-white font-bold mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
               {eyebrow}
             </h1>
           )}
 
           {description && (
-            <p className="text-lg md:text-xl lg:text-2xl text-white max-w-3xl mx-auto leading-relaxed font-medium">
+            <p className="text-lg md:text-xl lg:text-2xl text-white max-w-3xl mx-auto leading-relaxed font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
               {description}
             </p>
           )}

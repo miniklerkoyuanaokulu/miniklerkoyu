@@ -69,7 +69,11 @@ export default function KurumsalPage() {
         <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <div className="grid md:grid-cols-2 gap-10 items-start">
             {/* Sol - Metin */}
-            <motion.div {...fadeUp}>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
+            >
               <SectionTitle id="hakkimizda" title="Hakkımızda" />
 
               <div className="mt-6 space-y-5">
@@ -147,12 +151,12 @@ export default function KurumsalPage() {
                 >
                   <p className="text-base italic text-gray-700 leading-relaxed">
                     <span className="text-4xl text-orange-500 leading-none">
-                      "
+                      &quot;
                     </span>
                     Her çocuk kendi yolunu bulur. Bu yolculukta her minik,
                     öğretmeninin değil, kendi keşfinin lideridir.
                     <span className="text-4xl text-orange-500 leading-none">
-                      "
+                      &quot;
                     </span>
                   </p>
                 </motion.div>
@@ -161,7 +165,9 @@ export default function KurumsalPage() {
 
             {/* Sağ - Görsel */}
             <motion.div
-              {...fadeIn}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               whileHover={{ y: -8 }}
               className="md:pl-6 space-y-6"
             >
@@ -347,7 +353,7 @@ export default function KurumsalPage() {
                 <div className="text-5xl font-bold mb-2">1100+</div>
                 <div className="text-xl">metrekare</div>
                 <div className="mt-3 text-xs opacity-75">
-                  Türkiye'nin en geniş anaokulu bahçelerinden
+                  Türkiye&apos;nin en geniş anaokulu bahçelerinden
                 </div>
               </motion.div>
             </motion.div>
@@ -656,13 +662,13 @@ export default function KurumsalPage() {
           <motion.div {...fadeUp} className="mt-4 mx-auto max-w-4xl">
             <div className="p-4 md:p-4 rounded-2xl bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-xl text-center">
               <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                <span className="text-4xl opacity-50">"</span>
+                <span className="text-4xl opacity-50">&quot;</span>
                 Bilgi ezberlenmez;
                 <br />
                 <strong className="text-cyan-300">
                   deneyimlenir, yaşanır, hissedilir
                 </strong>
-                <span className="text-4xl opacity-50">"</span>
+                <span className="text-4xl opacity-50">&quot;</span>
               </p>
             </div>
           </motion.div>
