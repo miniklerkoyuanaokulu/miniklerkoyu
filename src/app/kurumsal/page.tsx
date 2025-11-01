@@ -777,7 +777,7 @@ export default function KurumsalPage() {
                   <h4 className="text-xl font-bold mb-2">
                     Eğitimde Devamlılık
                   </h4>
-                  <p className="text-white/90 leading-relaxed">
+                  <p className="text-white text-xl leading-relaxed">
                     Okulumuzda miniklerimizin mutluluğu ve eğitimde devamlılık
                     esası için çocuklarımızın ilk kayıt oldukları dönemden mezun
                     oldukları döneme kadar, eğitime başladıkları kendi
