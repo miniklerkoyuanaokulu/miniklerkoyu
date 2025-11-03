@@ -51,4 +51,15 @@ export type PreApplication = {
   ip?: string;
 };
 
+export type InstagramPost = {
+  id: string;
+  url: string; // Instagram post URL
+  caption?: string;
+  thumbnailUrl?: string; // Opsiyonel: thumbnail için
+  order: number;
+  isActive: boolean;
+  createdAt: number;
+  updatedAt?: number;
+};
+
 

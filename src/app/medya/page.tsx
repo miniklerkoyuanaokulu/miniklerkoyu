@@ -5,7 +5,7 @@
 
 import { useEffect, useMemo, useState, ReactElement } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 import {
   LuCamera,
   LuVideo,
@@ -16,6 +16,10 @@ import {
   LuChevronRight,
 } from "react-icons/lu";
 import Link from "next/link";
+import { PageHero } from "@/components/PageHero";
+import { InstagramFeatured } from "@/components/InstagramFeatured";
+import { getInstagramPosts } from "@/lib/firestore";
+import type { InstagramPost } from "@/lib/types";
 
 // --- Tipler ---
 export type MediaType = "image" | "video" | "press";
@@ -131,20 +135,44 @@ function Lightbox({
   );
 }
 
+// --- Card bileşeni ---
+function Card({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-border bg-card text-card-foreground shadow-sm ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
 // --- Boş durum ---
 function EmptyState() {
   return (
-    <div className="mx-auto max-w-4xl rounded-2xl border border-border bg-card p-8 text-center">
-      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[color:var(--neutral-light)]">
-        <LuCamera className="h-7 w-7 text-[color:var(--primary)]" />
-      </div>
-      <h2 className="text-xl font-semibold text-[color:var(--primary)]">
-        Henüz medya yok
-      </h2>
-      <p className="mt-2 text-muted-foreground">
-        Fotoğraf ve videoları eklediğinizde burada görünecek.
-      </p>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
+      className="mx-auto max-w-4xl"
+    >
+      <Card className="p-8 text-center border-2 border-orange-200">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100">
+          <LuCamera className="h-7 w-7 text-orange-600" />
+        </div>
+        <h2 className="text-xl font-semibold text-orange-600 mb-2">
+          Henüz medya yok
+        </h2>
+        <p className="text-muted-foreground">
+          Yakında fotoğraf ve videolar eklenecek
+        </p>
+      </Card>
+    </motion.div>
   );
 }
 
@@ -165,6 +193,23 @@ export default function MedyaPageClient({
   const [q, setQ] = useState("");
   const [tab, setTab] = useState<MediaType | "all">("all");
   const [lightIndex, setLightIndex] = useState<number | null>(null);
+  const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([]);
+
+  // Instagram postlarını Firestore'dan yükle
+  // NOT: Thumbnail'ler admin panelde bir kez çekilip kaydedilmiştir.
+  // Burada Instagram API'sine istek atmıyoruz, sadece Firestore'dan okuyoruz.
+  // Bu sayede rate limit sorunu yaşamıyoruz ve performans maksimum.
+  useEffect(() => {
+    async function loadInstagram() {
+      try {
+        const posts = await getInstagramPosts(true); // Sadece aktif olanlar
+        setInstagramPosts(posts);
+      } catch (error) {
+        console.error("Instagram postları yüklenirken hata:", error);
+      }
+    }
+    loadInstagram();
+  }, []);
 
   const filtered = useMemo(
     () =>
@@ -195,160 +240,234 @@ export default function MedyaPageClient({
     setLightIndex((i) => (i === null ? null : (i + 1) % filtered.length));
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      {/* Başlık */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold">Medya</h1>
-          <p className="text-muted-foreground">
-            Okuldan fotoğraf, video ve basın içerikleri
-          </p>
-        </div>
+    <>
+      {/* HERO */}
+      <PageHero
+        eyebrow="Medya"
+        description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
+      />
 
-        {/* Arama */}
-        <label className="relative inline-flex items-center">
-          <LuSearch className="absolute left-3 text-muted-foreground" />
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Ara..."
-            className="w-64 rounded-lg border border-border bg-card px-9 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
-          />
-        </label>
-      </div>
-
-      {/* Sekmeler */}
-      <div className="mt-6 flex flex-wrap gap-2">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={classNames(
-              "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm border transition",
-              tab === t.key
-                ? "bg-primary text-primary-foreground border-transparent"
-                : "border-border hover:bg-[color:var(--neutral-light)]"
-            )}
-          >
-            <span className="text-base">{t.icon}</span>
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Boş durum */}
-      {items.length === 0 && (
-        <div className="mt-8">
-          <EmptyState />
-        </div>
-      )}
-
-      {/* Galeri */}
-      {items.length > 0 && (
-        <>
-          {filtered.length === 0 ? (
-            <p className="mt-8 text-muted-foreground">
-              Aramanızla eşleşen içerik bulunamadı.
-            </p>
-          ) : (
-            <div className="mt-8 columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-              {filtered.map((m, idx) => (
-                <motion.div
-                  key={m.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.2 }}
-                  className="break-inside-avoid rounded-xl overflow-hidden border border-border bg-card cursor-zoom-in"
-                  onClick={() => openLightbox(idx)}
-                >
-                  {m.type === "video" ? (
-                    <div
-                      className="relative w-full"
-                      style={{ aspectRatio: "16/9" }}
-                    >
-                      {/* Poster varsa göster; yoksa <video> */}
-                      {m.thumbnailUrl ? (
-                        <Image
-                          src={m.thumbnailUrl}
-                          alt={m.caption || "Video"}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <video
-                          muted
-                          playsInline
-                          className="h-full w-full object-cover"
-                        >
-                          <source src={m.url} />
-                        </video>
-                      )}
-                      <div className="absolute right-2 top-2 rounded-md bg-black/60 px-2 py-1 text-xs text-white inline-flex items-center gap-1">
-                        <LuVideo /> Video
-                      </div>
-                    </div>
-                  ) : m.type === "press" ? (
-                    <div
-                      className="relative w-full"
-                      style={{ aspectRatio: "4/3" }}
-                    >
-                      <div className="absolute inset-0 grid place-items-center bg-[color:var(--neutral-light)]">
-                        <LuNewspaper className="h-10 w-10 text-[color:var(--primary)]" />
-                      </div>
-                      <div className="absolute right-2 top-2 rounded-md bg-black/60 px-2 py-1 text-xs text-white inline-flex items-center gap-1">
-                        PDF
-                      </div>
-                    </div>
-                  ) : (
-                    <Image
-                      src={m.url}
-                      alt={m.caption || "Fotoğraf"}
-                      width={800}
-                      height={600}
-                      className="h-auto w-full object-cover"
-                    />
-                  )}
-
-                  {m.caption && <div className="p-3 text-sm">{m.caption}</div>}
-                </motion.div>
-              ))}
-            </div>
-          )}
-
-          {/* Lightbox */}
-          {lightIndex !== null && (
-            <Lightbox
-              items={filtered}
-              index={lightIndex}
-              onClose={closeLightbox}
-              onPrev={prevLight}
-              onNext={nextLight}
-            />
-          )}
-        </>
-      )}
-
-      {/* Alt bilgi/CTA */}
-      <div className="mt-12">
-        <div className="rounded-2xl border border-border bg-card p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+        {/* Başlık ve Arama */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
+          className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8"
+        >
           <div>
-            <h3 className="text-lg md:text-xl font-semibold text-[color:var(--primary)]">
-              Okuldan daha fazla anı paylaşalım
-            </h3>
-            <p className="text-muted-foreground">
-              Galeriye yeni fotoğraf/video eklemek için bizimle iletişime geçin.
+            <h2 className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]">
+              Galeri
+            </h2>
+            <p className="text-muted-foreground mt-1">
+              Fotoğraflar, videolar ve basından haberler
             </p>
           </div>
-          <Link
-            href="/iletisim"
-            className="inline-flex items-center rounded-lg px-4 py-2 bg-primary text-primary-foreground hover:bg-primary-hover"
+
+          {/* Arama */}
+          <label className="relative inline-flex items-center">
+            <LuSearch className="absolute left-3 text-muted-foreground" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Ara..."
+              className="w-full md:w-64 rounded-lg border-2 border-border bg-card px-9 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200"
+            />
+          </label>
+        </motion.div>
+
+        {/* Sekmeler */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.6,
+            ease: cubicBezier(0.16, 1, 0.3, 1),
+            delay: 0.1,
+          }}
+          className="flex flex-wrap gap-3"
+        >
+          {tabs.map((t) => (
+            <motion.button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={classNames(
+                "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium border-2 transition-all duration-200",
+                tab === t.key
+                  ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-lg"
+                  : "border-border bg-white hover:border-orange-300 hover:bg-orange-50"
+              )}
+            >
+              <span className="text-base">{t.icon}</span>
+              {t.label}
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Boş durum */}
+        {items.length === 0 && (
+          <div className="mt-10">
+            <EmptyState />
+          </div>
+        )}
+
+        {/* Galeri */}
+        {items.length > 0 && (
+          <>
+            {filtered.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mt-10"
+              >
+                <Card className="p-8 text-center">
+                  <p className="text-muted-foreground text-lg">
+                    Aramanızla eşleşen içerik bulunamadı.
+                  </p>
+                </Card>
+              </motion.div>
+            ) : (
+              <div className="mt-10 columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+                {filtered.map((m, idx) => (
+                  <motion.div
+                    key={m.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    className="break-inside-avoid rounded-xl overflow-hidden border-2 border-border bg-card cursor-zoom-in hover:border-orange-300 hover:shadow-xl group"
+                    onClick={() => openLightbox(idx)}
+                  >
+                    {m.type === "video" ? (
+                      <div
+                        className="relative w-full overflow-hidden"
+                        style={{ aspectRatio: "16/9" }}
+                      >
+                        {/* Poster varsa göster; yoksa <video> */}
+                        {m.thumbnailUrl ? (
+                          <Image
+                            src={m.thumbnailUrl}
+                            alt={m.caption || "Video"}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        ) : (
+                          <video
+                            muted
+                            playsInline
+                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          >
+                            <source src={m.url} />
+                          </video>
+                        )}
+                        <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
+                          <LuVideo className="w-3.5 h-3.5" /> Video
+                        </div>
+                      </div>
+                    ) : m.type === "press" ? (
+                      <div
+                        className="relative w-full overflow-hidden"
+                        style={{ aspectRatio: "4/3" }}
+                      >
+                        <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-orange-50 to-amber-50 group-hover:from-orange-100 group-hover:to-amber-100 transition-colors duration-300">
+                          <LuNewspaper className="h-10 w-10 text-orange-600 group-hover:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
+                          PDF
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative overflow-hidden">
+                        <Image
+                          src={m.url}
+                          alt={m.caption || "Fotoğraf"}
+                          width={800}
+                          height={600}
+                          className="h-auto w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
+
+                    {m.caption && (
+                      <div className="p-3 text-sm text-gray-700 font-medium">
+                        {m.caption}
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            )}
+
+            {/* Lightbox */}
+            {lightIndex !== null && (
+              <Lightbox
+                items={filtered}
+                index={lightIndex}
+                onClose={closeLightbox}
+                onPrev={prevLight}
+                onNext={nextLight}
+              />
+            )}
+          </>
+        )}
+
+        {/* Instagram Featured */}
+        {instagramPosts.length > 0 && (
+          <InstagramFeatured posts={instagramPosts} />
+        )}
+
+        {/* Alt CTA */}
+        <section className="mt-16 mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            İletişim
-          </Link>
-        </div>
-      </div>
-    </main>
+            <Card className="relative overflow-hidden border-2 border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              {/* Decorative gradient blob */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
+
+              <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                  <h3 className="text-2xl md:text-3xl font-bold text-orange-600 mb-2">
+                    Okuldan daha fazla anı paylaşalım!
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Galeriye yeni fotoğraf ve video eklemek için bizimle
+                    iletişime geçin.
+                  </p>
+                </div>
+
+                <Link
+                  href="/iletisim"
+                  className="group flex-shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                >
+                  İletişim
+                  <svg
+                    className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </Link>
+              </div>
+            </Card>
+          </motion.div>
+        </section>
+      </main>
+    </>
   );
 }
 
