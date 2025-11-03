@@ -71,6 +71,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openItem, setOpenItem] = useState<string | null>(null);
   const [activeHash, setActiveHash] = useState<string>("");
+  const [closedDropdown, setClosedDropdown] = useState<string | null>(null);
 
   // URL hash değişimini takip et
   useEffect(() => {
@@ -107,14 +108,14 @@ export function Navbar() {
   // Desktop menü öğesi sınıfı
   const itemClass = (href: string) => {
     if (isHomePage) {
-      return `px-3 py-2 text-sm font-medium rounded-lg transition
+      return `px-3 py-2 text-sm font-semibold rounded-lg transition
         ${
           isActive(href)
             ? "text-white bg-white/20"
             : "text-white hover:bg-white/10"
         }`;
     }
-    return `px-3 py-2 text-sm font-medium rounded-lg transition
+    return `px-3 py-2 text-sm font-semibold rounded-lg transition
       ${
         isActive(href)
           ? "text-[color:var(--primary)] bg-orange-50"
@@ -124,7 +125,7 @@ export function Navbar() {
 
   // Alt menü link sınıfı
   const subItemClass = (href: string) =>
-    `block rounded-md px-3 py-2 text-sm transition
+    `block rounded-md px-3 py-2 text-sm font-medium transition
      ${
        isActive(href)
          ? "text-[color:var(--primary)] bg-[color:var(--neutral-light)]"
@@ -165,41 +166,52 @@ export function Navbar() {
           aria-label="Ana menü"
         >
           {menu.map((item) => (
-            <div key={item.label} className="relative group">
+            <div
+              key={item.label}
+              className="relative group"
+              onMouseEnter={() => setClosedDropdown(null)}
+            >
               <Link href={item.href} className={itemClass(item.href)}>
                 {item.label}
               </Link>
 
-              {item.children && (
+              {item.children && closedDropdown !== item.label && (
                 <div
-                  // pointer-events ile daha pürüzsüz hover
-                  className="pointer-events-none absolute left-0 mt-2 min-w-64 rounded-xl border border-border
-                             bg-card text-card-foreground shadow-lg opacity-0 translate-y-1
-                             transition group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
-                             focus-within:opacity-100 focus-within:translate-y-0 focus-within:pointer-events-auto z-50"
+                  // pointer-events: Her zaman aktif (fareyi dropdown'a getirirken hover korunur)
+                  // pt-2: Ana butonla dropdown arası bağlantıyı korur
+                  // Görünürlük grup hover'ı ile kontrol edilir
+                  className="absolute left-0 top-full pt-2 z-50 pointer-events-auto"
                   role="menu"
                   aria-label={`${item.label} alt menü`}
                 >
-                  <ul className="p-2">
-                    {item.children.map((sub) => (
-                      <li key={sub.href}>
-                        <Link
-                          href={sub.href}
-                          className={subItemClass(sub.href)}
-                          role="menuitem"
-                        >
-                          {sub.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <div
+                    className="min-w-64 rounded-xl border border-border bg-card text-card-foreground shadow-lg
+                               opacity-0 translate-y-1 scale-95 transition-all duration-150
+                               group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
+                               focus-within:opacity-100 focus-within:translate-y-0 focus-within:scale-100"
+                  >
+                    <ul className="p-2">
+                      {item.children.map((sub) => (
+                        <li key={sub.href}>
+                          <Link
+                            href={sub.href}
+                            className={subItemClass(sub.href)}
+                            role="menuitem"
+                            onClick={() => setClosedDropdown(item.label)}
+                          >
+                            {sub.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               )}
             </div>
           ))}
 
           <Link
-            href="/iletisim"
+            href="/iletisim#on-kayit"
             className={`ml-2 inline-flex items-center rounded-full px-5 py-2.5 font-medium shadow-sm transition ${
               isHomePage
                 ? "bg-primary text-primary-foreground hover:bg-primary-hover"
@@ -247,7 +259,7 @@ export function Navbar() {
                   <div className="flex items-center justify-between">
                     <Link
                       href={item.href}
-                      className={`px-2 py-2 rounded-md ${
+                      className={`px-2 py-2 rounded-md font-semibold ${
                         isActive(item.href)
                           ? "text-[color:var(--primary)] bg-[color:var(--neutral-light)]"
                           : ""
@@ -278,7 +290,7 @@ export function Navbar() {
                         <li key={sub.href}>
                           <Link
                             href={sub.href}
-                            className={`block py-2 text-sm rounded-md ${
+                            className={`block py-2 text-sm rounded-md font-medium ${
                               isActive(sub.href)
                                 ? "text-[color:var(--primary)] bg-[color:var(--neutral-light)]"
                                 : "text-muted-foreground hover:text-foreground"
@@ -297,7 +309,7 @@ export function Navbar() {
 
             <li className="pt-2">
               <Link
-                href="/iletisim"
+                href="/iletisim#on-kayit"
                 onClick={() => setMobileOpen(false)}
                 className={`inline-flex items-center rounded-lg px-4 py-2 font-medium transition ${
                   isHomePage
