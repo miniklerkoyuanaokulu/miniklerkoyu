@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ========== Ön Kayıtlar ==========
+    // Client-side'dan oluşturulabilir, sadece admin okuyabilir
+    match /preApplications/{document} {
+      allow create: if true; // Herkes ön kayıt yapabilir
+      // TODO: Auth sistemi kurulunca "if request.auth != null" olarak değiştir
+      allow read: if true; // Geçici: Auth olmadan da okunabilir (sadece admin panel için)
+      allow update: if true; // Geçici: Auth olmadan da güncellenebilir
+      allow delete: if true; // Geçici: Auth olmadan da silinebilir
+    }
+    
+    // ========== Instagram Posts ==========
+    // Herkes okuyabilir, sadece admin yazabilir
+    match /instagramPosts/{document} {
+      allow read: if true; // Public okuma (medya sayfası için)
+      allow write: if true; // GEÇICI: Auth olmadan da yazılabilir
+    }
+    
+    // ========== Media Items (Fotoğraf, Video, Press) ==========
+    // Herkes okuyabilir (medya sayfası için), sadece admin yazabilir
+    match /mediaItems/{document} {
+      allow read: if true; // Public okuma
+      allow write: if true; // GEÇICI: Auth olmadan da yazılabilir
+    }
+    
+    // ========== Gelecekte Eklenecekler ==========
+    // Page contents, vs.
+    // match /pages/{pageId} {
+    //   allow read: if true;
+    //   allow write: if request.auth != null;
+    // }
+  }
+}
+

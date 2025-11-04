@@ -27,17 +27,22 @@ export async function savePreApplication(input: Omit<PreApplication, "status" | 
 
 export async function getInstagramPosts(activeOnly = false) {
   const postsRef = collection(db, "instagramPosts");
-  let q = query(postsRef, orderBy("order", "asc"));
   
-  if (activeOnly) {
-    q = query(postsRef, where("isActive", "==", true), orderBy("order", "asc"));
-  }
+  // Basit query - sadece orderBy (index gerektirmez)
+  const q = query(postsRef, orderBy("order", "asc"));
   
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({
+  let posts = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   })) as InstagramPost[];
+  
+  // Client-side filtreleme (index gerekmez)
+  if (activeOnly) {
+    posts = posts.filter((p) => p.isActive === true);
+  }
+  
+  return posts;
 }
 
 export async function addInstagramPost(
@@ -78,6 +83,57 @@ export async function getInstagramPost(id: string) {
     } as InstagramPost;
   }
   return null;
+}
+
+// ========== Media Items CRUD ==========
+
+export async function getMediaItems(type?: "image" | "video" | "press") {
+  const itemsRef = collection(db, "mediaItems");
+  
+  // Basit query - sadece orderBy (index gerektirmez)
+  const q = query(itemsRef, orderBy("createdAt", "desc"));
+  
+  const snapshot = await getDocs(q);
+  let items = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  
+  // Client-side filtreleme (index gerekmez)
+  if (type) {
+    items = items.filter((item: any) => item.type === type);
+  }
+  
+  return items;
+}
+
+export async function addMediaItem(input: {
+  url: string;
+  type: "image" | "video" | "press";
+  caption?: string;
+  tags?: string[];
+}) {
+  const docRef = await addDoc(collection(db, "mediaItems"), {
+    ...input,
+    createdAt: Date.now(),
+  });
+  return docRef.id;
+}
+
+export async function updateMediaItem(
+  id: string,
+  input: Partial<{
+    caption: string;
+    tags: string[];
+  }>
+) {
+  const docRef = doc(db, "mediaItems", id);
+  await updateDoc(docRef, input);
+}
+
+export async function deleteMediaItem(id: string) {
+  const docRef = doc(db, "mediaItems", id);
+  await deleteDoc(docRef);
 }
 
 

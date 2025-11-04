@@ -7,10 +7,10 @@ import { LuChevronRight } from "react-icons/lu";
 export function Hero() {
   return (
     <section className="relative left-1/2 flex min-h-screen w-screen -translate-x-1/2 items-center justify-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image - AVIF format (98% smaller than PNG) */}
       <div className="absolute inset-0">
         <Image
-          src="/images/home/hero.png"
+          src="/images/home/hero.avif"
           alt="Varda Minikler Köyü"
           fill
           className="object-fill"

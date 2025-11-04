@@ -104,3 +104,20 @@ export function extractInstagramPostId(url: string): string | null {
   const match = url.match(/\/(p|reel|tv)\/([\w-]+)/);
   return match ? match[2] : null;
 }
+
+/**
+ * Instagram URL'sini temizler (query parametrelerini kaldırır)
+ * Örnek: https://www.instagram.com/reel/ABC/?igsh=xyz → https://www.instagram.com/reel/ABC/
+ */
+export function cleanInstagramUrl(url: string): string {
+  try {
+    const urlObj = new URL(url);
+    // Query parametrelerini kaldır
+    urlObj.search = "";
+    // Hash'i kaldır
+    urlObj.hash = "";
+    return urlObj.toString();
+  } catch {
+    return url;
+  }
+}

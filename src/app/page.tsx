@@ -225,7 +225,7 @@ export default function HomePage() {
                   <div className="prose max-w-none mt-6">
                     <p className="text-base text-gray-700 leading-relaxed">
                       <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white text-sm font-semibold mr-2">
-                        08:00
+                        08
                       </span>
                       <span className="font-medium text-purple-900">
                         Günaydın halkasıyla

@@ -3,14 +3,13 @@
 
 "use client";
 
-import { useEffect, useMemo, useState, ReactElement } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 import {
   LuCamera,
   LuVideo,
   LuNewspaper,
-  LuSearch,
   LuX,
   LuChevronLeft,
   LuChevronRight,
@@ -18,7 +17,7 @@ import {
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { InstagramFeatured } from "@/components/InstagramFeatured";
-import { getInstagramPosts } from "@/lib/firestore";
+import { getInstagramPosts, getMediaItems } from "@/lib/firestore";
 import type { InstagramPost } from "@/lib/types";
 
 // --- Tipler ---
@@ -40,10 +39,6 @@ function inferType(url: string): MediaType {
   if (["mp4", "webm", "mov", "m4v"].includes(ext)) return "video";
   if (["pdf"].includes(ext)) return "press";
   return "image";
-}
-
-function classNames(...cn: (string | false | undefined)[]) {
-  return cn.filter(Boolean).join(" ");
 }
 
 // --- Lightbox ---
@@ -78,33 +73,43 @@ function Lightbox({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        onClick={onClose}
       >
+        {/* Close Button - z-index en yüksek */}
         <button
           aria-label="Kapat"
-          className="absolute right-4 top-4 text-white/90 hover:text-white"
+          className="absolute right-4 top-4 z-[110] text-white/90 hover:text-white bg-black/30 hover:bg-black/50 rounded-full p-2 transition-all duration-200"
           onClick={onClose}
         >
           <LuX className="h-7 w-7" />
         </button>
 
-        <div className="absolute inset-0 flex items-center justify-center p-4">
-          <div className="relative max-h-[90vh] max-w-6xl w-full">
+        <div
+          className="absolute inset-0 flex items-center justify-center p-4"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="relative flex flex-col max-h-[90vh] max-w-6xl w-full">
             {item.type === "video" ? (
               <video
                 controls
                 poster={item.thumbnailUrl}
-                className="w-full max-h-[90vh] rounded-lg"
+                className="w-full max-h-[85vh] rounded-lg"
               >
                 <source src={item.url} />
               </video>
             ) : (
-              <Image
-                src={item.url}
-                alt={item.caption || "Medya"}
-                width={1600}
-                height={900}
-                className="h-auto w-full rounded-lg object-contain"
-              />
+              <div className="relative w-full h-[85vh] flex items-center justify-center">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={item.url}
+                    alt={item.caption || "Medya"}
+                    fill
+                    className="rounded-lg object-contain"
+                    unoptimized={item.url.includes("instagram")}
+                    sizes="90vw"
+                  />
+                </div>
+              </div>
             )}
             {item.caption && (
               <div className="mt-3 text-center text-white/90 text-sm">
@@ -114,18 +119,25 @@ function Lightbox({
           </div>
         </div>
 
-        <div className="absolute inset-y-0 left-2 right-2 flex items-center justify-between pointer-events-none">
+        {/* Navigation Buttons */}
+        <div className="absolute inset-y-0 left-2 right-2 flex items-center justify-between pointer-events-none z-[110]">
           <button
             aria-label="Önceki"
-            onClick={onPrev}
-            className="pointer-events-auto inline-flex items-center justify-center rounded-full p-2 bg-white/10 hover:bg-white/20 text-white"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPrev();
+            }}
+            className="pointer-events-auto inline-flex items-center justify-center rounded-full p-3 bg-black/30 hover:bg-black/50 text-white transition-all duration-200"
           >
             <LuChevronLeft className="h-6 w-6" />
           </button>
           <button
             aria-label="Sonraki"
-            onClick={onNext}
-            className="pointer-events-auto inline-flex items-center justify-center rounded-full p-2 bg-white/10 hover:bg-white/20 text-white"
+            onClick={(e) => {
+              e.stopPropagation();
+              onNext();
+            }}
+            className="pointer-events-auto inline-flex items-center justify-center rounded-full p-3 bg-black/30 hover:bg-black/50 text-white transition-all duration-200"
           >
             <LuChevronRight className="h-6 w-6" />
           </button>
@@ -177,67 +189,78 @@ function EmptyState() {
 }
 
 // --- Ana Sayfa Bileşeni ---
-export default function MedyaPageClient({
-  initial,
-}: {
-  initial?: { items?: MediaItem[] };
-}) {
-  const items = useMemo(
-    () =>
-      (initial?.items || []).map((m) => ({
-        ...m,
-        type: m.type || inferType(m.url),
-      })),
-    [initial]
-  );
-  const [q, setQ] = useState("");
-  const [tab, setTab] = useState<MediaType | "all">("all");
+export default function MedyaPageClient() {
+  const [items, setItems] = useState<MediaItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [lightIndex, setLightIndex] = useState<number | null>(null);
   const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([]);
 
-  // Instagram postlarını Firestore'dan yükle
-  // NOT: Thumbnail'ler admin panelde bir kez çekilip kaydedilmiştir.
-  // Burada Instagram API'sine istek atmıyoruz, sadece Firestore'dan okuyoruz.
-  // Bu sayede rate limit sorunu yaşamıyoruz ve performans maksimum.
+  // Medya ve Instagram içeriklerini Firestore'dan yükle
   useEffect(() => {
-    async function loadInstagram() {
+    async function loadMedia() {
       try {
-        const posts = await getInstagramPosts(true); // Sadece aktif olanlar
+        setLoading(true);
+
+        // Tüm medya öğelerini çek (fotoğraf, video, press)
+        const mediaData = await getMediaItems();
+        const typedMedia = mediaData.map((m) => {
+          const item = m as Record<string, unknown>;
+          return {
+            ...item,
+            type:
+              (item.type as MediaType | undefined) ||
+              inferType(item.url as string),
+          };
+        }) as MediaItem[];
+        setItems(typedMedia);
+
+        // Instagram postlarını çek
+        const posts = await getInstagramPosts(true);
         setInstagramPosts(posts);
       } catch (error) {
-        console.error("Instagram postları yüklenirken hata:", error);
+        console.error("Medya yüklenirken hata:", error);
+      } finally {
+        setLoading(false);
       }
     }
-    loadInstagram();
+    loadMedia();
   }, []);
 
-  const filtered = useMemo(
+  // Basit sıralama - en yeni önce
+  const sortedItems = useMemo(
     () =>
-      items
-        .filter((x) => (tab === "all" ? true : x.type === tab))
-        .filter((x) =>
-          q ? (x.caption || "").toLowerCase().includes(q.toLowerCase()) : true
-        )
-        .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0)),
-    [items, tab, q]
+      items.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0)),
+    [items]
   );
-
-  const tabs: { key: MediaType | "all"; label: string; icon: ReactElement }[] =
-    [
-      { key: "all", label: "Tümü", icon: <LuCamera /> },
-      { key: "image", label: "Fotoğraflar", icon: <LuCamera /> },
-      { key: "video", label: "Videolar", icon: <LuVideo /> },
-      { key: "press", label: "Basın/PDF", icon: <LuNewspaper /> },
-    ];
 
   const openLightbox = (i: number) => setLightIndex(i);
   const closeLightbox = () => setLightIndex(null);
   const prevLight = () =>
     setLightIndex((i) =>
-      i === null ? null : (i + filtered.length - 1) % filtered.length
+      i === null ? null : (i + sortedItems.length - 1) % sortedItems.length
     );
   const nextLight = () =>
-    setLightIndex((i) => (i === null ? null : (i + 1) % filtered.length));
+    setLightIndex((i) => (i === null ? null : (i + 1) % sortedItems.length));
+
+  // Loading state
+  if (loading) {
+    return (
+      <>
+        <PageHero
+          eyebrow="Medya"
+          description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
+        />
+        <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
+              <p className="mt-4 text-gray-600">Medya yükleniyor...</p>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
@@ -248,62 +271,19 @@ export default function MedyaPageClient({
       />
 
       <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
-        {/* Başlık ve Arama */}
+        {/* Başlık */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
-          className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8"
+          className="text-center mb-12"
         >
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]">
-              Galeri
-            </h2>
-            <p className="text-muted-foreground mt-1">
-              Fotoğraflar, videolar ve basından haberler
-            </p>
-          </div>
-
-          {/* Arama */}
-          <label className="relative inline-flex items-center">
-            <LuSearch className="absolute left-3 text-muted-foreground" />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Ara..."
-              className="w-full md:w-64 rounded-lg border-2 border-border bg-card px-9 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200"
-            />
-          </label>
-        </motion.div>
-
-        {/* Sekmeler */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.6,
-            ease: cubicBezier(0.16, 1, 0.3, 1),
-            delay: 0.1,
-          }}
-          className="flex flex-wrap gap-3"
-        >
-          {tabs.map((t) => (
-            <motion.button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={classNames(
-                "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium border-2 transition-all duration-200",
-                tab === t.key
-                  ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-lg"
-                  : "border-border bg-white hover:border-orange-300 hover:bg-orange-50"
-              )}
-            >
-              <span className="text-base">{t.icon}</span>
-              {t.label}
-            </motion.button>
-          ))}
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+            Galeri
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Okuldan fotoğraflar, videolar ve özel anlar
+          </p>
         </motion.div>
 
         {/* Boş durum */}
@@ -316,32 +296,18 @@ export default function MedyaPageClient({
         {/* Galeri */}
         {items.length > 0 && (
           <>
-            {filtered.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="mt-10"
-              >
-                <Card className="p-8 text-center">
-                  <p className="text-muted-foreground text-lg">
-                    Aramanızla eşleşen içerik bulunamadı.
-                  </p>
-                </Card>
-              </motion.div>
-            ) : (
-              <div className="mt-10 columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-                {filtered.map((m, idx) => (
-                  <motion.div
-                    key={m.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                    className="break-inside-avoid rounded-xl overflow-hidden border-2 border-border bg-card cursor-zoom-in hover:border-orange-300 hover:shadow-xl group"
-                    onClick={() => openLightbox(idx)}
-                  >
+            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {sortedItems.map((m, idx) => (
+                <motion.div
+                  key={m.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  className="group cursor-zoom-in"
+                  onClick={() => openLightbox(idx)}
+                >
+                  <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
                     {m.type === "video" ? (
                       <div
                         className="relative w-full overflow-hidden"
@@ -381,31 +347,31 @@ export default function MedyaPageClient({
                         </div>
                       </div>
                     ) : (
-                      <div className="relative overflow-hidden">
+                      <div className="relative w-full overflow-hidden aspect-square">
                         <Image
                           src={m.url}
                           alt={m.caption || "Fotoğraf"}
-                          width={800}
-                          height={600}
-                          className="h-auto w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          fill
+                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
                     )}
 
                     {m.caption && (
-                      <div className="p-3 text-sm text-gray-700 font-medium">
+                      <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
                         {m.caption}
                       </div>
                     )}
-                  </motion.div>
-                ))}
-              </div>
-            )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
             {/* Lightbox */}
             {lightIndex !== null && (
               <Lightbox
-                items={filtered}
+                items={sortedItems}
                 index={lightIndex}
                 onClose={closeLightbox}
                 onPrev={prevLight}
@@ -470,24 +436,3 @@ export default function MedyaPageClient({
     </>
   );
 }
-
-// Sunucu bileşeni sarmalayıcı – getPageData ile uyum için
-// app/(site)/medya/page.server.tsx gibi ayrı dosyada da yapılabilir; burada tek dosya tutuyoruz.
-export async function MedyaPageWrapper({
-  getData,
-}: {
-  getData: () => Promise<{ items?: MediaItem[] }>;
-}) {
-  const data = await getData();
-  return <MedyaPageClient initial={data} />;
-}
-
-// Eğer mevcutta getPageData kullanıyorsan aşağıdaki default export'u kullan:
-// (Bu dosyada server ortamında çalışacak bir wrapper oluşturduk.)
-
-// ---- Aşağıyı aktif et: ----
-// import { getPageData } from "@/lib/utils";
-// export default async function MedyaPage() {
-//   const data = await getPageData("medya");
-//   return <MedyaPageClient initial={data} />;
-// }

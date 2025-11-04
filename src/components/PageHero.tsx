@@ -19,7 +19,6 @@ export function PageHero({ eyebrow, description }: PageHeroProps) {
           fill
           className="object-cover blur-[2px] scale-105"
           priority
-          quality={90}
         />
         {/* Hafif overlay - arka planı göstererek */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/40 via-slate-800/30 to-slate-900/40" />

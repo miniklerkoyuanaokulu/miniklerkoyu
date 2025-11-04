@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const schema = z.object({
   parentName: z.string().min(3, "Veli adı-soyadı gerekli"),
@@ -23,6 +24,8 @@ const schema = z.object({
 export type PreAppFormValues = z.infer<typeof schema>;
 
 export default function PreRegistrationForm() {
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  
   const {
     register,
     handleSubmit,
@@ -37,15 +40,30 @@ export default function PreRegistrationForm() {
 
   const onSubmit = async (values: PreAppFormValues) => {
     try {
-      // TODO: Firestore'a yaz
-      // const col = collection(db, "preApplications");
-      // await addDoc(col, { ...values, status: "new", createdAt: Date.now() });
-      console.log("Ön Kayıt:", values);
-      alert("Ön kayıt başvurunuz alındı. Teşekkürler!");
+      setSubmitStatus("idle");
+      
+      // API route'a gönder (Firestore + Email)
+      const response = await fetch("/api/pre-registration", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Başvuru gönderilemedi");
+      }
+
+      setSubmitStatus("success");
       reset();
+      
+      // 5 saniye sonra success mesajını kaldır
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (e) {
       console.error(e);
-      alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     }
   };
 
@@ -182,14 +200,33 @@ export default function PreRegistrationForm() {
       </div>
 
       {/* Gönder butonu */}
-      <div className="flex items-center justify-end gap-3">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="inline-flex items-center rounded-xl px-5 py-2.5 bg-primary text-primary-foreground hover:bg-primary-hover disabled:opacity-60"
-        >
-          {isSubmitting ? "Gönderiliyor..." : "Gönder"}
-        </button>
+      <div className="space-y-4">
+        {/* Success/Error Messages */}
+        {submitStatus === "success" && (
+          <div className="p-4 rounded-xl bg-green-50 border-2 border-green-200">
+            <p className="text-green-800 font-semibold text-center">
+              ✅ Ön kayıt başvurunuz alındı! En kısa sürede size dönüş yapacağız.
+            </p>
+          </div>
+        )}
+        
+        {submitStatus === "error" && (
+          <div className="p-4 rounded-xl bg-red-50 border-2 border-red-200">
+            <p className="text-red-800 font-semibold text-center">
+              ❌ Bir hata oluştu. Lütfen tekrar deneyin veya telefon ile iletişime geçin.
+            </p>
+          </div>
+        )}
+
+        <div className="flex items-center justify-end gap-3">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="inline-flex items-center rounded-xl px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold hover:from-orange-600 hover:to-amber-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            {isSubmitting ? "Gönderiliyor..." : "Başvuruyu Gönder"}
+          </button>
+        </div>
       </div>
     </form>
   );
