@@ -9,7 +9,6 @@ import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 import {
   LuCamera,
   LuVideo,
-  LuNewspaper,
   LuX,
   LuChevronLeft,
   LuChevronRight,
@@ -39,6 +38,29 @@ function inferType(url: string): MediaType {
   if (["mp4", "webm", "mov", "m4v"].includes(ext)) return "video";
   if (["pdf"].includes(ext)) return "press";
   return "image";
+}
+
+// Animasyon için
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) },
+};
+
+// Bölüm başlığı bileşeni
+function SectionTitle({ title, id }: { title: string; id?: string }) {
+  return (
+    <motion.div {...fadeUp}>
+      <h2
+        id={id}
+        className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]"
+      >
+        {title}
+      </h2>
+      <div className="mt-3 h-1 w-20 rounded-full bg-[color:var(--secondary)]" />
+    </motion.div>
+  );
 }
 
 // --- Lightbox ---
@@ -90,13 +112,26 @@ function Lightbox({
         >
           <div className="relative flex flex-col max-h-[90vh] max-w-6xl w-full">
             {item.type === "video" ? (
-              <video
-                controls
-                poster={item.thumbnailUrl}
-                className="w-full max-h-[85vh] rounded-lg"
-              >
-                <source src={item.url} />
-              </video>
+              // YouTube embed URL mu kontrol et
+              item.url.includes("youtube.com/embed") ? (
+                <iframe
+                  src={item.url}
+                  className="w-full aspect-video rounded-lg"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  controls
+                  controlsList="nodownload"
+                  disablePictureInPicture
+                  poster={item.thumbnailUrl}
+                  className="w-full max-h-[85vh] rounded-lg"
+                  onContextMenu={(e) => e.preventDefault()}
+                >
+                  <source src={item.url} />
+                </video>
+              )
             ) : (
               <div className="relative w-full h-[85vh] flex items-center justify-center">
                 <div className="relative w-full h-full">
@@ -233,6 +268,16 @@ export default function MedyaPageClient() {
     [items]
   );
 
+  // Fotoğraf ve videoları ayır
+  const photos = useMemo(
+    () => sortedItems.filter((item) => item.type === "image"),
+    [sortedItems]
+  );
+  const videos = useMemo(
+    () => sortedItems.filter((item) => item.type === "video"),
+    [sortedItems]
+  );
+
   const openLightbox = (i: number) => setLightIndex(i);
   const closeLightbox = () => setLightIndex(null);
   const prevLight = () =>
@@ -271,21 +316,6 @@ export default function MedyaPageClient() {
       />
 
       <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
-        {/* Başlık */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-            Galeri
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Okuldan fotoğraflar, videolar ve özel anlar
-          </p>
-        </motion.div>
-
         {/* Boş durum */}
         {items.length === 0 && (
           <div className="mt-10">
@@ -293,11 +323,12 @@ export default function MedyaPageClient() {
           </div>
         )}
 
-        {/* Galeri */}
-        {items.length > 0 && (
-          <>
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {sortedItems.map((m, idx) => (
+        {/* Fotoğraflar */}
+        {photos.length > 0 && (
+          <section className="mb-16">
+            <SectionTitle title="Fotoğraflarımız" id="fotograflar" />
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {photos.map((m) => (
                 <motion.div
                   key={m.id}
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -305,58 +336,18 @@ export default function MedyaPageClient() {
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                   className="group cursor-zoom-in"
-                  onClick={() => openLightbox(idx)}
+                  onClick={() => openLightbox(sortedItems.indexOf(m))}
                 >
                   <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                    {m.type === "video" ? (
-                      <div
-                        className="relative w-full overflow-hidden"
-                        style={{ aspectRatio: "16/9" }}
-                      >
-                        {/* Poster varsa göster; yoksa <video> */}
-                        {m.thumbnailUrl ? (
-                          <Image
-                            src={m.thumbnailUrl}
-                            alt={m.caption || "Video"}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                        ) : (
-                          <video
-                            muted
-                            playsInline
-                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          >
-                            <source src={m.url} />
-                          </video>
-                        )}
-                        <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
-                          <LuVideo className="w-3.5 h-3.5" /> Video
-                        </div>
-                      </div>
-                    ) : m.type === "press" ? (
-                      <div
-                        className="relative w-full overflow-hidden"
-                        style={{ aspectRatio: "4/3" }}
-                      >
-                        <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-orange-50 to-amber-50 group-hover:from-orange-100 group-hover:to-amber-100 transition-colors duration-300">
-                          <LuNewspaper className="h-10 w-10 text-orange-600 group-hover:scale-110 transition-transform duration-300" />
-                        </div>
-                        <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
-                          PDF
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="relative w-full overflow-hidden aspect-square">
-                        <Image
-                          src={m.url}
-                          alt={m.caption || "Fotoğraf"}
-                          fill
-                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      </div>
-                    )}
+                    <div className="relative w-full overflow-hidden aspect-square">
+                      <Image
+                        src={m.url}
+                        alt={m.caption || "Fotoğraf"}
+                        fill
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
 
                     {m.caption && (
                       <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
@@ -367,18 +358,70 @@ export default function MedyaPageClient() {
                 </motion.div>
               ))}
             </div>
+          </section>
+        )}
 
-            {/* Lightbox */}
-            {lightIndex !== null && (
-              <Lightbox
-                items={sortedItems}
-                index={lightIndex}
-                onClose={closeLightbox}
-                onPrev={prevLight}
-                onNext={nextLight}
-              />
-            )}
-          </>
+        {/* Videolar */}
+        {videos.length > 0 && (
+          <section className="mb-16">
+            <SectionTitle title="Videolarımız" id="videolar" />
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {videos.map((m) => (
+                <motion.div
+                  key={m.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  className="group cursor-zoom-in"
+                  onClick={() => openLightbox(sortedItems.indexOf(m))}
+                >
+                  <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
+                    <div className="relative w-full overflow-hidden aspect-square">
+                      {m.thumbnailUrl ? (
+                        <Image
+                          src={m.thumbnailUrl}
+                          alt={m.caption || "Video"}
+                          fill
+                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <video
+                          muted
+                          playsInline
+                          className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          onContextMenu={(e) => e.preventDefault()}
+                        >
+                          <source src={m.url} />
+                        </video>
+                      )}
+                      <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
+                        <LuVideo className="w-3.5 h-3.5" /> Video
+                      </div>
+                    </div>
+
+                    {m.caption && (
+                      <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
+                        {m.caption}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Lightbox */}
+        {lightIndex !== null && (
+          <Lightbox
+            items={sortedItems}
+            index={lightIndex}
+            onClose={closeLightbox}
+            onPrev={prevLight}
+            onNext={nextLight}
+          />
         )}
 
         {/* Instagram Featured */}

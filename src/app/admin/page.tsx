@@ -9,6 +9,7 @@ import {
   FaInstagram,
   FaEnvelope,
   FaClipboardList,
+  FaVideo,
 } from "react-icons/fa";
 
 const menuItems = [
@@ -22,7 +23,7 @@ const menuItems = [
   {
     title: "Medya",
     href: "/admin/medya",
-    icon: FaInstagram,
+    icon: FaVideo,
     color: "from-purple-500 to-pink-500",
     description: "Fotoğraf, Video ve Instagram Yönetimi",
   },

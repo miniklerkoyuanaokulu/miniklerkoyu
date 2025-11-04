@@ -17,14 +17,15 @@ service firebase.storage {
                     && request.resource.contentType.matches('image/.*');
     }
     
-    // ========== Medya Galerisi (Gelecekte) ==========
+    // ========== Medya Galerisi ==========
     match /media/{type}/{allPaths=**} {
       // type: photos, videos, press
       allow read: if true;
       allow write: if true; // GEÇICI
       
       // Dosya kontrolü
-      allow create: if request.resource.size < 50 * 1024 * 1024; // max 50MB
+      // Videolar için 100MB, diğerleri için 50MB
+      allow create: if request.resource.size < 100 * 1024 * 1024; // max 100MB
     }
     
     // ========== Genel ==========

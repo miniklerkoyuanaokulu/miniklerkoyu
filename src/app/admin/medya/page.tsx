@@ -26,16 +26,20 @@ export default function AdminMedya() {
         </Link>
 
         {/* Video Yönetimi */}
-        <div className="p-8 rounded-xl border-2 border-gray-300 bg-gradient-to-br from-purple-50 to-pink-50 text-center">
-          <FaVideo className="mx-auto text-5xl text-purple-600 mb-4" />
-          <h3 className="text-xl font-bold text-gray-800 mb-2">
-            Video Galerisi
-          </h3>
-          <p className="text-gray-600 text-sm mb-4">Yakında aktif olacak</p>
-          <div className="px-4 py-2 bg-gray-200 text-gray-500 rounded-lg inline-block">
-            Hazırlanıyor...
+        <Link href="/admin/medya/video">
+          <div className="p-8 rounded-xl border-2 border-green-300 bg-gradient-to-br from-green-50 to-emerald-50 hover:border-green-400 hover:shadow-xl transition-all duration-300 cursor-pointer text-center group">
+            <FaVideo className="mx-auto text-5xl text-green-600 mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              Video Galerisi
+            </h3>
+            <p className="text-gray-600 text-sm mb-4">
+              Video yükleyin veya YouTube linki ekleyin
+            </p>
+            <div className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg inline-block font-semibold">
+              Yönet →
+            </div>
           </div>
-        </div>
+        </Link>
 
         {/* Instagram Yönetimi */}
         <Link href="/admin/medya/instagram">
@@ -50,13 +54,6 @@ export default function AdminMedya() {
             </div>
           </div>
         </Link>
-      </div>
-
-      <div className="mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-xl">
-        <p className="text-blue-800">
-          <strong>ℹ️ Not:</strong> Fotoğraf ve Video galerisi özellikleri
-          yakında eklenecek. Şimdilik Instagram yönetimi aktif.
-        </p>
       </div>
     </div>
   );
