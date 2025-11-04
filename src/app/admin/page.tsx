@@ -2,15 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  FaBuilding,
-  FaGraduationCap,
-  FaHeart,
-  FaInstagram,
-  FaEnvelope,
-  FaClipboardList,
-  FaVideo,
-} from "react-icons/fa";
+import { FaClipboardList, FaVideo } from "react-icons/fa";
 
 const menuItems = [
   {

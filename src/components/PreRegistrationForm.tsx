@@ -3,7 +3,8 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const schema = z.object({
   parentName: z.string().min(3, "Veli adı-soyadı gerekli"),
@@ -24,8 +25,12 @@ const schema = z.object({
 export type PreAppFormValues = z.infer<typeof schema>;
 
 export default function PreRegistrationForm() {
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
-  
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [recaptchaError, setRecaptchaError] = useState<string>("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
   const {
     register,
     handleSubmit,
@@ -41,23 +46,36 @@ export default function PreRegistrationForm() {
   const onSubmit = async (values: PreAppFormValues) => {
     try {
       setSubmitStatus("idle");
-      
-      // API route'a gönder (Firestore + Email)
+      setRecaptchaError("");
+
+      // reCAPTCHA token kontrolü
+      const recaptchaToken = recaptchaRef.current?.getValue();
+      if (!recaptchaToken) {
+        setRecaptchaError("Lütfen robot olmadığınızı doğrulayın");
+        return;
+      }
+
+      // API route'a gönder (Firestore + Email + reCAPTCHA)
       const response = await fetch("/api/pre-registration", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          recaptchaToken,
+        }),
       });
 
       if (!response.ok) {
-        throw new Error("Başvuru gönderilemedi");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Başvuru gönderilemedi");
       }
 
       setSubmitStatus("success");
       reset();
-      
+      recaptchaRef.current?.reset(); // reCAPTCHA'yı sıfırla
+
       // 5 saniye sonra success mesajını kaldır
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (e) {
@@ -170,14 +188,6 @@ export default function PreRegistrationForm() {
           <span className="text-sm text-muted-foreground">
             <a
               className="text-[color:var(--primary)] underline underline-offset-4"
-              href="/aydinlatma-metni"
-              target="_blank"
-            >
-              Aydınlatma Metni
-            </a>
-            ,{" "}
-            <a
-              className="text-[color:var(--primary)] underline underline-offset-4"
               href="/kvkk"
               target="_blank"
             >
@@ -186,7 +196,7 @@ export default function PreRegistrationForm() {
             ve{" "}
             <a
               className="text-[color:var(--primary)] underline underline-offset-4"
-              href="/acik-riza-metni"
+              href="/kvkk"
               target="_blank"
             >
               Açık Rıza Metni
@@ -199,21 +209,35 @@ export default function PreRegistrationForm() {
         )}
       </div>
 
+      {/* reCAPTCHA */}
+      <div className="flex flex-col items-end">
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+          onChange={() => setRecaptchaError("")}
+        />
+        {recaptchaError && (
+          <p className={`${errText} mt-2`}>{recaptchaError}</p>
+        )}
+      </div>
+
       {/* Gönder butonu */}
       <div className="space-y-4">
         {/* Success/Error Messages */}
         {submitStatus === "success" && (
           <div className="p-4 rounded-xl bg-green-50 border-2 border-green-200">
             <p className="text-green-800 font-semibold text-center">
-              ✅ Ön kayıt başvurunuz alındı! En kısa sürede size dönüş yapacağız.
+              ✅ Ön kayıt başvurunuz alındı! En kısa sürede size dönüş
+              yapacağız.
             </p>
           </div>
         )}
-        
+
         {submitStatus === "error" && (
           <div className="p-4 rounded-xl bg-red-50 border-2 border-red-200">
             <p className="text-red-800 font-semibold text-center">
-              ❌ Bir hata oluştu. Lütfen tekrar deneyin veya telefon ile iletişime geçin.
+              ❌ Bir hata oluştu. Lütfen tekrar deneyin veya telefon ile
+              iletişime geçin.
             </p>
           </div>
         )}

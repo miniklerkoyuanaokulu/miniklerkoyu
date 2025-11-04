@@ -72,6 +72,7 @@ export function Navbar() {
   const [openItem, setOpenItem] = useState<string | null>(null);
   const [activeHash, setActiveHash] = useState<string>("");
   const [closedDropdown, setClosedDropdown] = useState<string | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   // URL hash değişimini takip et
   useEffect(() => {
@@ -165,50 +166,62 @@ export function Navbar() {
           className="relative hidden items-center gap-1 md:flex"
           aria-label="Ana menü"
         >
-          {menu.map((item) => (
-            <div
-              key={item.label}
-              className="relative group"
-              onMouseEnter={() => setClosedDropdown(null)}
-            >
-              <Link href={item.href} className={itemClass(item.href)}>
-                {item.label}
-              </Link>
+          {menu.map((item) => {
+            const isDropdownOpen =
+              hoveredItem === item.label && closedDropdown !== item.label;
 
-              {item.children && closedDropdown !== item.label && (
-                <div
-                  // pointer-events: Her zaman aktif (fareyi dropdown'a getirirken hover korunur)
-                  // pt-2: Ana butonla dropdown arası bağlantıyı korur
-                  // Görünürlük grup hover'ı ile kontrol edilir
-                  className="absolute left-0 top-full pt-2 z-50 pointer-events-auto"
-                  role="menu"
-                  aria-label={`${item.label} alt menü`}
+            return (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseLeave={() => setHoveredItem(null)}
+              >
+                <Link
+                  href={item.href}
+                  className={itemClass(item.href)}
+                  onMouseEnter={() => {
+                    if (item.children) {
+                      setHoveredItem(item.label);
+                      setClosedDropdown(null);
+                    }
+                  }}
                 >
+                  {item.label}
+                </Link>
+
+                {item.children && isDropdownOpen && (
                   <div
-                    className="min-w-64 rounded-xl border border-border bg-card text-card-foreground shadow-lg
-                               opacity-0 translate-y-1 scale-95 transition-all duration-150
-                               group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
-                               focus-within:opacity-100 focus-within:translate-y-0 focus-within:scale-100"
+                    // pointer-events: Her zaman aktif (fareyi dropdown'a getirirken hover korunur)
+                    // pt-2: Ana butonla dropdown arası bağlantıyı korur
+                    className="absolute left-0 top-full pt-2 z-50"
+                    role="menu"
+                    aria-label={`${item.label} alt menü`}
+                    onMouseEnter={() => setHoveredItem(item.label)}
                   >
-                    <ul className="p-2">
-                      {item.children.map((sub) => (
-                        <li key={sub.href}>
-                          <Link
-                            href={sub.href}
-                            className={subItemClass(sub.href)}
-                            role="menuitem"
-                            onClick={() => setClosedDropdown(item.label)}
-                          >
-                            {sub.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="min-w-64 rounded-xl border border-border bg-card text-card-foreground shadow-lg animate-in fade-in slide-in-from-top-1 duration-150">
+                      <ul className="p-2">
+                        {item.children.map((sub) => (
+                          <li key={sub.href}>
+                            <Link
+                              href={sub.href}
+                              className={subItemClass(sub.href)}
+                              role="menuitem"
+                              onClick={() => {
+                                setClosedDropdown(item.label);
+                                setHoveredItem(null);
+                              }}
+                            >
+                              {sub.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
 
           <Link
             href="/iletisim#on-kayit"

@@ -26,6 +26,63 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // reCAPTCHA doğrulaması
+    if (!body.recaptchaToken) {
+      console.error("Validasyon hatası: reCAPTCHA token yok");
+      return NextResponse.json(
+        { error: "Robot doğrulaması gerekli" },
+        { status: 400 }
+      );
+    }
+
+    // Google'a reCAPTCHA token'ını doğrulat
+    const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+    if (!recaptchaSecretKey) {
+      console.error("reCAPTCHA secret key eksik");
+      return NextResponse.json(
+        { error: "Sunucu yapılandırma hatası" },
+        { status: 500 }
+      );
+    }
+
+    console.log("reCAPTCHA Secret Key (ilk 20 karakter):", recaptchaSecretKey.substring(0, 20) + "...");
+    console.log("reCAPTCHA Token (ilk 50 karakter):", body.recaptchaToken.substring(0, 50) + "...");
+
+    const recaptchaResponse = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${recaptchaSecretKey}&response=${body.recaptchaToken}`,
+      }
+    );
+
+    const recaptchaResult = await recaptchaResponse.json();
+    console.log("reCAPTCHA doğrulama sonucu:", recaptchaResult);
+
+    if (!recaptchaResult.success) {
+      console.error("reCAPTCHA doğrulaması başarısız:", recaptchaResult["error-codes"]);
+      
+      // Detaylı hata mesajı
+      let errorMessage = "Robot doğrulaması başarısız. ";
+      if (recaptchaResult["error-codes"]?.includes("invalid-input-secret")) {
+        errorMessage += "Secret Key hatalı.";
+      } else if (recaptchaResult["error-codes"]?.includes("invalid-input-response")) {
+        errorMessage += "Token geçersiz veya süresi dolmuş.";
+      } else if (recaptchaResult["error-codes"]?.includes("missing-input-secret")) {
+        errorMessage += "Secret Key eksik.";
+      } else {
+        errorMessage += "Lütfen tekrar deneyin.";
+      }
+      
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: 400 }
+      );
+    }
+
     // Firebase config kontrolü
     if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
       console.error("Firebase config eksik");
