@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCamera, FaPlus, FaTrash, FaEdit, FaTimes } from "react-icons/fa";
-import { getMediaItems, addMediaItem, updateMediaItem, deleteMediaItem } from "@/lib/firestore";
+import {
+  getMediaItems,
+  addMediaItem,
+  updateMediaItem,
+  deleteMediaItem,
+} from "@/lib/firestore";
 import { useImageUpload } from "@/hooks/useImageUpload";
 
 type MediaItem = {
@@ -23,8 +28,12 @@ export default function AdminFotografGalerisi() {
   const [uploadingFiles, setUploadingFiles] = useState<boolean>(false);
   const [currentCaption, setCurrentCaption] = useState("");
   const [editingPhoto, setEditingPhoto] = useState<MediaItem | null>(null);
-  
-  const { uploadImage, uploading: singleUploading, progress } = useImageUpload();
+
+  const {
+    uploadImage,
+    uploading: singleUploading,
+    progress,
+  } = useImageUpload();
 
   useEffect(() => {
     loadPhotos();
@@ -45,14 +54,14 @@ export default function AdminFotografGalerisi() {
 
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []);
-    
+
     // Sadece resim dosyaları
     const imageFiles = files.filter((f) => f.type.startsWith("image/"));
-    
+
     if (imageFiles.length !== files.length) {
       alert("Sadece resim dosyaları yükleyebilirsiniz");
     }
-    
+
     setSelectedFiles((prev) => [...prev, ...imageFiles]);
   }
 
@@ -64,12 +73,12 @@ export default function AdminFotografGalerisi() {
     if (selectedFiles.length === 0) return;
 
     setUploadingFiles(true);
-    
+
     try {
       for (const file of selectedFiles) {
         // Firebase Storage'a yükle (optimize edilmiş)
         const url = await uploadImage(file, "media/photos");
-        
+
         // Firestore'a kaydet
         const mediaData: {
           url: string;
@@ -79,15 +88,15 @@ export default function AdminFotografGalerisi() {
           url,
           type: "image",
         };
-        
+
         // Caption varsa ekle
         if (currentCaption?.trim()) {
           mediaData.caption = currentCaption.trim();
         }
-        
+
         await addMediaItem(mediaData);
       }
-      
+
       await loadPhotos();
       setSelectedFiles([]);
       setCurrentCaption("");
@@ -157,7 +166,7 @@ export default function AdminFotografGalerisi() {
         </div>
         <button
           onClick={() => setShowUpload(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+          className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
         >
           <FaPlus />
           Fotoğraf Ekle
@@ -183,7 +192,9 @@ export default function AdminFotografGalerisi() {
               className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
             >
               <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-800">Fotoğraf Yükle</h2>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Fotoğraf Yükle
+                </h2>
                 <button
                   onClick={() => setShowUpload(false)}
                   className="text-gray-400 hover:text-gray-600"
@@ -276,7 +287,7 @@ export default function AdminFotografGalerisi() {
                     </p>
                     <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-blue-600 to-cyan-600 h-full transition-all duration-300"
+                        className="bg-linear-to-r from-blue-600 to-cyan-600 h-full transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -291,9 +302,11 @@ export default function AdminFotografGalerisi() {
                   <button
                     onClick={handleUpload}
                     disabled={selectedFiles.length === 0 || uploadingFiles}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                    className="flex-1 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
-                    {uploadingFiles ? "Yükleniyor..." : `${selectedFiles.length} Fotoğraf Yükle`}
+                    {uploadingFiles
+                      ? "Yükleniyor..."
+                      : `${selectedFiles.length} Fotoğraf Yükle`}
                   </button>
                   <button
                     onClick={() => {
@@ -332,7 +345,9 @@ export default function AdminFotografGalerisi() {
               className="bg-white rounded-2xl shadow-2xl max-w-md w-full"
             >
               <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-800">Açıklama Düzenle</h2>
+                <h2 className="text-xl font-bold text-gray-800">
+                  Açıklama Düzenle
+                </h2>
               </div>
 
               <div className="p-6 space-y-4">
@@ -380,7 +395,7 @@ export default function AdminFotografGalerisi() {
           </p>
           <button
             onClick={() => setShowUpload(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
           >
             <FaPlus />
             Fotoğraf Ekle
@@ -444,11 +459,11 @@ export default function AdminFotografGalerisi() {
       {photos.length > 0 && (
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            Toplam <strong className="text-blue-600">{photos.length}</strong> fotoğraf
+            Toplam <strong className="text-blue-600">{photos.length}</strong>{" "}
+            fotoğraf
           </p>
         </div>
       )}
     </div>
   );
 }
-

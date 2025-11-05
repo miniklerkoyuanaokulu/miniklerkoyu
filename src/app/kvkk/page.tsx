@@ -40,7 +40,7 @@ export default function KVKKPage() {
         >
           <Link
             href="/iletisim#on-kayit"
-            className="inline-flex items-center gap-2 text-[color:var(--primary)] hover:text-[color:var(--secondary)] font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-primary hover:text-secondary font-medium transition-colors"
           >
             <LuArrowLeft className="w-5 h-5" />
             Ön Kayıt Formuna Dön
@@ -55,7 +55,7 @@ export default function KVKKPage() {
           className="mb-12"
         >
           <Card className="p-6 md:p-8 border-2 border-blue-200">
-            <h2 className="text-2xl md:text-3xl font-bold text-[color:var(--primary)] mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6">
               KVKK Aydınlatma Metni
             </h2>
 
@@ -192,7 +192,7 @@ export default function KVKKPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Card className="p-6 md:p-8 border-2 border-orange-200">
-            <h2 className="text-2xl md:text-3xl font-bold text-[color:var(--secondary)] mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-6">
               Açık Rıza Metni
             </h2>
 

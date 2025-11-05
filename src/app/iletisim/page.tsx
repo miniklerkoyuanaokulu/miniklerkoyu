@@ -66,7 +66,7 @@ export default function IletisimPage() {
             >
               <Card className="p-6 h-full border-2 hover:border-green-300 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                  <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                     <LuMapPin />
                   </div>
                   <h3 className="text-lg font-bold text-gray-800 mb-2">
@@ -100,7 +100,7 @@ export default function IletisimPage() {
             >
               <Card className="p-6 h-full border-2 hover:border-blue-300 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                  <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                     <LuPhone />
                   </div>
                   <h3 className="text-lg font-bold text-gray-800 mb-2">
@@ -138,7 +138,7 @@ export default function IletisimPage() {
               >
                 <Card className="p-6 h-full border-2 hover:border-green-400 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                    <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                       <FaWhatsapp />
                     </div>
                     <h3 className="text-lg font-bold text-gray-800 mb-2">
@@ -170,7 +170,7 @@ export default function IletisimPage() {
               >
                 <Card className="p-6 h-full border-2 hover:border-pink-300 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-500 to-orange-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                    <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-pink-500 via-purple-500 to-orange-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                       <FaInstagram />
                     </div>
                     <h3 className="text-lg font-bold text-gray-800 mb-2">
@@ -195,7 +195,7 @@ export default function IletisimPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.4 }}
           >
-            <Card className="p-8 border-2 border-orange-200 hover:border-orange-300 hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-orange-50 to-amber-50">
+            <Card className="p-8 border-2 border-orange-200 hover:border-orange-300 hover:shadow-xl transition-all duration-300 bg-linear-to-r from-orange-50 to-amber-50">
               <div className="flex items-center justify-center gap-4 flex-wrap text-center">
                 <div>
                   <h3 className="text-xl font-bold text-gray-800 mb-1">
@@ -250,10 +250,10 @@ export default function IletisimPage() {
               </div>
 
               {/* Harita altı bilgi kartı */}
-              <div className="p-6 bg-gradient-to-r from-blue-50 to-cyan-50 border-t-2 border-blue-200">
+              <div className="p-6 bg-linear-to-r from-blue-50 to-cyan-50 border-t-2 border-blue-200">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shrink-0">
                       <LuMapPin className="w-6 h-6" />
                     </div>
                     <div>
@@ -272,7 +272,7 @@ export default function IletisimPage() {
                       href="https://maps.app.goo.gl/SKsmZ6aNSgemcR4m9"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300"
                       aria-label="Vardalı Minikler Köyü için yol tarifi al"
                     >
                       <LuExternalLink />
@@ -323,12 +323,12 @@ export default function IletisimPage() {
             className="mt-12"
           >
             <Card className="relative overflow-hidden border-2 border-green-200 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
-              <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-green-200/30 to-emerald-200/30 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
+              <div className="absolute top-0 left-0 w-64 h-64 bg-linear-to-br from-green-200/30 to-emerald-200/30 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-0 w-64 h-64 bg-linear-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
 
               <div className="relative z-10 p-8 md:p-12 text-center">
                 <div className="mx-auto max-w-3xl">
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 text-white text-4xl mb-6 shadow-xl">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-green-500 to-emerald-500 text-white text-4xl mb-6 shadow-xl">
                     🌳
                   </div>
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
@@ -346,7 +346,7 @@ export default function IletisimPage() {
                   <div className="flex flex-wrap items-center justify-center gap-4">
                     <a
                       href="tel:05522897191"
-                      className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300"
+                      className="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300"
                     >
                       <LuPhone />
                       Hemen Arayın

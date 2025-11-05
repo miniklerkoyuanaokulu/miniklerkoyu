@@ -27,7 +27,7 @@ export function FloatingWhatsAppButton() {
         />
 
         {/* Ana buton */}
-        <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white shadow-2xl hover:shadow-green-500/50 transition-all duration-300">
+        <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-linear-to-br from-green-400 to-green-600 flex items-center justify-center text-white shadow-2xl hover:shadow-green-500/50 transition-all duration-300">
           <FaWhatsapp className="w-7 h-7 md:w-8 md:h-8" />
         </div>
 

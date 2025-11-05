@@ -88,19 +88,17 @@ export default function PreRegistrationForm() {
   const labelBase = "text-sm font-medium text-foreground";
   const inputBase =
     "w-full rounded-xl border border-border bg-card px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring";
-  const errText = "text-xs text-[color:var(--destructive)]";
+  const errText = "text-xs text-destructive";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Başlık bloğu */}
-      <div className="rounded-2xl border border-border bg-[color:var(--neutral-light)]/60 p-4">
-        <h3 className="text-lg font-semibold text-[color:var(--primary)]">
-          ÖN KAYIT FORMU
-        </h3>
+      <div className="rounded-2xl border border-border bg-neutral-light/60 p-4">
+        <h3 className="text-lg font-semibold text-primary">ÖN KAYIT FORMU</h3>
         <p className="mt-1 text-sm text-muted-foreground">
           Sorularınız için:{" "}
           <a
-            className="text-[color:var(--primary)] underline underline-offset-4"
+            className="text-primary underline underline-offset-4"
             href="tel:05522897191"
           >
             0552 289 71 91
@@ -112,8 +110,7 @@ export default function PreRegistrationForm() {
       <div className="grid gap-4 md:grid-cols-2">
         <div>
           <label className={labelBase}>
-            Veli Adı-Soyadı{" "}
-            <span className="text-[color:var(--destructive)]">*</span>
+            Veli Adı-Soyadı <span className="text-destructive">*</span>
           </label>
           <input
             type="text"
@@ -126,8 +123,7 @@ export default function PreRegistrationForm() {
         </div>
         <div>
           <label className={labelBase}>
-            Çocuk Adı-Soyadı{" "}
-            <span className="text-[color:var(--destructive)]">*</span>
+            Çocuk Adı-Soyadı <span className="text-destructive">*</span>
           </label>
           <input type="text" {...register("childName")} className={inputBase} />
           {errors.childName && (
@@ -140,8 +136,7 @@ export default function PreRegistrationForm() {
       <div className="grid gap-4 md:grid-cols-3">
         <div>
           <label className={labelBase}>
-            Çocuk Doğum Tarihi{" "}
-            <span className="text-[color:var(--destructive)]">*</span>
+            Çocuk Doğum Tarihi <span className="text-destructive">*</span>
           </label>
           <input type="date" {...register("birthDate")} className={inputBase} />
           {errors.birthDate && (
@@ -150,7 +145,7 @@ export default function PreRegistrationForm() {
         </div>
         <div>
           <label className={labelBase}>
-            Veli Tel <span className="text-[color:var(--destructive)]">*</span>
+            Veli Tel <span className="text-destructive">*</span>
           </label>
           <input
             type="tel"
@@ -163,8 +158,7 @@ export default function PreRegistrationForm() {
         </div>
         <div>
           <label className={labelBase}>
-            Veli E-posta Adresi{" "}
-            <span className="text-[color:var(--destructive)]">*</span>
+            Veli E-posta Adresi <span className="text-destructive">*</span>
           </label>
           <input type="email" {...register("email")} className={inputBase} />
           {errors.email && <p className={errText}>{errors.email.message}</p>}
@@ -187,7 +181,7 @@ export default function PreRegistrationForm() {
           />
           <span className="text-sm text-muted-foreground">
             <a
-              className="text-[color:var(--primary)] underline underline-offset-4"
+              className="text-primary underline underline-offset-4"
               href="/kvkk"
               target="_blank"
             >
@@ -195,7 +189,7 @@ export default function PreRegistrationForm() {
             </a>{" "}
             ve{" "}
             <a
-              className="text-[color:var(--primary)] underline underline-offset-4"
+              className="text-primary underline underline-offset-4"
               href="/kvkk"
               target="_blank"
             >
@@ -246,7 +240,7 @@ export default function PreRegistrationForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center rounded-xl px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold hover:from-orange-600 hover:to-amber-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-300"
+            className="inline-flex items-center rounded-xl px-8 py-3 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold hover:from-orange-600 hover:to-amber-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-300"
           >
             {isSubmitting ? "Gönderiliyor..." : "Başvuruyu Gönder"}
           </button>

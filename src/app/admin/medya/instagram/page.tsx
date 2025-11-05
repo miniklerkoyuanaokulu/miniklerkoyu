@@ -269,7 +269,7 @@ export default function AdminMedyaInstagram() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+          className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
         >
           <FaPlus />
           Yeni Post Ekle
@@ -403,7 +403,7 @@ export default function AdminMedyaInstagram() {
                           <div className="w-full max-w-xs">
                             <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
                               <div
-                                className="bg-gradient-to-r from-purple-600 to-pink-600 h-full transition-all duration-300"
+                                className="bg-linear-to-r from-purple-600 to-pink-600 h-full transition-all duration-300"
                                 style={{ width: `${uploadProgress}%` }}
                               />
                             </div>
@@ -511,7 +511,7 @@ export default function AdminMedyaInstagram() {
                   <button
                     type="submit"
                     disabled={fetchingThumbnail}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                    className="flex-1 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                   >
                     {fetchingThumbnail ? (
                       <>
@@ -551,7 +551,7 @@ export default function AdminMedyaInstagram() {
           </p>
           <button
             onClick={() => setShowForm(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             <FaPlus />
             Post Ekle
@@ -571,7 +571,7 @@ export default function AdminMedyaInstagram() {
               } shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden`}
             >
               {/* Thumbnail */}
-              <div className="relative aspect-square bg-gradient-to-br from-pink-100 via-purple-100 to-orange-100">
+              <div className="relative aspect-square bg-linear-to-br from-pink-100 via-purple-100 to-orange-100">
                 {post.thumbnailUrl ? (
                   <div
                     className="absolute inset-0 bg-cover bg-center"

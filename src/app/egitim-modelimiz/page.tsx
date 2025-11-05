@@ -184,12 +184,12 @@ export default function EgitimModelimizPage() {
                   className={`p-6 h-full relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl ${item.hoverShadow} border-2 ${item.hoverBorder}`}
                 >
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${item.bgLight} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-linear-to-br ${item.bgLight} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                   />
                   <div className="relative z-10 h-full flex flex-col">
                     <div className="flex items-center gap-3">
                       <span
-                        className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${item.color} text-white shadow-md group-hover:shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-300`}
+                        className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br ${item.color} text-white shadow-md group-hover:shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-300`}
                       >
                         {item.icon}
                       </span>
@@ -212,7 +212,7 @@ export default function EgitimModelimizPage() {
         {/* GÜNÜMÜZ NASIL GEÇER */}
         <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <div className="relative overflow-hidden rounded-3xl border-2 border-purple-300">
-            <div className="absolute inset-0 -z-20 bg-gradient-to-br from-purple-50/80 via-pink-50/60 to-blue-50/80" />
+            <div className="absolute inset-0 -z-20 bg-linear-to-br from-purple-50/80 via-pink-50/60 to-blue-50/80" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-200/20 rounded-full blur-3xl" />
 
@@ -318,18 +318,18 @@ export default function EgitimModelimizPage() {
               whileHover={{ y: -8, scale: 1.02 }}
             >
               <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-xl">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl" />
 
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                       🎓
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-blue-700">
                         Akademik Sunum
                       </h3>
-                      <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mt-1" />
+                      <div className="h-1 w-12 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full mt-1" />
                     </div>
                   </div>
 
@@ -358,18 +358,18 @@ export default function EgitimModelimizPage() {
               whileHover={{ y: -8, scale: 1.02 }}
             >
               <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-pink-200 hover:border-pink-300 transition-all duration-300 hover:shadow-xl">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-pink-200/30 to-rose-200/30 rounded-full blur-3xl" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-pink-200/30 to-rose-200/30 rounded-full blur-3xl" />
 
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                       🎨
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-pink-700">
                         Sanat Sergisi
                       </h3>
-                      <div className="h-1 w-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full mt-1" />
+                      <div className="h-1 w-12 bg-linear-to-r from-pink-500 to-rose-500 rounded-full mt-1" />
                     </div>
                   </div>
 
@@ -394,7 +394,7 @@ export default function EgitimModelimizPage() {
 
         {/* REHBERLİK */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 -z-20 bg-gradient-to-br from-teal-50/80 via-cyan-50/60 to-blue-50/80" />
+          <div className="absolute inset-0 -z-20 bg-linear-to-br from-teal-50/80 via-cyan-50/60 to-blue-50/80" />
           <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-200/20 rounded-full blur-3xl" />
 
@@ -414,14 +414,14 @@ export default function EgitimModelimizPage() {
 
                   <div className="relative z-10">
                     <div className="flex items-start gap-4 mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg">
+                      <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg">
                         🧭
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold text-teal-700">
                           PDR Desteği
                         </h3>
-                        <div className="h-1 w-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mt-1" />
+                        <div className="h-1 w-16 bg-linear-to-r from-teal-500 to-cyan-500 rounded-full mt-1" />
                       </div>
                     </div>
 
@@ -455,7 +455,7 @@ export default function EgitimModelimizPage() {
                         <motion.div
                           key={item.label}
                           whileHover={{ scale: 1.05, rotate: 3 }}
-                          className={`p-4 rounded-xl bg-gradient-to-br ${item.color} text-white text-center shadow-md`}
+                          className={`p-4 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-md`}
                         >
                           <div className="mb-2 flex justify-center text-2xl">
                             {item.icon}
@@ -480,7 +480,7 @@ export default function EgitimModelimizPage() {
                 <Card className="p-8 h-full border-2 border-cyan-200">
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
+                      <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
                         <LuUsers className="w-6 h-6" />
                       </div>
                       <div>
@@ -494,10 +494,10 @@ export default function EgitimModelimizPage() {
                       </div>
                     </div>
 
-                    <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+                    <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
 
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white shadow-md">
+                      <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white shadow-md">
                         <LuEye className="w-6 h-6" />
                       </div>
                       <div>
@@ -511,10 +511,10 @@ export default function EgitimModelimizPage() {
                       </div>
                     </div>
 
-                    <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+                    <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
 
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-md">
+                      <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-md">
                         <LuFileText className="w-6 h-6" />
                       </div>
                       <div>
@@ -546,7 +546,7 @@ export default function EgitimModelimizPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mt-8 p-8 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-xl"
+            className="mt-8 p-8 rounded-2xl bg-linear-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-xl"
           >
             <p className="text-xl text-white text-center leading-relaxed">
               Tiyatro gezileri, alan gezileri, veli katılımlı sanatsal
@@ -607,7 +607,7 @@ export default function EgitimModelimizPage() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.08 }}
                 whileHover={{ y: -8, rotate: 3 }}
-                className={`p-5 rounded-xl bg-gradient-to-br ${item.color} text-white text-center shadow-lg cursor-pointer`}
+                className={`p-5 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-lg cursor-pointer`}
               >
                 <div className="text-4xl mb-3">{item.icon}</div>
                 <div className="text-sm font-semibold">{item.label}</div>
@@ -633,7 +633,7 @@ export default function EgitimModelimizPage() {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               </motion.div>
             ))}
@@ -642,7 +642,7 @@ export default function EgitimModelimizPage() {
 
         {/* VELİ BİLGİLENDİRME */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 -z-20 bg-gradient-to-br from-green-50/80 via-emerald-50/60 to-teal-50/80" />
+          <div className="absolute inset-0 -z-20 bg-linear-to-br from-green-50/80 via-emerald-50/60 to-teal-50/80" />
           <div className="absolute top-0 left-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-0 w-64 h-64 bg-teal-200/20 rounded-full blur-3xl" />
 
@@ -671,10 +671,10 @@ export default function EgitimModelimizPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <motion.div
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className="p-6 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 hover:border-blue-300 transition-all duration-300"
+                  className="p-6 rounded-xl bg-linear-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 hover:border-blue-300 transition-all duration-300"
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
+                    <div className="w-16 h-16 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
                       <LuCamera />
                     </div>
                     <h4 className="font-bold text-blue-700 mb-2">
@@ -688,10 +688,10 @@ export default function EgitimModelimizPage() {
 
                 <motion.div
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className="p-6 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 hover:border-green-300 transition-all duration-300"
+                  className="p-6 rounded-xl bg-linear-to-br from-green-50 to-emerald-50 border-2 border-green-200 hover:border-green-300 transition-all duration-300"
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
+                    <div className="w-16 h-16 rounded-full bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
                       📞
                     </div>
                     <h4 className="font-bold text-green-700 mb-2">
@@ -705,10 +705,10 @@ export default function EgitimModelimizPage() {
 
                 <motion.div
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 hover:border-purple-300 transition-all duration-300"
+                  className="p-6 rounded-xl bg-linear-to-br from-purple-50 to-pink-50 border-2 border-purple-200 hover:border-purple-300 transition-all duration-300"
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
+                    <div className="w-16 h-16 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
                       📱
                     </div>
                     <h4 className="font-bold text-purple-700 mb-2">
@@ -745,7 +745,7 @@ export default function EgitimModelimizPage() {
 
                 <Link
                   href="/iletisim"
-                  className="group flex-shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  className="group shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
                 >
                   Ön Kayıt / Ziyaret
                   <svg

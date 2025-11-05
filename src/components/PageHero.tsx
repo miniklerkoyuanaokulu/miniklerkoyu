@@ -21,7 +21,7 @@ export function PageHero({ eyebrow, description }: PageHeroProps) {
           priority
         />
         {/* Hafif overlay - arka planı göstererek */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/40 via-slate-800/30 to-slate-900/40" />
+        <div className="absolute inset-0 bg-linear-to-r from-slate-900/40 via-slate-800/30 to-slate-900/40" />
       </div>
 
       {/* Content */}

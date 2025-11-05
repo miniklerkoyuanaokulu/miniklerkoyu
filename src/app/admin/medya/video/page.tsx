@@ -259,7 +259,7 @@ export default function AdminVideoGalerisi() {
           </div>
           <button
             onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+            className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
           >
             <FaPlus />
             Video Ekle
@@ -268,7 +268,7 @@ export default function AdminVideoGalerisi() {
 
         {/* Info Banner */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
-          <div className="flex-shrink-0 mt-0.5">
+          <div className="shrink-0 mt-0.5">
             <svg
               className="w-5 h-5 text-blue-600"
               fill="currentColor"
@@ -382,7 +382,7 @@ export default function AdminVideoGalerisi() {
                 {/* Warning Message */}
                 {uploadType === "file" && (
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-2">
-                    <div className="flex-shrink-0 mt-0.5">
+                    <div className="shrink-0 mt-0.5">
                       <svg
                         className="w-4 h-4 text-amber-600"
                         fill="currentColor"
@@ -509,7 +509,7 @@ export default function AdminVideoGalerisi() {
                     </p>
                     <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-green-600 to-emerald-600 h-full transition-all duration-300"
+                        className="bg-linear-to-r from-green-600 to-emerald-600 h-full transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -528,7 +528,7 @@ export default function AdminVideoGalerisi() {
                       (uploadType === "file" && !selectedFile) ||
                       (uploadType === "youtube" && !youtubeUrl.trim())
                     }
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                    className="flex-1 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     {uploadingVideo ? "Yükleniyor..." : "Video Ekle"}
                   </button>
@@ -620,7 +620,7 @@ export default function AdminVideoGalerisi() {
           </p>
           <button
             onClick={() => setShowUpload(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
           >
             <FaPlus />
             Video Ekle

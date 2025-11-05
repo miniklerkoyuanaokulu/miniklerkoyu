@@ -119,8 +119,8 @@ export function Navbar() {
     return `px-3 py-2 text-sm font-semibold rounded-lg transition
       ${
         isActive(href)
-          ? "text-[color:var(--primary)] bg-orange-50"
-          : "text-gray-700 hover:bg-orange-50 hover:text-[color:var(--primary)]"
+          ? "text-primary bg-orange-50"
+          : "text-gray-700 hover:bg-orange-50 hover:text-primary"
       }`;
   };
 
@@ -129,8 +129,8 @@ export function Navbar() {
     `block rounded-md px-3 py-2 text-sm font-medium transition
      ${
        isActive(href)
-         ? "text-[color:var(--primary)] bg-[color:var(--neutral-light)]"
-         : "text-foreground hover:bg-[color:var(--neutral-light)] hover:text-[color:var(--primary)]"
+         ? "text-primary bg-neutral-light"
+         : "text-foreground hover:bg-neutral-light hover:text-primary"
      }`;
 
   return (
@@ -145,7 +145,7 @@ export function Navbar() {
           href="/"
           className="flex items-center gap-3 py-2 transition-opacity hover:opacity-80"
         >
-          <div className="relative h-22 w-22 flex-shrink-0">
+          <div className="relative h-22 w-22 shrink-0">
             <Image
               src="/logo.jpg"
               alt="Varda Minikler Köyü Logo"
@@ -228,7 +228,7 @@ export function Navbar() {
             className={`ml-2 inline-flex items-center rounded-full px-5 py-2.5 font-medium shadow-sm transition ${
               isHomePage
                 ? "bg-primary text-primary-foreground hover:bg-primary-hover"
-                : "border-2 border-[color:var(--primary)] text-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+                : "border-2 border-primary text-primary hover:bg-primary hover:text-white"
             }`}
           >
             Ön Kayıt
@@ -240,7 +240,7 @@ export function Navbar() {
           className={`md:hidden inline-flex items-center justify-center rounded-lg p-2 border transition-colors ${
             isHomePage
               ? "border-white/30"
-              : "border-gray-300 hover:border-[color:var(--primary)]"
+              : "border-gray-300 hover:border-primary"
           }`}
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Menüyü aç/kapat"
@@ -274,7 +274,7 @@ export function Navbar() {
                       href={item.href}
                       className={`px-2 py-2 rounded-md font-semibold ${
                         isActive(item.href)
-                          ? "text-[color:var(--primary)] bg-[color:var(--neutral-light)]"
+                          ? "text-primary bg-neutral-light"
                           : ""
                       }`}
                       onClick={() => setMobileOpen(false)}
@@ -305,7 +305,7 @@ export function Navbar() {
                             href={sub.href}
                             className={`block py-2 text-sm rounded-md font-medium ${
                               isActive(sub.href)
-                                ? "text-[color:var(--primary)] bg-[color:var(--neutral-light)]"
+                                ? "text-primary bg-neutral-light"
                                 : "text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setMobileOpen(false)}
@@ -327,7 +327,7 @@ export function Navbar() {
                 className={`inline-flex items-center rounded-lg px-4 py-2 font-medium transition ${
                   isHomePage
                     ? "bg-primary text-primary-foreground hover:bg-primary-hover"
-                    : "border-2 border-[color:var(--primary)] text-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+                    : "border-2 border-primary text-primary hover:bg-primary hover:text-white"
                 }`}
               >
                 Ön Kayıt

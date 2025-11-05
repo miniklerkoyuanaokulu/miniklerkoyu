@@ -52,13 +52,10 @@ const fadeUp = {
 function SectionTitle({ title, id }: { title: string; id?: string }) {
   return (
     <motion.div {...fadeUp}>
-      <h2
-        id={id}
-        className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]"
-      >
+      <h2 id={id} className="text-2xl md:text-3xl font-bold text-primary">
         {title}
       </h2>
-      <div className="mt-3 h-1 w-20 rounded-full bg-[color:var(--secondary)]" />
+      <div className="mt-3 h-1 w-20 rounded-full bg-secondary" />
     </motion.div>
   );
 }
@@ -91,7 +88,7 @@ function Lightbox({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[100] bg-black/70 backdrop-blur"
+        className="fixed inset-0 z-100 bg-black/70 backdrop-blur"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -100,7 +97,7 @@ function Lightbox({
         {/* Close Button - z-index en yüksek */}
         <button
           aria-label="Kapat"
-          className="absolute right-4 top-4 z-[110] text-white/90 hover:text-white bg-black/30 hover:bg-black/50 rounded-full p-2 transition-all duration-200"
+          className="absolute right-4 top-4 z-110 text-white/90 hover:text-white bg-black/30 hover:bg-black/50 rounded-full p-2 transition-all duration-200"
           onClick={onClose}
         >
           <LuX className="h-7 w-7" />
@@ -155,7 +152,7 @@ function Lightbox({
         </div>
 
         {/* Navigation Buttons */}
-        <div className="absolute inset-y-0 left-2 right-2 flex items-center justify-between pointer-events-none z-[110]">
+        <div className="absolute inset-y-0 left-2 right-2 flex items-center justify-between pointer-events-none z-110">
           <button
             aria-label="Önceki"
             onClick={(e) => {
@@ -209,7 +206,7 @@ function EmptyState() {
       className="mx-auto max-w-4xl"
     >
       <Card className="p-8 text-center border-2 border-orange-200">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-orange-100 to-amber-100">
           <LuCamera className="h-7 w-7 text-orange-600" />
         </div>
         <h2 className="text-xl font-semibold text-orange-600 mb-2">
@@ -438,8 +435,8 @@ export default function MedyaPageClient() {
             transition={{ duration: 0.6 }}
           >
             <Card className="relative overflow-hidden border-2 border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-              {/* Decorative gradient blob */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
+              {/* Decorative linear blob */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
 
               <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="text-center md:text-left">
@@ -454,7 +451,7 @@ export default function MedyaPageClient() {
 
                 <Link
                   href="/iletisim"
-                  className="group flex-shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  className="group shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
                 >
                   İletişim
                   <svg

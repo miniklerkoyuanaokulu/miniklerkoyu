@@ -82,7 +82,7 @@ export default function AdminLayout({
             {/* Sağ: Çıkış Butonu */}
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:from-red-600 hover:to-red-700 transition-all duration-300"
+              className="flex items-center gap-2 px-6 py-2.5 bg-linear-to-r from-red-500 to-red-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:from-red-600 hover:to-red-700 transition-all duration-300"
             >
               <FaSignOutAlt />
               Çıkış Yap

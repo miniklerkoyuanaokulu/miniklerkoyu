@@ -6,7 +6,7 @@ import { LuInstagram, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-b from-slate-500 via-slate-700 to-slate-950 m-0 p-0">
+    <footer className="relative overflow-hidden bg-linear-to-b from-slate-500 via-slate-700 to-slate-950 m-0 p-0">
       {/* Bulut görseli - üstte */}
       <div className="absolute top-0 left-0 right-0 w-full h-auto pointer-events-none select-none z-10">
         <Image
@@ -19,7 +19,7 @@ export function Footer() {
         />
       </div>
 
-      {/* Decorative gradient blobs */}
+      {/* Decorative linear blobs */}
       <div className="absolute bottom-4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-2xl pointer-events-none select-none" />
       <div className="absolute top-1/2 right-1/4 translate-y-8 w-80 h-80 bg-accent/5 rounded-full blur-2xl pointer-events-none select-none" />
 
@@ -28,7 +28,7 @@ export function Footer() {
         <div className="space-y-4">
           <Link
             href="/"
-            className="inline-block text-2xl font-bold bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent hover:from-orange-300 hover:via-amber-300 hover:to-yellow-300 transition-all duration-300"
+            className="inline-block text-2xl font-bold bg-linear-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent hover:from-orange-300 hover:via-amber-300 hover:to-yellow-300 transition-all duration-300"
           >
             Vardalı Minikler Köyü
           </Link>
@@ -39,16 +39,16 @@ export function Footer() {
 
           {/* Decorative element */}
           <div className="flex gap-2 pt-2">
-            <div className="w-12 h-1 bg-gradient-to-r from-orange-400 to-transparent rounded-full" />
-            <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-transparent rounded-full" />
-            <div className="w-12 h-1 bg-gradient-to-r from-yellow-400 to-transparent rounded-full" />
+            <div className="w-12 h-1 bg-linear-to-r from-orange-400 to-transparent rounded-full" />
+            <div className="w-12 h-1 bg-linear-to-r from-amber-400 to-transparent rounded-full" />
+            <div className="w-12 h-1 bg-linear-to-r from-yellow-400 to-transparent rounded-full" />
           </div>
         </div>
 
         {/* 2️⃣ Menü */}
         <div>
           <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
-            <span className="w-1 h-4 bg-gradient-to-b from-primary to-accent rounded-full" />
+            <span className="w-1 h-4 bg-linear-to-b from-primary to-accent rounded-full" />
             Sayfalar
           </h4>
           <ul className="space-y-3 text-sm">
@@ -64,7 +64,7 @@ export function Footer() {
                   href={item.href}
                   className="group flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-200"
                 >
-                  <span className="w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-4 transition-all duration-300" />
+                  <span className="w-0 h-0.5 bg-linear-to-r from-primary to-accent group-hover:w-4 transition-all duration-300" />
                   <span className="group-hover:translate-x-1 transition-transform duration-200">
                     {item.label}
                   </span>
@@ -77,7 +77,7 @@ export function Footer() {
         {/* 3️⃣ İletişim bilgileri */}
         <div>
           <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
-            <span className="w-1 h-4 bg-gradient-to-b from-primary to-accent rounded-full" />
+            <span className="w-1 h-4 bg-linear-to-b from-primary to-accent rounded-full" />
             İletişim
           </h4>
           <ul className="space-y-3 text-sm">
@@ -126,7 +126,7 @@ export function Footer() {
         <div className="mx-auto max-w-6xl px-4 pt-6 pb-6 text-center mb-0">
           <p className="text-xs text-gray-400 mb-0">
             © {new Date().getFullYear()}{" "}
-            <span className="text-white font-semibold bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent">
+            <span className="text-white font-semibold bg-linear-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text">
               Vardalı Minikler Köyü Anaokulu
             </span>{" "}
             - Tüm hakları saklıdır.

@@ -27,13 +27,10 @@ const fadeIn = {
 function SectionTitle({ title, id }: { title: string; id: string }) {
   return (
     <motion.div {...fadeUp}>
-      <h2
-        id={id}
-        className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]"
-      >
+      <h2 id={id} className="text-2xl md:text-3xl font-bold text-primary">
         {title}
       </h2>
-      <div className="mt-3 h-1 w-20 rounded-full bg-[color:var(--secondary)]" />
+      <div className="mt-3 h-1 w-20 rounded-full bg-secondary" />
     </motion.div>
   );
 }
@@ -94,9 +91,9 @@ export default function KurumsalPage() {
                 <div className="grid gap-4 mt-8">
                   <motion.div
                     whileHover={{ x: 8 }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 transition-all duration-300 hover:shadow-md"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-linear-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 transition-all duration-300 hover:shadow-md"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl">
+                    <div className="shrink-0 w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl">
                       💚
                     </div>
                     <div>
@@ -111,9 +108,9 @@ export default function KurumsalPage() {
 
                   <motion.div
                     whileHover={{ x: 8 }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-md"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-linear-to-r from-blue-50 to-cyan-50 border-l-4 border-blue-500 transition-all duration-300 hover:shadow-md"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl">
+                    <div className="shrink-0 w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl">
                       🧠
                     </div>
                     <div>
@@ -128,9 +125,9 @@ export default function KurumsalPage() {
 
                   <motion.div
                     whileHover={{ x: 8 }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border-l-4 border-purple-500 transition-all duration-300 hover:shadow-md"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-linear-to-r from-purple-50 to-pink-50 border-l-4 border-purple-500 transition-all duration-300 hover:shadow-md"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl">
+                    <div className="shrink-0 w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl">
                       🤝
                     </div>
                     <div>
@@ -147,7 +144,7 @@ export default function KurumsalPage() {
                 {/* Alıntı */}
                 <motion.div
                   {...fadeUp}
-                  className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200"
+                  className="mt-8 p-6 rounded-2xl bg-linear-to-br from-orange-50 to-amber-50 border border-orange-200"
                 >
                   <p className="text-base italic text-gray-700 leading-relaxed">
                     <span className="text-4xl text-orange-500 leading-none">
@@ -172,7 +169,7 @@ export default function KurumsalPage() {
               className="md:pl-6 space-y-6"
             >
               <Card className="p-4 group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 hover:border-orange-200 overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-br from-orange-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative z-10">
                   <div className="relative h-80 w-full overflow-hidden rounded-xl">
                     <Image
@@ -193,14 +190,14 @@ export default function KurumsalPage() {
               <div className="grid grid-cols-2 gap-4">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="p-4 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 text-white text-center shadow-lg"
+                  className="p-4 rounded-xl bg-linear-to-br from-green-500 to-emerald-500 text-white text-center shadow-lg"
                 >
                   <div className="text-3xl font-bold">20+</div>
                   <div className="text-sm mt-1">Yıllık Deneyim</div>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="p-4 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 text-white text-center shadow-lg"
+                  className="p-4 rounded-xl bg-linear-to-br from-orange-500 to-amber-500 text-white text-center shadow-lg"
                 >
                   <div className="text-3xl font-bold">500+</div>
                   <div className="text-sm mt-1">Mutlu Öğrenci</div>
@@ -222,7 +219,7 @@ export default function KurumsalPage() {
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
                   <span className="text-white text-xs font-bold">★</span>
                 </div>
-                <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
+                <div className="bg-linear-to-r from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
                   <div className="flex items-baseline gap-3 mb-3">
                     <span className="text-3xl font-bold text-orange-600">
                       2019
@@ -243,7 +240,7 @@ export default function KurumsalPage() {
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
                   <span className="text-white text-xs font-bold">✓</span>
                 </div>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+                <div className="bg-linear-to-r from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
                   <div className="flex items-baseline gap-3 mb-3">
                     <span className="text-3xl font-bold text-green-600">
                       20+
@@ -263,7 +260,7 @@ export default function KurumsalPage() {
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
                   <span className="text-white text-xs font-bold">❤</span>
                 </div>
-                <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200">
+                <div className="bg-linear-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200">
                   <div className="mb-3">
                     <span className="text-lg font-bold text-blue-700">
                       Hedefimiz
@@ -279,7 +276,7 @@ export default function KurumsalPage() {
 
             {/* Sağ - Alan Kartları */}
             <motion.div {...fadeIn} className="space-y-6">
-              <div className="bg-gradient-to-br from-orange-500 to-amber-500 p-6 rounded-2xl text-white shadow-xl">
+              <div className="bg-linear-to-br from-orange-500 to-amber-500 p-6 rounded-2xl text-white shadow-xl">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <span className="text-2xl">🏗️</span>
                   Fiziksel Alanlarımız
@@ -335,7 +332,7 @@ export default function KurumsalPage() {
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
                     whileHover={{ scale: 1.05, rotate: 2 }}
-                    className={`p-4 rounded-xl bg-gradient-to-br ${it.color} text-white shadow-lg cursor-pointer`}
+                    className={`p-4 rounded-xl bg-linear-to-br ${it.color} text-white shadow-lg cursor-pointer`}
                   >
                     <div className="text-3xl mb-2">{it.icon}</div>
                     <div className="text-xs opacity-90 mb-1">{it.k}</div>
@@ -347,7 +344,7 @@ export default function KurumsalPage() {
               {/* Toplam alan göstergesi */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="p-6 rounded-xl bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-xl text-center"
+                className="p-6 rounded-xl bg-linear-to-r from-slate-700 to-slate-800 text-white shadow-xl text-center"
               >
                 <div className="text-sm opacity-90 mb-2">Toplam Alan</div>
                 <div className="text-5xl font-bold mb-2">1100+</div>
@@ -407,8 +404,8 @@ export default function KurumsalPage() {
 
         {/* MİSYON & VİZYON */}
         <section className="relative overflow-hidden">
-          {/* Gradient arka plan */}
-          <div className="absolute inset-0 -z-20 bg-gradient-to-br from-blue-50/80 via-purple-50/60 to-pink-50/80" />
+          {/* linear arka plan */}
+          <div className="absolute inset-0 -z-20 bg-linear-to-br from-blue-50/80 via-purple-50/60 to-pink-50/80" />
           <div className="absolute top-0 left-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl" />
 
@@ -417,12 +414,12 @@ export default function KurumsalPage() {
             <motion.div {...fadeUp} whileHover={{ y: -8 }} className="group">
               <Card className="p-8 h-full relative overflow-hidden border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-2xl">
                 {/* Decorative blob */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl" />
 
                 <div className="relative z-10">
                   {/* Başlık ve ikon */}
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                       🎯
                     </div>
                     <div>
@@ -432,7 +429,7 @@ export default function KurumsalPage() {
                       >
                         Misyonumuz
                       </h3>
-                      <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mt-1" />
+                      <div className="h-1 w-12 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full mt-1" />
                     </div>
                   </div>
 
@@ -453,9 +450,7 @@ export default function KurumsalPage() {
                       whileHover={{ x: 4 }}
                       className="flex items-start gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors duration-200"
                     >
-                      <span className="text-blue-500 text-xl flex-shrink-0">
-                        ✓
-                      </span>
+                      <span className="text-blue-500 text-xl shrink-0">✓</span>
                       <span className="text-sm text-gray-700">
                         Türkçeyi doğru ve güzel konuşmalarını sağlamak
                       </span>
@@ -464,9 +459,7 @@ export default function KurumsalPage() {
                       whileHover={{ x: 4 }}
                       className="flex items-start gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors duration-200"
                     >
-                      <span className="text-blue-500 text-xl flex-shrink-0">
-                        ✓
-                      </span>
+                      <span className="text-blue-500 text-xl shrink-0">✓</span>
                       <span className="text-sm text-gray-700">
                         Bireysel farklılıklarını gözeterek yaratıcı ve estetik
                         duygularını geliştirmek
@@ -481,12 +474,12 @@ export default function KurumsalPage() {
             <motion.div {...fadeUp} whileHover={{ y: -8 }} className="group">
               <Card className="p-8 h-full relative overflow-hidden border-2 border-cyan-200 hover:border-cyan-300 transition-all duration-300 hover:shadow-2xl">
                 {/* Decorative blob */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-cyan-200/30 to-blue-200/30 rounded-full blur-3xl" />
+                <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-cyan-200/30 to-blue-200/30 rounded-full blur-3xl" />
 
                 <div className="relative z-10">
                   {/* Başlık ve ikon */}
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                       🚀
                     </div>
                     <div>
@@ -496,7 +489,7 @@ export default function KurumsalPage() {
                       >
                         Vizyonumuz
                       </h3>
-                      <div className="h-1 w-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mt-1" />
+                      <div className="h-1 w-12 bg-linear-to-r from-cyan-500 to-blue-500 rounded-full mt-1" />
                     </div>
                   </div>
 
@@ -512,7 +505,7 @@ export default function KurumsalPage() {
                       yüksek, kendini ifade edebilen bireyler yetiştirmektir.
                     </p>
 
-                    <div className="p-5 rounded-xl bg-gradient-to-r from-cyan-50 to-blue-50 border-l-4 border-cyan-500">
+                    <div className="p-5 rounded-xl bg-linear-to-r from-cyan-50 to-blue-50 border-l-4 border-cyan-500">
                       <p className="text-gray-700 leading-relaxed text-sm">
                         Ayrıca yirmi yılı aşan eğitim tecrübemizi okul öncesi
                         eğitime taşıyan, gelişen-değişen dünyaya ayak uyduran,
@@ -536,7 +529,7 @@ export default function KurumsalPage() {
             {/* Sol - İçerik */}
             <motion.div {...fadeUp} className="space-y-6">
               {/* Ana motto */}
-              <div className="p-8 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-xl">
+              <div className="p-8 rounded-2xl bg-linear-to-br from-green-500 to-emerald-500 text-white shadow-xl">
                 <div className="flex items-start gap-4 mb-4">
                   <span className="text-5xl">🌱</span>
                   <div>
@@ -557,7 +550,7 @@ export default function KurumsalPage() {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-orange-200/30 rounded-full blur-3xl" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-2xl shadow-lg">
+                    <div className="w-14 h-14 rounded-full bg-linear-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-2xl shadow-lg">
                       🏏
                     </div>
                     <h4 className="text-xl font-bold text-orange-700">
@@ -600,7 +593,7 @@ export default function KurumsalPage() {
             <motion.div {...fadeIn} className="flex flex-col gap-6">
               {/* Görsel - mobilde altta */}
               <Card className="p-4 group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 hover:border-green-300 overflow-hidden relative order-2 md:order-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative z-10">
                   <div className="relative h-80 w-full overflow-hidden rounded-xl">
                     <Image
@@ -648,7 +641,7 @@ export default function KurumsalPage() {
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
                     whileHover={{ y: -8, rotate: 5 }}
-                    className={`p-4 rounded-xl bg-gradient-to-br ${item.color} text-white text-center shadow-lg cursor-pointer`}
+                    className={`p-4 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-lg cursor-pointer`}
                   >
                     <div className="text-3xl mb-2">{item.icon}</div>
                     <div className="text-xs font-medium">{item.label}</div>
@@ -660,7 +653,7 @@ export default function KurumsalPage() {
 
           {/* Final quote - tam genişlikte */}
           <motion.div {...fadeUp} className="mt-4 mx-auto max-w-4xl">
-            <div className="p-4 md:p-4 rounded-2xl bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-xl text-center">
+            <div className="p-4 md:p-4 rounded-2xl bg-linear-to-r from-slate-700 to-slate-800 text-white shadow-xl text-center">
               <p className="text-xl md:text-2xl font-medium leading-relaxed">
                 <span className="text-4xl opacity-50">&quot;</span>
                 Bilgi ezberlenmez;
@@ -676,7 +669,7 @@ export default function KurumsalPage() {
 
         {/* EKİBİMİZ */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 -z-20 bg-gradient-to-br from-amber-50/80 via-orange-50/60 to-rose-50/80" />
+          <div className="absolute inset-0 -z-20 bg-linear-to-br from-amber-50/80 via-orange-50/60 to-rose-50/80" />
           <div className="absolute top-0 right-0 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl" />
 
@@ -694,7 +687,7 @@ export default function KurumsalPage() {
                 className="p-6 rounded-xl bg-white border-2 border-green-200 hover:border-green-300 transition-all duration-300 hover:shadow-xl cursor-pointer"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl">
                     👩‍🏫
                   </div>
                   <h4 className="font-bold text-gray-800">
@@ -723,7 +716,7 @@ export default function KurumsalPage() {
                 className="p-6 rounded-xl bg-white border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-xl cursor-pointer"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl">
                     👶
                   </div>
                   <h4 className="font-bold text-gray-800">
@@ -749,7 +742,7 @@ export default function KurumsalPage() {
                 className="p-6 rounded-xl bg-white border-2 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl cursor-pointer"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl">
                     🎨
                   </div>
                   <h4 className="font-bold text-gray-800">
@@ -767,10 +760,10 @@ export default function KurumsalPage() {
             {/* Devamlılık özelliği */}
             <motion.div
               {...fadeUp}
-              className="mt-8 p-8 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-xl"
+              className="mt-8 p-8 rounded-2xl bg-linear-to-r from-orange-500 to-amber-500 text-white shadow-xl"
             >
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-4xl">
+                <div className="shrink-0 w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-4xl">
                   ❤️
                 </div>
                 <div>
@@ -804,7 +797,7 @@ export default function KurumsalPage() {
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                     <div className="p-4">
                       <div className="font-semibold text-gray-800">Öğretmen Adı</div>
@@ -844,7 +837,7 @@ export default function KurumsalPage() {
 
                 <Link
                   href="/iletisim"
-                  className="group flex-shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  className="group shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
                 >
                   İletişim
                   <svg

@@ -25,7 +25,7 @@ export function FloatingCallButton() {
         />
 
         {/* Ana buton */}
-        <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-2xl hover:shadow-blue-500/50 transition-all duration-300">
+        <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-2xl hover:shadow-blue-500/50 transition-all duration-300">
           <LuPhone className="w-7 h-7 md:w-8 md:h-8" />
         </div>
 

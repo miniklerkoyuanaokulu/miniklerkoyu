@@ -33,7 +33,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-amber-50 to-orange-100">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-orange-100 via-amber-50 to-orange-100">
       {/* Decorative blobs */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-200/30 rounded-full blur-3xl" />
@@ -46,7 +46,7 @@ export default function AdminLogin() {
       >
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-orange-200">
           {/* Header */}
-          <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-8 text-center text-white">
+          <div className="bg-linear-to-r from-orange-500 to-amber-500 p-8 text-center text-white">
             <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
               <FaLock className="text-4xl" />
             </div>
@@ -115,7 +115,7 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300"
+              className="w-full py-3 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300"
             >
               {loading ? "Giriş Yapılıyor..." : "Giriş Yap"}
             </button>
@@ -139,4 +139,3 @@ export default function AdminLogin() {
     </div>
   );
 }
-

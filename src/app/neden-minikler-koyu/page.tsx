@@ -40,13 +40,10 @@ function SectionTitle({
           {eyebrow}
         </p>
       )}
-      <h2
-        id={id}
-        className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]"
-      >
+      <h2 id={id} className="text-2xl md:text-3xl font-bold text-primary">
         {title}
       </h2>
-      <div className="mt-3 h-1 w-20 rounded-full bg-[color:var(--secondary)]" />
+      <div className="mt-3 h-1 w-20 rounded-full bg-secondary" />
     </motion.div>
   );
 }
@@ -89,11 +86,11 @@ export default function NedenPage() {
             </p>
             <h2
               id="beslenme"
-              className="text-2xl md:text-3xl font-bold text-[color:var(--primary)]"
+              className="text-2xl md:text-3xl font-bold text-primary"
             >
               Beslenme
             </h2>
-            <div className="mt-3 h-1 w-20 rounded-full bg-[color:var(--secondary)]" />
+            <div className="mt-3 h-1 w-20 rounded-full bg-secondary" />
           </motion.div>
           <div className="mt-8 grid md:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
             <div>
@@ -103,7 +100,7 @@ export default function NedenPage() {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="prose max-w-none"
               >
-                <div className="p-6 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+                <div className="p-6 rounded-xl bg-linear-to-br from-green-50 to-emerald-50 border-2 border-green-200">
                   <p>
                     Çocuklarımızın beslenme ile ilgili özel durumları
                     velilerimizden bilgi alınarak menü oluştururken bize destek
@@ -157,7 +154,7 @@ export default function NedenPage() {
                   <motion.div
                     key={i}
                     whileHover={{ scale: 1.05 }}
-                    className={`p-4 rounded-xl bg-gradient-to-br ${it.color} text-white shadow-md cursor-pointer transition-all`}
+                    className={`p-4 rounded-xl bg-linear-to-br ${it.color} text-white shadow-md cursor-pointer transition-all`}
                   >
                     <div className="flex items-center gap-3 mb-1">
                       <div className="text-2xl">{it.icon}</div>
@@ -192,7 +189,7 @@ export default function NedenPage() {
 
         {/* FİZİKSEL KOŞULLAR */}
         <section className="relative">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50" />
+          <div className="absolute inset-0 -z-10 bg-linear-to-br from-blue-50 via-cyan-50 to-sky-50" />
           <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
             <SectionTitle
               id="fiziksel-kosullar"
@@ -207,7 +204,7 @@ export default function NedenPage() {
                 transition={{ duration: 0.6 }}
                 className="prose max-w-none"
               >
-                <div className="p-6 rounded-xl bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-200">
+                <div className="p-6 rounded-xl bg-linear-to-br from-cyan-50 to-blue-50 border-2 border-cyan-200">
                   <p>
                     Okulumuzda çocuklarımızın gelişimi için;{" "}
                     <strong>110 m²</strong> Kum Havuzu, <strong>180 m²</strong>{" "}
@@ -264,7 +261,7 @@ export default function NedenPage() {
                     <motion.div
                       key={it.k}
                       whileHover={{ scale: 1.02, x: 4 }}
-                      className={`rounded-xl p-3 bg-gradient-to-r ${it.color} text-white shadow-md cursor-pointer transition-all flex items-center justify-between`}
+                      className={`rounded-xl p-3 bg-linear-to-r ${it.color} text-white shadow-md cursor-pointer transition-all flex items-center justify-between`}
                     >
                       <div className="flex items-center gap-3">
                         <div className="text-2xl">{it.icon}</div>
@@ -278,7 +275,7 @@ export default function NedenPage() {
                 {/* Toplam Kartı */}
                 <motion.div
                   whileHover={{ scale: 1.03, y: -2 }}
-                  className="rounded-xl p-5 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 text-white shadow-xl cursor-pointer transition-all border-2 border-white/50 relative overflow-hidden"
+                  className="rounded-xl p-5 bg-linear-to-br from-cyan-500 via-blue-500 to-indigo-500 text-white shadow-xl cursor-pointer transition-all border-2 border-white/50 relative overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
                   <div className="relative z-10 flex items-center justify-between">
@@ -341,9 +338,9 @@ export default function NedenPage() {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-30 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-linear-to-br ${item.color} opacity-0 group-hover:opacity-30 transition-opacity duration-300`}
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-3">
                     <div className="text-white font-bold text-sm drop-shadow-lg">
@@ -368,7 +365,7 @@ export default function NedenPage() {
             transition={{ duration: 0.6 }}
             className="mt-8"
           >
-            <div className="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200">
+            <div className="p-6 rounded-xl bg-linear-to-br from-purple-50 to-indigo-50 border-2 border-purple-200">
               <p className="text-gray-700 leading-relaxed">
                 Çocuklarımızın güvenliği ve huzuru ilk hedefimiz olduğu için
                 sabah teslim eden veli ve teslim alacak kişilerin önceden
@@ -412,7 +409,7 @@ export default function NedenPage() {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.05, y: -2 }}
-                className={`flex flex-col items-center gap-3 p-5 rounded-xl bg-gradient-to-br ${it.color} text-white shadow-md cursor-pointer transition-all text-center`}
+                className={`flex flex-col items-center gap-3 p-5 rounded-xl bg-linear-to-br ${it.color} text-white shadow-md cursor-pointer transition-all text-center`}
               >
                 <div className="text-3xl">{it.icon}</div>
                 <div className="text-sm font-semibold">{it.t}</div>
@@ -465,7 +462,7 @@ export default function NedenPage() {
                 <div className="h-full flex items-start gap-4 p-5 rounded-xl bg-white border-2 border-gray-100 hover:border-purple-200 shadow-sm hover:shadow-md transition-all cursor-pointer">
                   {/* Numara */}
                   <div
-                    className={`shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${row.color} text-white flex items-center justify-center font-bold`}
+                    className={`shrink-0 w-12 h-12 rounded-lg bg-linear-to-br ${row.color} text-white flex items-center justify-center font-bold`}
                   >
                     {row.num}
                   </div>
@@ -474,7 +471,7 @@ export default function NedenPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <div
-                        className={`text-transparent bg-gradient-to-r ${row.color} bg-clip-text`}
+                        className={`text-transparent bg-linear-to-r ${row.color} bg-clip-text`}
                       >
                         {row.icon}
                       </div>
@@ -510,7 +507,7 @@ export default function NedenPage() {
 
                 <Link
                   href="/iletisim"
-                  className="group flex-shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  className="group shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
                 >
                   Ön Kayıt / İletişim
                   <svg

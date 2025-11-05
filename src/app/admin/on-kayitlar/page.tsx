@@ -155,19 +155,19 @@ export default function AdminOnKayitlar() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="p-4 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg">
+          <div className="p-4 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 text-white shadow-lg">
             <div className="text-3xl font-bold">{stats.new}</div>
             <div className="text-sm mt-1 opacity-90">Yeni Başvuru</div>
           </div>
-          <div className="p-4 rounded-xl bg-gradient-to-br from-yellow-500 to-amber-500 text-white shadow-lg">
+          <div className="p-4 rounded-xl bg-linear-to-br from-yellow-500 to-amber-500 text-white shadow-lg">
             <div className="text-3xl font-bold">{stats.reviewed}</div>
             <div className="text-sm mt-1 opacity-90">İncelendi</div>
           </div>
-          <div className="p-4 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg">
+          <div className="p-4 rounded-xl bg-linear-to-br from-green-500 to-emerald-500 text-white shadow-lg">
             <div className="text-3xl font-bold">{stats.contacted}</div>
             <div className="text-sm mt-1 opacity-90">İletişim Kuruldu</div>
           </div>
-          <div className="p-4 rounded-xl bg-gradient-to-br from-gray-500 to-slate-500 text-white shadow-lg">
+          <div className="p-4 rounded-xl bg-linear-to-br from-gray-500 to-slate-500 text-white shadow-lg">
             <div className="text-3xl font-bold">{stats.total}</div>
             <div className="text-sm mt-1 opacity-90">Toplam</div>
           </div>
