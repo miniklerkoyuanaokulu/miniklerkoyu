@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { FaCamera, FaPlus, FaTrash, FaEdit, FaTimes } from "react-icons/fa";
 import {
   getMediaItems,
@@ -29,16 +30,13 @@ export default function AdminFotografGalerisi() {
   const [uploadingFiles, setUploadingFiles] = useState<boolean>(false);
   const [currentCaption, setCurrentCaption] = useState("");
   const [editingPhoto, setEditingPhoto] = useState<MediaItem | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: ToastType;
   } | null>(null);
 
-  const {
-    uploadImage,
-    uploading: singleUploading,
-    progress,
-  } = useImageUpload();
+  const { uploadImage, progress } = useImageUpload();
 
   useEffect(() => {
     loadPhotos();
@@ -63,7 +61,33 @@ export default function AdminFotografGalerisi() {
 
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []);
+    processFiles(files);
+  }
 
+  // Sürükle-bırak handlers
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    processFiles(files);
+  }
+
+  // Ortak dosya işleme fonksiyonu
+  function processFiles(files: File[]) {
     // Sadece resim dosyaları
     const imageFiles = files.filter((f) => f.type.startsWith("image/"));
 
@@ -71,11 +95,20 @@ export default function AdminFotografGalerisi() {
       showToast("Sadece resim dosyaları yükleyebilirsiniz", "error");
     }
 
-    setSelectedFiles((prev) => [...prev, ...imageFiles]);
+    if (imageFiles.length > 0) {
+      setSelectedFiles((prev) => [...prev, ...imageFiles]);
+    }
   }
 
   function removeSelectedFile(index: number) {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function closeUploadModal() {
+    setShowUpload(false);
+    setSelectedFiles([]);
+    setCurrentCaption("");
+    setIsDragging(false);
   }
 
   async function handleUpload() {
@@ -108,9 +141,7 @@ export default function AdminFotografGalerisi() {
 
       await loadPhotos();
       const count = selectedFiles.length;
-      setSelectedFiles([]);
-      setCurrentCaption("");
-      setShowUpload(false);
+      closeUploadModal();
       showToast(`${count} fotoğraf başarıyla eklendi`, "success");
     } catch (error) {
       console.error("Upload hatası:", error);
@@ -194,7 +225,7 @@ export default function AdminFotografGalerisi() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={(e) => {
-              if (e.target === e.currentTarget) setShowUpload(false);
+              if (e.target === e.currentTarget) closeUploadModal();
             }}
           >
             <motion.div
@@ -208,7 +239,7 @@ export default function AdminFotografGalerisi() {
                   Fotoğraf Yükle
                 </h2>
                 <button
-                  onClick={() => setShowUpload(false)}
+                  onClick={closeUploadModal}
                   className="text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes className="text-xl" />
@@ -219,9 +250,18 @@ export default function AdminFotografGalerisi() {
                 {/* File Upload Area */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Fotoğraf Seçin
+                    Fotoğraf Seçin (Çoklu Seçim)
                   </label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-blue-400 transition-colors bg-gray-50">
+                  <div
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`border-2 border-dashed rounded-lg p-8 transition-colors ${
+                      isDragging
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-300 bg-gray-50 hover:border-blue-400"
+                    }`}
+                  >
                     <input
                       type="file"
                       accept="image/*"
@@ -233,11 +273,19 @@ export default function AdminFotografGalerisi() {
                     />
                     <label
                       htmlFor="photo-upload"
-                      className="flex flex-col items-center cursor-pointer"
+                      className={`flex flex-col items-center ${
+                        uploadingFiles
+                          ? "cursor-not-allowed opacity-50"
+                          : "cursor-pointer"
+                      }`}
                     >
                       <FaCamera className="text-6xl text-gray-400 mb-4" />
                       <p className="text-lg font-semibold text-gray-700 mb-2">
-                        Tıklayın veya Sürükleyin
+                        {uploadingFiles
+                          ? "Yükleniyor..."
+                          : isDragging
+                          ? "Buraya Bırakın"
+                          : "Tıklayın veya Sürükleyin"}
                       </p>
                       <p className="text-sm text-gray-500">
                         Birden fazla fotoğraf seçebilirsiniz (PNG, JPG, WEBP)
@@ -255,11 +303,13 @@ export default function AdminFotografGalerisi() {
                     <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
                       {selectedFiles.map((file, idx) => (
                         <div key={idx} className="relative group">
-                          <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-                            <img
+                          <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 relative">
+                            <Image
                               src={URL.createObjectURL(file)}
                               alt={file.name}
-                              className="w-full h-full object-cover"
+                              fill
+                              className="object-cover"
+                              unoptimized
                             />
                           </div>
                           <button
@@ -321,11 +371,7 @@ export default function AdminFotografGalerisi() {
                       : `${selectedFiles.length} Fotoğraf Yükle`}
                   </button>
                   <button
-                    onClick={() => {
-                      setShowUpload(false);
-                      setSelectedFiles([]);
-                      setCurrentCaption("");
-                    }}
+                    onClick={closeUploadModal}
                     disabled={uploadingFiles}
                     className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
                   >
@@ -426,10 +472,13 @@ export default function AdminFotografGalerisi() {
             >
               {/* Image */}
               <div className="relative aspect-square">
-                <img
+                <Image
                   src={photo.url}
                   alt={photo.caption || "Fotoğraf"}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  unoptimized
                 />
               </div>
 
