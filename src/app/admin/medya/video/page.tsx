@@ -47,7 +47,7 @@ export default function AdminVideoGalerisi() {
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  const { uploadVideo, uploading: videoUploading, progress } = useVideoUpload();
+  const { uploadVideo, uploading: progress } = useVideoUpload();
 
   useEffect(() => {
     loadVideos();
@@ -282,7 +282,7 @@ export default function AdminVideoGalerisi() {
             </svg>
           </div>
           <div className="flex-1">
-            <h3 className="text-sm font-bold mb-4 text-blue-900 mb-1">
+            <h3 className="text-sm font-bold mb-4 text-blue-900">
               ⚠️ Lütfen mümkün olduğunca az video yükleyin.
             </h3>
             <h3 className="text-sm font-semibold text-blue-900 mb-1">

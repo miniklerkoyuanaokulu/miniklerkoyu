@@ -1,0 +1,28 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "KVKK Aydınlatma Metni ve Açık Rıza",
+  description: "Varda Minikler Köyü KVKK (Kişisel Verilerin Korunması Kanunu) Aydınlatma Metni ve Açık Rıza Beyanı. Kişisel verilerinizin işlenmesi ve korunması hakkında bilgilendirme.",
+  alternates: {
+    canonical: "https://miniklerkoyu.vercel.app/kvkk",
+  },
+  openGraph: {
+    title: "KVKK Aydınlatma Metni | Varda Minikler Köyü",
+    description: "Kişisel verilerinizin işlenmesi ve korunması hakkında bilgilendirme metni.",
+    url: "https://miniklerkoyu.vercel.app/kvkk",
+    images: ["/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export default function KVKKLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
+}
+

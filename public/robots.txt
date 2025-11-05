@@ -1,0 +1,26 @@
+# robots.txt for Varda Minikler Köyü
+# https://miniklerkoyu.vercel.app/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://miniklerkoyu.vercel.app/sitemap.xml
+
+# Crawl-delay (saniye cinsinden)
+Crawl-delay: 1
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
