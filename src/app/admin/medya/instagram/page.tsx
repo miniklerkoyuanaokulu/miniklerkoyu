@@ -20,6 +20,7 @@ import {
 import { isValidInstagramUrl } from "@/lib/instagram";
 import type { InstagramPost } from "@/lib/types";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import Toast, { ToastType } from "@/components/Toast";
 
 export default function AdminMedyaInstagram() {
   const [posts, setPosts] = useState<InstagramPost[]>([]);
@@ -35,6 +36,10 @@ export default function AdminMedyaInstagram() {
   });
   const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: ToastType;
+  } | null>(null);
 
   const {
     uploadImage,
@@ -46,6 +51,10 @@ export default function AdminMedyaInstagram() {
     loadPosts();
   }, []);
 
+  const showToast = (message: string, type: ToastType) => {
+    setToast({ message, type });
+  };
+
   async function loadPosts() {
     try {
       setLoading(true);
@@ -53,7 +62,7 @@ export default function AdminMedyaInstagram() {
       setPosts(data);
     } catch (error) {
       console.error("Instagram postları yüklenirken hata:", error);
-      alert("Postlar yüklenirken bir hata oluştu");
+      showToast("Postlar yüklenirken bir hata oluştu", "error");
     } finally {
       setLoading(false);
     }
@@ -122,13 +131,16 @@ export default function AdminMedyaInstagram() {
   async function processFile(file: File) {
     // Dosya tipi kontrolü
     if (!file.type.startsWith("image/")) {
-      alert("Lütfen bir resim dosyası seçin (JPG, PNG, WEBP, vb.)");
+      showToast(
+        "Lütfen bir resim dosyası seçin (JPG, PNG, WEBP, vb.)",
+        "error"
+      );
       return;
     }
 
     // Dosya boyutu kontrolü (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
-      alert("Dosya boyutu maksimum 10MB olmalı");
+      showToast("Dosya boyutu maksimum 10MB olmalı", "error");
       return;
     }
 
@@ -136,10 +148,12 @@ export default function AdminMedyaInstagram() {
       const url = await uploadImage(file);
       setFormData((prev) => ({ ...prev, thumbnailUrl: url }));
       setThumbnailPreview(url);
+      showToast("Görsel başarıyla yüklendi", "success");
     } catch (error) {
       console.error("Upload hatası:", error);
-      alert(
-        "Dosya yüklenirken bir hata oluştu. Storage izinlerini kontrol edin."
+      showToast(
+        "Dosya yüklenirken bir hata oluştu. Storage izinlerini kontrol edin.",
+        "error"
       );
     }
   }
@@ -149,8 +163,9 @@ export default function AdminMedyaInstagram() {
 
     // URL validasyonu
     if (!isValidInstagramUrl(formData.url)) {
-      alert(
-        "Lütfen geçerli bir Instagram URL'si girin (instagram.com içeren bir link)"
+      showToast(
+        "Lütfen geçerli bir Instagram URL'si girin (instagram.com içeren bir link)",
+        "error"
       );
       return;
     }
@@ -158,14 +173,16 @@ export default function AdminMedyaInstagram() {
     try {
       if (editingPost) {
         await updateInstagramPost(editingPost.id, formData);
+        showToast("Post başarıyla güncellendi", "success");
       } else {
         await addInstagramPost(formData);
+        showToast("Post başarıyla eklendi", "success");
       }
       await loadPosts();
       resetForm();
     } catch (error) {
       console.error("Post kaydedilirken hata:", error);
-      alert("Post kaydedilirken bir hata oluştu");
+      showToast("Post kaydedilirken bir hata oluştu", "error");
     }
   }
 
@@ -177,9 +194,10 @@ export default function AdminMedyaInstagram() {
     try {
       await deleteInstagramPost(id);
       await loadPosts();
+      showToast("Post başarıyla silindi", "success");
     } catch (error) {
       console.error("Post silinirken hata:", error);
-      alert("Post silinirken bir hata oluştu");
+      showToast("Post silinirken bir hata oluştu", "error");
     }
   }
 
@@ -187,9 +205,10 @@ export default function AdminMedyaInstagram() {
     try {
       await updateInstagramPost(post.id, { isActive: !post.isActive });
       await loadPosts();
+      showToast(`Post ${!post.isActive ? "aktif" : "pasif"} edildi`, "success");
     } catch (error) {
       console.error("Post güncellenirken hata:", error);
-      alert("Post güncellenirken bir hata oluştu");
+      showToast("Post güncellenirken bir hata oluştu", "error");
     }
   }
 
@@ -543,6 +562,15 @@ export default function AdminMedyaInstagram() {
             </motion.div>
           ))}
         </div>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

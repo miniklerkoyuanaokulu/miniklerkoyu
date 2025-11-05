@@ -10,6 +10,7 @@ import {
   deleteMediaItem,
 } from "@/lib/firestore";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import Toast, { ToastType } from "@/components/Toast";
 
 type MediaItem = {
   id: string;
@@ -28,6 +29,10 @@ export default function AdminFotografGalerisi() {
   const [uploadingFiles, setUploadingFiles] = useState<boolean>(false);
   const [currentCaption, setCurrentCaption] = useState("");
   const [editingPhoto, setEditingPhoto] = useState<MediaItem | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: ToastType;
+  } | null>(null);
 
   const {
     uploadImage,
@@ -39,6 +44,10 @@ export default function AdminFotografGalerisi() {
     loadPhotos();
   }, []);
 
+  const showToast = (message: string, type: ToastType) => {
+    setToast({ message, type });
+  };
+
   async function loadPhotos() {
     try {
       setLoading(true);
@@ -46,7 +55,7 @@ export default function AdminFotografGalerisi() {
       setPhotos(data as MediaItem[]);
     } catch (error) {
       console.error("Fotoğraflar yüklenirken hata:", error);
-      alert("Fotoğraflar yüklenirken bir hata oluştu");
+      showToast("Fotoğraflar yüklenirken bir hata oluştu", "error");
     } finally {
       setLoading(false);
     }
@@ -59,7 +68,7 @@ export default function AdminFotografGalerisi() {
     const imageFiles = files.filter((f) => f.type.startsWith("image/"));
 
     if (imageFiles.length !== files.length) {
-      alert("Sadece resim dosyaları yükleyebilirsiniz");
+      showToast("Sadece resim dosyaları yükleyebilirsiniz", "error");
     }
 
     setSelectedFiles((prev) => [...prev, ...imageFiles]);
@@ -98,13 +107,14 @@ export default function AdminFotografGalerisi() {
       }
 
       await loadPhotos();
+      const count = selectedFiles.length;
       setSelectedFiles([]);
       setCurrentCaption("");
       setShowUpload(false);
-      alert(`${selectedFiles.length} fotoğraf başarıyla eklendi!`);
+      showToast(`${count} fotoğraf başarıyla eklendi`, "success");
     } catch (error) {
       console.error("Upload hatası:", error);
-      alert("Fotoğraflar yüklenirken bir hata oluştu");
+      showToast("Fotoğraflar yüklenirken bir hata oluştu", "error");
     } finally {
       setUploadingFiles(false);
     }
@@ -118,9 +128,10 @@ export default function AdminFotografGalerisi() {
     try {
       await deleteMediaItem(id);
       await loadPhotos();
+      showToast("Fotoğraf başarıyla silindi", "success");
     } catch (error) {
       console.error("Silme hatası:", error);
-      alert("Fotoğraf silinemedi");
+      showToast("Fotoğraf silinemedi", "error");
     }
   }
 
@@ -134,9 +145,10 @@ export default function AdminFotografGalerisi() {
       await loadPhotos();
       setEditingPhoto(null);
       setCurrentCaption("");
+      showToast("Açıklama başarıyla güncellendi", "success");
     } catch (error) {
       console.error("Güncelleme hatası:", error);
-      alert("Açıklama güncellenemedi");
+      showToast("Açıklama güncellenemedi", "error");
     }
   }
 
@@ -463,6 +475,15 @@ export default function AdminFotografGalerisi() {
             fotoğraf
           </p>
         </div>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );
