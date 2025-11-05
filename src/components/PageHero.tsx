@@ -17,6 +17,7 @@ export function PageHero({ eyebrow, description }: PageHeroProps) {
           src="/images/pages/hero-for-pages3.png"
           alt="Hero background"
           fill
+          sizes="100vw"
           className="object-cover blur-[2px] scale-105"
           priority
         />

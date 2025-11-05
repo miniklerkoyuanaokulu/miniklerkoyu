@@ -9,7 +9,6 @@ import {
   FaEdit,
   FaEye,
   FaEyeSlash,
-  FaSync,
   FaUpload,
 } from "react-icons/fa";
 import {
@@ -34,8 +33,8 @@ export default function AdminMedyaInstagram() {
     order: 0,
     isActive: true,
   });
-  const [fetchingThumbnail, setFetchingThumbnail] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
+  const [isDragging, setIsDragging] = useState(false);
 
   const {
     uploadImage,
@@ -71,7 +70,7 @@ export default function AdminMedyaInstagram() {
     setEditingPost(null);
     setShowForm(false);
     setThumbnailPreview("");
-    setFetchingThumbnail(false);
+    setIsDragging(false);
   }
 
   function handleEdit(post: InstagramPost) {
@@ -92,6 +91,35 @@ export default function AdminMedyaInstagram() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    await processFile(file);
+  }
+
+  // Sürükle-bırak handlers
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }
+
+  async function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    await processFile(file);
+  }
+
+  // Ortak dosya işleme fonksiyonu
+  async function processFile(file: File) {
     // Dosya tipi kontrolü
     if (!file.type.startsWith("image/")) {
       alert("Lütfen bir resim dosyası seçin (JPG, PNG, WEBP, vb.)");
@@ -116,106 +144,28 @@ export default function AdminMedyaInstagram() {
     }
   }
 
-  // Instagram URL'sinden otomatik thumbnail çek (Server-side API route kullan)
-  async function fetchThumbnailFromUrl(url: string) {
-    if (!isValidInstagramUrl(url)) {
-      alert("Lütfen geçerli bir Instagram URL'si girin");
-      return;
-    }
-
-    setFetchingThumbnail(true);
-    try {
-      // Server-side API route'a istek at (CORS problemi yok)
-      const response = await fetch("/api/instagram/fetch-metadata", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Metadata alınamadı");
-      }
-
-      const data = await response.json();
-
-      if (data.success && data.thumbnailUrl) {
-        setFormData((prev) => ({
-          ...prev,
-          thumbnailUrl: data.thumbnailUrl,
-          caption: prev.caption || data.title || "",
-        }));
-        setThumbnailPreview(data.thumbnailUrl);
-      } else {
-        const errorMsg = data.error || "Instagram postundan görsel çekilemedi";
-        alert(
-          `${errorMsg}\n\n💡 İpucu: URL'deki ?igsh=... gibi parametreleri kaldırıp tekrar deneyin.`
-        );
-      }
-    } catch (error) {
-      console.error("Thumbnail çekme hatası:", error);
-      alert(
-        "Bir hata oluştu.\n\n💡 İpucu: Instagram URL'sini temizleyip (sadece /p/ABC123/ veya /reel/ABC123/ kısmı) tekrar deneyin."
-      );
-    } finally {
-      setFetchingThumbnail(false);
-    }
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     // URL validasyonu
     if (!isValidInstagramUrl(formData.url)) {
-      alert("Lütfen geçerli bir Instagram URL'si girin");
+      alert(
+        "Lütfen geçerli bir Instagram URL'si girin (instagram.com içeren bir link)"
+      );
       return;
     }
 
     try {
-      // Eğer thumbnail yoksa, otomatik çekmeyi dene (server-side API)
-      const finalData = { ...formData };
-
-      if (!finalData.thumbnailUrl) {
-        setFetchingThumbnail(true);
-
-        try {
-          const response = await fetch("/api/instagram/fetch-metadata", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ url: formData.url }),
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.thumbnailUrl) {
-              finalData.thumbnailUrl = data.thumbnailUrl;
-              if (!finalData.caption && data.title) {
-                finalData.caption = data.title;
-              }
-            }
-          }
-        } catch (metadataError) {
-          console.error("Metadata çekme hatası:", metadataError);
-          // Hata olsa bile devam et (thumbnail olmadan kaydet)
-        }
-
-        setFetchingThumbnail(false);
-      }
-
       if (editingPost) {
-        await updateInstagramPost(editingPost.id, finalData);
+        await updateInstagramPost(editingPost.id, formData);
       } else {
-        await addInstagramPost(finalData);
+        await addInstagramPost(formData);
       }
       await loadPosts();
       resetForm();
     } catch (error) {
       console.error("Post kaydedilirken hata:", error);
       alert("Post kaydedilirken bir hata oluştu");
-      setFetchingThumbnail(false);
     }
   }
 
@@ -306,76 +256,38 @@ export default function AdminMedyaInstagram() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Instagram Post URL *
                   </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="url"
-                      required
-                      value={formData.url}
-                      onChange={(e) =>
-                        setFormData({ ...formData, url: e.target.value })
-                      }
-                      placeholder="https://instagram.com/p/..."
-                      className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => fetchThumbnailFromUrl(formData.url)}
-                      disabled={!formData.url || fetchingThumbnail}
-                      className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center gap-2 whitespace-nowrap"
-                    >
-                      {fetchingThumbnail ? (
-                        <>
-                          <FaSync className="animate-spin" />
-                          Çekiliyor...
-                        </>
-                      ) : (
-                        <>
-                          <FaSync />
-                          Otomatik Çek
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <div className="mt-2 space-y-2">
-                    <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                      <p className="text-xs text-purple-800 font-medium mb-1">
-                        📋 Nasıl kullanılır:
-                      </p>
-                      <ol className="text-xs text-purple-700 space-y-1 list-decimal list-inside">
-                        <li>
-                          Instagram&apos;da bir <strong>POST</strong> açın
-                          (normal gönderi)
-                        </li>
-                        <li>
-                          Tarayıcıdan URL&apos;yi kopyalayın (örn:
-                          instagram.com/p/ABC...)
-                        </li>
-                        <li>&quot;Otomatik Çek&quot; butonuna tıklayın</li>
-                        <li>Görsel otomatik yüklenecek</li>
-                      </ol>
-                    </div>
-
-                    <div className="p-3 bg-amber-50 border border-amber-300 rounded-lg">
-                      <p className="text-xs text-amber-800 font-medium mb-1">
-                        ⚠️ Önemli:
-                      </p>
-                      <p className="text-xs text-amber-700">
-                        <strong>Reels ve IGTV</strong> için otomatik çekme
-                        çalışmıyor. Bu tür içerikler için manuel olarak
-                        screenshot alıp aşağıdaki alandan görsel
-                        yükleyebilirsiniz.
-                      </p>
-                    </div>
-                  </div>
+                  <input
+                    type="url"
+                    required
+                    value={formData.url}
+                    onChange={(e) =>
+                      setFormData({ ...formData, url: e.target.value })
+                    }
+                    placeholder="https://instagram.com/p/... veya https://instagram.com/reel/..."
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors"
+                  />
+                  <p className="mt-2 text-xs text-gray-600">
+                    Instagram gönderisinin linkini buraya yapıştırın. Medya
+                    sayfasında bu linke yönlendirecek.
+                  </p>
                 </div>
 
-                {/* Görsel Upload - Reels/IGTV için */}
+                {/* Görsel Upload */}
                 {!thumbnailPreview && (
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Veya Görsel Yükleyin (Reels/IGTV için)
+                      Post Görseli (Opsiyonel)
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-purple-400 transition-colors bg-gray-50">
+                    <div
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      className={`border-2 border-dashed rounded-lg p-8 transition-colors ${
+                        isDragging
+                          ? "border-purple-500 bg-purple-50"
+                          : "border-gray-300 bg-gray-50 hover:border-purple-400"
+                      }`}
+                    >
                       <input
                         type="file"
                         accept="image/*"
@@ -394,6 +306,8 @@ export default function AdminMedyaInstagram() {
                         <p className="text-base font-semibold text-gray-700 mb-2">
                           {uploadingImage
                             ? "Yükleniyor..."
+                            : isDragging
+                            ? "Buraya Bırakın"
                             : "Tıklayın veya Sürükleyin"}
                         </p>
                         <p className="text-sm text-gray-500 mb-4">
@@ -510,25 +424,14 @@ export default function AdminMedyaInstagram() {
                 <div className="flex gap-3 pt-4">
                   <button
                     type="submit"
-                    disabled={fetchingThumbnail}
-                    className="flex-1 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                    className="flex-1 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                   >
-                    {fetchingThumbnail ? (
-                      <>
-                        <FaSync className="animate-spin" />
-                        Görsel çekiliyor...
-                      </>
-                    ) : editingPost ? (
-                      "Güncelle"
-                    ) : (
-                      "Ekle"
-                    )}
+                    {editingPost ? "Güncelle" : "Ekle"}
                   </button>
                   <button
                     type="button"
                     onClick={resetForm}
-                    disabled={fetchingThumbnail}
-                    className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+                    className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
                   >
                     İptal
                   </button>

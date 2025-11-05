@@ -13,6 +13,7 @@ export function Hero() {
           src="/images/home/hero.avif"
           alt="Varda Minikler Köyü"
           fill
+          sizes="100vw"
           className="object-fill"
           priority
         />

@@ -86,15 +86,15 @@ export async function fetchInstagramMetadata(
 
 /**
  * Instagram URL validasyonu
+ * Basit kontrol: URL'de instagram.com varsa kabul et
  */
 export function isValidInstagramUrl(url: string): boolean {
-  const patterns = [
-    /^https?:\/\/(www\.)?instagram\.com\/p\/[\w-]+\/?/,
-    /^https?:\/\/(www\.)?instagram\.com\/reel\/[\w-]+\/?/,
-    /^https?:\/\/(www\.)?instagram\.com\/tv\/[\w-]+\/?/,
-  ];
-
-  return patterns.some((pattern) => pattern.test(url));
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname.includes('instagram.com');
+  } catch {
+    return false;
+  }
 }
 
 /**

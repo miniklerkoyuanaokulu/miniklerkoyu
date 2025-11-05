@@ -150,6 +150,7 @@ export function Navbar() {
               src="/logo.jpg"
               alt="Varda Minikler Köyü Logo"
               fill
+              sizes="88px"
               className="object-contain rounded-full"
               priority
             />
