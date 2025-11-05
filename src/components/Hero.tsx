@@ -6,7 +6,7 @@ import { LuChevronRight } from "react-icons/lu";
 
 export function Hero() {
   return (
-    <section className="relative left-1/2 flex min-h-screen w-screen -translate-x-1/2 items-center justify-center overflow-hidden">
+    <section className="relative left-1/2 flex min-h-[70vh] md:min-h-screen w-screen -translate-x-1/2 items-center justify-center overflow-hidden">
       {/* Background Image - AVIF format (98% smaller than PNG) */}
       <div className="absolute inset-0">
         <Image
@@ -14,7 +14,7 @@ export function Hero() {
           alt="Varda Minikler Köyü"
           fill
           sizes="100vw"
-          className="object-fill"
+          className="object-cover object-center md:object-fill"
           priority
         />
         {/* Light overlay for better text readability */}
@@ -22,8 +22,8 @@ export function Hero() {
       </div>
 
       {/* Content - Centered */}
-      <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
-        <p className="mt-20 text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)] md:text-4xl lg:text-5xl font-extrabold">
+      <div className="relative z-10 mx-auto max-w-5xl px-4 py-8 md:py-0 text-center">
+        <p className="mt-12 md:mt-20 text-xl sm:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)] md:text-4xl lg:text-5xl font-extrabold leading-tight">
           Varda Minikler Köyü&apos;ne Hoş Geldiniz!
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
