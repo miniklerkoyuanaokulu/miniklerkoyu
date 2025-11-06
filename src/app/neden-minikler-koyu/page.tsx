@@ -73,7 +73,8 @@ export default function NedenPage() {
         description="Organik beslenme, geniş oyun alanları ve titiz güvenlik prosedürleri ile miniklerin doğayla iç içe geliştiği bir ortam."
       />
 
-      <main className="mx-auto max-w-5xl px-4">
+      <div className="w-full bg-linear-to-b from-amber-100/70 via-yellow-100/50 to-white">
+        <main className="mx-auto max-w-5xl px-4">
         {/* BESLENME */}
         <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <motion.div
@@ -528,7 +529,8 @@ export default function NedenPage() {
             </Card>
           </motion.div>
         </section>
-      </main>
+        </main>
+      </div>
     </>
   );
 }

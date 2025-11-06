@@ -61,7 +61,8 @@ export default function KurumsalPage() {
         description="Çocukların duygu, zihin ve beden gelişimini doğanın ritmiyle destekleyen, oyun temelli öğrenme yaklaşımı."
       />
 
-      <main className="mx-auto max-w-5xl px-4">
+      <div className="w-full bg-linear-to-b from-cyan-100/70 via-blue-100/50 to-white">
+        <main className="mx-auto max-w-5xl px-4">
         {/* HAKKIMIZDA */}
         <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <div className="grid md:grid-cols-2 gap-10 items-start">
@@ -858,7 +859,8 @@ export default function KurumsalPage() {
             </Card>
           </motion.div>
         </section>
-      </main>
+        </main>
+      </div>
     </>
   );
 }

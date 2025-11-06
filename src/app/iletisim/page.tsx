@@ -34,7 +34,8 @@ export default function IletisimPage() {
         description="Bize ulaşın, soruların yanıtını alın ve Minikler Köyü ailesinin bir parçası olun"
       />
 
-      <main className="mx-auto max-w-6xl px-4">
+      <div className="w-full bg-linear-to-b from-orange-100/70 via-amber-50/50 to-white">
+        <main className="mx-auto max-w-6xl px-4">
         {/*  */}
 
         {/* İLETİŞİM KARTLARI */}
@@ -367,7 +368,8 @@ export default function IletisimPage() {
           </motion.div>
           */}
         </section>
-      </main>
+        </main>
+      </div>
     </>
   );
 }

@@ -292,14 +292,16 @@ export default function MedyaPageClient() {
           eyebrow="Medya"
           description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
         />
-        <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
-              <p className="mt-4 text-gray-600">Medya yükleniyor...</p>
+        <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white">
+          <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
+                <p className="mt-4 text-gray-600">Medya yükleniyor...</p>
+              </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </>
     );
   }
@@ -312,167 +314,169 @@ export default function MedyaPageClient() {
         description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
       />
 
-      <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
-        {/* Boş durum */}
-        {items.length === 0 && (
-          <div className="mt-10">
-            <EmptyState />
-          </div>
-        )}
-
-        {/* Fotoğraflar */}
-        {photos.length > 0 && (
-          <section className="mb-16">
-            <SectionTitle title="Fotoğraflarımız" id="fotograflar" />
-            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {photos.map((m) => (
-                <motion.div
-                  key={m.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="group cursor-zoom-in"
-                  onClick={() => openLightbox(sortedItems.indexOf(m))}
-                >
-                  <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                    <div className="relative w-full overflow-hidden aspect-square">
-                      <Image
-                        src={m.url}
-                        alt={m.caption || "Fotoğraf"}
-                        fill
-                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-
-                    {m.caption && (
-                      <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
-                        {m.caption}
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+      <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white">
+        <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+          {/* Boş durum */}
+          {items.length === 0 && (
+            <div className="mt-10">
+              <EmptyState />
             </div>
-          </section>
-        )}
+          )}
 
-        {/* Videolar */}
-        {videos.length > 0 && (
-          <section className="mb-16">
-            <SectionTitle title="Videolarımız" id="videolar" />
-            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {videos.map((m) => (
-                <motion.div
-                  key={m.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="group cursor-zoom-in"
-                  onClick={() => openLightbox(sortedItems.indexOf(m))}
-                >
-                  <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                    <div className="relative w-full overflow-hidden aspect-square">
-                      {m.thumbnailUrl ? (
+          {/* Fotoğraflar */}
+          {photos.length > 0 && (
+            <section className="mb-16">
+              <SectionTitle title="Fotoğraflarımız" id="fotograflar" />
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {photos.map((m) => (
+                  <motion.div
+                    key={m.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    className="group cursor-zoom-in"
+                    onClick={() => openLightbox(sortedItems.indexOf(m))}
+                  >
+                    <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
+                      <div className="relative w-full overflow-hidden aspect-square">
                         <Image
-                          src={m.thumbnailUrl}
-                          alt={m.caption || "Video"}
+                          src={m.url}
+                          alt={m.caption || "Fotoğraf"}
                           fill
                           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                      ) : (
-                        <video
-                          muted
-                          playsInline
-                          className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          onContextMenu={(e) => e.preventDefault()}
-                        >
-                          <source src={m.url} />
-                        </video>
+                      </div>
+
+                      {m.caption && (
+                        <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
+                          {m.caption}
+                        </div>
                       )}
-                      <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
-                        <LuVideo className="w-3.5 h-3.5" /> Video
-                      </div>
                     </div>
-
-                    {m.caption && (
-                      <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
-                        {m.caption}
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Lightbox */}
-        {lightIndex !== null && (
-          <Lightbox
-            items={sortedItems}
-            index={lightIndex}
-            onClose={closeLightbox}
-            onPrev={prevLight}
-            onNext={nextLight}
-          />
-        )}
-
-        {/* Instagram Featured */}
-        {instagramPosts.length > 0 && (
-          <InstagramFeatured posts={instagramPosts} />
-        )}
-
-        {/* Alt CTA */}
-        <section className="mt-16 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <Card className="relative overflow-hidden border-2 border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-              {/* Decorative linear blob */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
-
-              <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="text-center md:text-left">
-                  <h3 className="text-2xl md:text-3xl font-bold text-orange-600 mb-2">
-                    Okuldan daha fazla anı paylaşalım!
-                  </h3>
-                  <p className="text-gray-600 text-lg">
-                    Galeriye yeni fotoğraf ve video eklemek için bizimle
-                    iletişime geçin.
-                  </p>
-                </div>
-
-                <Link
-                  href="/iletisim"
-                  className="group shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
-                >
-                  İletişim
-                  <svg
-                    className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </Link>
+                  </motion.div>
+                ))}
               </div>
-            </Card>
-          </motion.div>
-        </section>
-      </main>
+            </section>
+          )}
+
+          {/* Videolar */}
+          {videos.length > 0 && (
+            <section className="mb-16">
+              <SectionTitle title="Videolarımız" id="videolar" />
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {videos.map((m) => (
+                  <motion.div
+                    key={m.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    className="group cursor-zoom-in"
+                    onClick={() => openLightbox(sortedItems.indexOf(m))}
+                  >
+                    <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
+                      <div className="relative w-full overflow-hidden aspect-square">
+                        {m.thumbnailUrl ? (
+                          <Image
+                            src={m.thumbnailUrl}
+                            alt={m.caption || "Video"}
+                            fill
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        ) : (
+                          <video
+                            muted
+                            playsInline
+                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            onContextMenu={(e) => e.preventDefault()}
+                          >
+                            <source src={m.url} />
+                          </video>
+                        )}
+                        <div className="absolute right-2 top-2 rounded-md bg-black/70 px-2.5 py-1.5 text-xs text-white inline-flex items-center gap-1.5 font-medium backdrop-blur-sm">
+                          <LuVideo className="w-3.5 h-3.5" /> Video
+                        </div>
+                      </div>
+
+                      {m.caption && (
+                        <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
+                          {m.caption}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Lightbox */}
+          {lightIndex !== null && (
+            <Lightbox
+              items={sortedItems}
+              index={lightIndex}
+              onClose={closeLightbox}
+              onPrev={prevLight}
+              onNext={nextLight}
+            />
+          )}
+
+          {/* Instagram Featured */}
+          {instagramPosts.length > 0 && (
+            <InstagramFeatured posts={instagramPosts} />
+          )}
+
+          {/* Alt CTA */}
+          <section className="mt-16 mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card className="relative overflow-hidden border-2 border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+                {/* Decorative linear blob */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
+
+                <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl md:text-3xl font-bold text-orange-600 mb-2">
+                      Okuldan daha fazla anı paylaşalım!
+                    </h3>
+                    <p className="text-gray-600 text-lg">
+                      Galeriye yeni fotoğraf ve video eklemek için bizimle
+                      iletişime geçin.
+                    </p>
+                  </div>
+
+                  <Link
+                    href="/iletisim"
+                    className="group shrink-0 inline-flex items-center gap-2 rounded-xl px-8 py-4 bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300"
+                  >
+                    İletişim
+                    <svg
+                      className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </Link>
+                </div>
+              </Card>
+            </motion.div>
+          </section>
+        </main>
+      </div>
     </>
   );
 }

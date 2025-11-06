@@ -28,9 +28,20 @@ export function Footer() {
         <div className="space-y-4">
           <Link
             href="/"
-            className="inline-block text-2xl font-bold bg-linear-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent hover:from-orange-300 hover:via-amber-300 hover:to-yellow-300 transition-all duration-300"
+            className="inline-flex items-center gap-3 group transition-all duration-300"
           >
-            Vardalı Minikler Köyü
+            <div className="relative h-16 w-16 shrink-0">
+              <Image
+                src="/logo.jpg"
+                alt="Varda Minikler Köyü Logo"
+                fill
+                sizes="64px"
+                className="object-contain rounded-full group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <span className="text-2xl font-bold text-red-400 group-hover:text-red-500 transition-all duration-300">
+              Vardalı Minikler Köyü
+            </span>
           </Link>
           <p className="text-sm text-gray-300 leading-relaxed">
             Doğanın kalbinde, çocukların kahkahalarıyla yankılanan bir öğrenme
@@ -39,9 +50,9 @@ export function Footer() {
 
           {/* Decorative element */}
           <div className="flex gap-2 pt-2">
-            <div className="w-12 h-1 bg-linear-to-r from-orange-400 to-transparent rounded-full" />
-            <div className="w-12 h-1 bg-linear-to-r from-amber-400 to-transparent rounded-full" />
-            <div className="w-12 h-1 bg-linear-to-r from-yellow-400 to-transparent rounded-full" />
+            <div className="w-12 h-1 bg-linear-to-r from-rose-400 to-transparent rounded-full" />
+            <div className="w-12 h-1 bg-linear-to-r from-red-400 to-transparent rounded-full" />
+            <div className="w-12 h-1 bg-linear-to-r from-pink-400 to-transparent rounded-full" />
           </div>
         </div>
 
@@ -126,7 +137,7 @@ export function Footer() {
         <div className="mx-auto max-w-6xl px-4 pt-6 pb-6 text-center mb-0">
           <p className="text-xs text-gray-400 mb-0">
             © {new Date().getFullYear()}{" "}
-            <span className="text-white font-semibold bg-linear-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text">
+            <span className="text-white font-semibold bg-linear-to-r from-rose-400 via-red-400 to-pink-400 bg-clip-text">
               Vardalı Minikler Köyü Anaokulu
             </span>{" "}
             - Tüm hakları saklıdır.
