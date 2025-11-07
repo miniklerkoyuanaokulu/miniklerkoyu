@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://miniklerkoyu.vercel.app"),
+  metadataBase: new URL("https://miniklerkoyuanaokulu.com"),
   title: {
     default: "Varda Minikler Köyü - Doğayla İç İçe Anaokulu | Adana",
     template: "%s | Varda Minikler Köyü",
@@ -56,12 +56,12 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   alternates: {
-    canonical: "https://miniklerkoyu.vercel.app",
+    canonical: "https://miniklerkoyuanaokulu.com",
   },
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "https://miniklerkoyu.vercel.app",
+    url: "https://miniklerkoyuanaokulu.com",
     siteName: "Varda Minikler Köyü",
     title: "Varda Minikler Köyü - Doğayla İç İçe Anaokulu",
     description:

@@ -37,7 +37,7 @@
 
 #### d) Web Veri Akışı Oluşturma
 1. **"Web"** seçeneğini seçin
-2. **Website URL:** Sitenizin tam URL'ini girin (örn: https://miniklerkoyu.vercel.app)
+2. **Website URL:** Sitenizin tam URL'ini girin (örn: https://miniklerkoyuanaokulu.com)
 3. **Stream name:** "Varda Minikler Köyü Website"
 4. **"Create stream"** butonuna tıklayın
 

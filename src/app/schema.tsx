@@ -4,13 +4,13 @@ export default function SchemaOrg() {
     "@graph": [
       {
         "@type": "EducationalOrganization",
-        "@id": "https://miniklerkoyu.vercel.app/#organization",
+        "@id": "https://miniklerkoyuanaokulu.com/#organization",
         "name": "Varda Minikler Köyü Anaokulu",
         "alternateName": "Minikler Köyü",
-        "url": "https://miniklerkoyu.vercel.app",
+        "url": "https://miniklerkoyuanaokulu.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://miniklerkoyu.vercel.app/web-app-manifest-512x512.png",
+          "url": "https://miniklerkoyuanaokulu.com/web-app-manifest-512x512.png",
           "width": 512,
           "height": 512
         },
@@ -35,22 +35,22 @@ export default function SchemaOrg() {
       },
       {
         "@type": "WebSite",
-        "@id": "https://miniklerkoyu.vercel.app/#website",
-        "url": "https://miniklerkoyu.vercel.app",
+        "@id": "https://miniklerkoyuanaokulu.com/#website",
+        "url": "https://miniklerkoyuanaokulu.com",
         "name": "Varda Minikler Köyü",
         "description": "Doğayla iç içe anaokulu ve okul öncesi eğitim",
         "publisher": {
-          "@id": "https://miniklerkoyu.vercel.app/#organization"
+          "@id": "https://miniklerkoyuanaokulu.com/#organization"
         },
         "inLanguage": "tr-TR"
       },
       {
         "@type": "LocalBusiness",
-        "@id": "https://miniklerkoyu.vercel.app/#localbusiness",
+        "@id": "https://miniklerkoyuanaokulu.com/#localbusiness",
         "name": "Varda Minikler Köyü Anaokulu",
         "image": [
-          "https://miniklerkoyu.vercel.app/og-image.jpg",
-          "https://miniklerkoyu.vercel.app/web-app-manifest-512x512.png"
+          "https://miniklerkoyuanaokulu.com/og-image.jpg",
+          "https://miniklerkoyuanaokulu.com/web-app-manifest-512x512.png"
         ],
         "address": {
           "@type": "PostalAddress",

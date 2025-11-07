@@ -5,13 +5,13 @@ export const metadata: Metadata = {
   description:
     "Oyun temelli öğrenme, doğayla iç içe eğitim ve bireysel gelişim odaklı modern eğitim modelimizi keşfedin. Yabancı dil, sanat, jimnastik, dans, yoga ve drama dersleri.",
   alternates: {
-    canonical: "https://miniklerkoyu.vercel.app/egitim-modelimiz",
+    canonical: "https://miniklerkoyuanaokulu.com/egitim-modelimiz",
   },
   openGraph: {
     title: "Eğitim Modelimiz | Varda Minikler Köyü",
     description:
       "Oyun temelli öğrenme, doğayla iç içe eğitim ve bireysel gelişim odaklı modern eğitim modelimizi keşfedin.",
-    url: "https://miniklerkoyu.vercel.app/egitim-modelimiz",
+    url: "https://miniklerkoyuanaokulu.com/egitim-modelimiz",
     images: ["/og-image.jpg"],
   },
 };

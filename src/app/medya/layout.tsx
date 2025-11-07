@@ -5,13 +5,13 @@ export const metadata: Metadata = {
   description:
     "Varda Minikler Köyü'nden fotoğraflar, videolar ve Instagram paylaşımları. Çocuklarımızın mutlu anları, etkinlikler ve günlük yaşamdan kareler.",
   alternates: {
-    canonical: "https://miniklerkoyu.vercel.app/medya",
+    canonical: "https://miniklerkoyuanaokulu.com/medya",
   },
   openGraph: {
     title: "Medya Galerisi | Varda Minikler Köyü",
     description:
       "Varda Minikler Köyü'nden fotoğraflar, videolar ve Instagram paylaşımları. Çocuklarımızın mutlu anları ve etkinliklerden kareler.",
-    url: "https://miniklerkoyu.vercel.app/medya",
+    url: "https://miniklerkoyuanaokulu.com/medya",
     images: ["/og-image.jpg"],
   },
 };

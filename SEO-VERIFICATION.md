@@ -6,7 +6,7 @@
 
 - ✅ **Root Layout** (`src/app/layout.tsx`)
 
-  - Canonical URL: `https://miniklerkoyu.vercel.app`
+  - Canonical URL: `https://miniklerkoyuanaokulu.com`
   - Open Graph image: `/og-image.jpg` (1200×630 JPG)
   - Twitter Card: summary_large_image
   - Favicon set: SVG, PNG, ICO, Apple Touch Icon
@@ -60,7 +60,7 @@
 ### 1. **Google Rich Results Test**
 
 ```
-https://search.google.com/test/rich-results?url=https://miniklerkoyu.vercel.app
+https://search.google.com/test/rich-results?url=https://miniklerkoyuanaokulu.com
 ```
 
 **Beklenen:** EducationalOrganization, LocalBusiness
@@ -68,7 +68,7 @@ https://search.google.com/test/rich-results?url=https://miniklerkoyu.vercel.app
 ### 2. **Facebook Sharing Debugger**
 
 ```
-https://developers.facebook.com/tools/debug/?q=https://miniklerkoyu.vercel.app
+https://developers.facebook.com/tools/debug/?q=https://miniklerkoyuanaokulu.com
 ```
 
 **Beklenen:** og-image.jpg görseli, doğru title/description
@@ -84,7 +84,7 @@ https://cards-dev.twitter.com/validator
 ### 4. **Schema.org Validator**
 
 ```
-https://validator.schema.org/#url=https://miniklerkoyu.vercel.app
+https://validator.schema.org/#url=https://miniklerkoyuanaokulu.com
 ```
 
 **Beklenen:** 0 hata, 3 schema detected
@@ -92,7 +92,7 @@ https://validator.schema.org/#url=https://miniklerkoyu.vercel.app
 ### 5. **Google PageSpeed Insights**
 
 ```
-https://pagespeed.web.dev/analysis?url=https://miniklerkoyu.vercel.app
+https://pagespeed.web.dev/analysis?url=https://miniklerkoyuanaokulu.com
 ```
 
 **Hedef:** 90+ Performance, 100 SEO
@@ -101,7 +101,7 @@ https://pagespeed.web.dev/analysis?url=https://miniklerkoyu.vercel.app
 
 ```bash
 # Terminal'de:
-npx lighthouse https://miniklerkoyu.vercel.app --view
+npx lighthouse https://miniklerkoyuanaokulu.com --view
 ```
 
 **Hedef:**
@@ -117,20 +117,20 @@ npx lighthouse https://miniklerkoyu.vercel.app --view
 
 ### URLs Test Et:
 
-- [ ] https://miniklerkoyu.vercel.app/sitemap.xml
-- [ ] https://miniklerkoyu.vercel.app/robots.txt
-- [ ] https://miniklerkoyu.vercel.app/site.webmanifest
-- [ ] https://miniklerkoyu.vercel.app/og-image.jpg
-- [ ] https://miniklerkoyu.vercel.app/favicon.svg
+- [ ] https://miniklerkoyuanaokulu.com/sitemap.xml
+- [ ] https://miniklerkoyuanaokulu.com/robots.txt
+- [ ] https://miniklerkoyuanaokulu.com/site.webmanifest
+- [ ] https://miniklerkoyuanaokulu.com/og-image.jpg
+- [ ] https://miniklerkoyuanaokulu.com/favicon.svg
 
 ### HTML Head Kontrol (View Source):
 
 ```html
 <!-- Her sayfada olmalı -->
-<link rel="canonical" href="https://miniklerkoyu.vercel.app/..." />
+<link rel="canonical" href="https://miniklerkoyuanaokulu.com/..." />
 <meta
   property="og:image"
-  content="https://miniklerkoyu.vercel.app/og-image.jpg"
+  content="https://miniklerkoyuanaokulu.com/og-image.jpg"
 />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -152,7 +152,7 @@ npx lighthouse https://miniklerkoyu.vercel.app --view
 ### Adımlar:
 
 1. https://search.google.com/search-console → "Mülk Ekle"
-2. URL: `https://miniklerkoyu.vercel.app`
+2. URL: `https://miniklerkoyuanaokulu.com`
 3. Doğrulama yöntemi seç:
 
    - **HTML Tag** (Önerilen):
@@ -164,7 +164,7 @@ npx lighthouse https://miniklerkoyu.vercel.app --view
 4. Sitemap gönder:
 
    ```
-   https://miniklerkoyu.vercel.app/sitemap.xml
+   https://miniklerkoyuanaokulu.com/sitemap.xml
    ```
 
 5. İzleme metrikleri:
@@ -256,7 +256,7 @@ https://www.bing.com/webmasters
 
 ## 🔄 Domain Değişikliğinde Güncellenecekler
 
-`miniklerkoyu.vercel.app` → `yenidomaininiz.com` değişikliği için:
+`miniklerkoyuanaokulu.com` → `yenidomaininiz.com` değişikliği için:
 
 ### Kod Güncellemeleri:
 
@@ -295,13 +295,13 @@ npm run start          # Production server (test)
 
 ```bash
 # Lighthouse
-npx lighthouse https://miniklerkoyu.vercel.app --view
+npx lighthouse https://miniklerkoyuanaokulu.com --view
 
 # Sitemap kontrol
-curl https://miniklerkoyu.vercel.app/sitemap.xml
+curl https://miniklerkoyuanaokulu.com/sitemap.xml
 
 # robots.txt kontrol
-curl https://miniklerkoyu.vercel.app/robots.txt
+curl https://miniklerkoyuanaokulu.com/robots.txt
 ```
 
 ---
@@ -321,5 +321,5 @@ Deploy sonrası kontrol edin:
 ---
 
 **Son Güncelleme:** 5 Kasım 2025  
-**Mevcut URL:** https://miniklerkoyu.vercel.app  
+**Mevcut URL:** https://miniklerkoyuanaokulu.com  
 **SEO Durumu:** ✅ Production Ready

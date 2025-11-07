@@ -2,13 +2,13 @@
 
 ## 🌐 Şu Anki Durum
 
-**Live URL:** https://miniklerkoyu.vercel.app/
+**Live URL:** https://miniklerkoyuanaokulu.com/
 **Deploy Tarihi:** 5 Kasım 2025
 **Durum:** ✅ Production'da çalışıyor
 
 ## 📋 Domain Değişikliği Yapılacak Yerler
 
-Domain satın alındığında aşağıdaki dosyalarda `miniklerkoyu.vercel.app` → `yenidomaininiz.com` değişikliği yapılmalıdır:
+Domain satın alındığında aşağıdaki dosyalarda `miniklerkoyuanaokulu.com` → `yenidomaininiz.com` değişikliği yapılmalıdır:
 
 ### 1. **Next.js Configuration**
 

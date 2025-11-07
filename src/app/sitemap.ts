@@ -4,12 +4,12 @@ import { MetadataRoute } from 'next'
  * Sitemap Generator
  * 
  * Bu dosya otomatik olarak /sitemap.xml endpoint'ini oluşturur.
- * Erişim: https://miniklerkoyu.vercel.app/sitemap.xml
+ * Erişim: https://miniklerkoyuanaokulu.com/sitemap.xml
  * 
  * Domain değişikliğinde baseUrl'i güncelleyin.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://miniklerkoyu.vercel.app'
+  const baseUrl = 'https://miniklerkoyuanaokulu.com'
   
   return [
     {
