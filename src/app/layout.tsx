@@ -5,6 +5,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { LayoutContent } from "@/components/LayoutContent";
 import SchemaOrg from "./schema";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,7 +113,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         <AuthProvider>
           <LayoutContent>{children}</LayoutContent>
         </AuthProvider>
