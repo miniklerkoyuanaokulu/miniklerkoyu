@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { trackNavigation, trackMobileMenu, trackButtonClick } from "@/lib/analytics";
 
 type MenuItem = {
   label: string;
@@ -186,6 +187,7 @@ export function Navbar() {
                       setClosedDropdown(null);
                     }
                   }}
+                  onClick={() => trackNavigation(item.label)}
                 >
                   {item.label}
                 </Link>
@@ -210,6 +212,7 @@ export function Navbar() {
                               onClick={() => {
                                 setClosedDropdown(item.label);
                                 setHoveredItem(null);
+                                trackNavigation(`${item.label} > ${sub.label}`);
                               }}
                             >
                               {sub.label}
@@ -231,6 +234,7 @@ export function Navbar() {
                 ? "bg-primary text-primary-foreground hover:bg-primary-hover"
                 : "border-2 border-primary text-primary hover:bg-primary hover:text-white"
             }`}
+            onClick={() => trackButtonClick("Ön Kayıt", "Navbar Desktop")}
           >
             Ön Kayıt
           </Link>
@@ -243,7 +247,11 @@ export function Navbar() {
               ? "border-white/30"
               : "border-gray-300 hover:border-primary"
           }`}
-          onClick={() => setMobileOpen((v) => !v)}
+          onClick={() => {
+            const newState = !mobileOpen;
+            setMobileOpen(newState);
+            trackMobileMenu(newState ? "open" : "close");
+          }}
           aria-label="Menüyü aç/kapat"
           aria-expanded={mobileOpen}
         >
@@ -278,7 +286,10 @@ export function Navbar() {
                           ? "text-primary bg-neutral-light"
                           : ""
                       }`}
-                      onClick={() => setMobileOpen(false)}
+                      onClick={() => {
+                        setMobileOpen(false);
+                        trackNavigation(`Mobile: ${item.label}`);
+                      }}
                     >
                       {item.label}
                     </Link>
@@ -309,7 +320,10 @@ export function Navbar() {
                                 ? "text-primary bg-neutral-light"
                                 : "text-muted-foreground hover:text-foreground"
                             }`}
-                            onClick={() => setMobileOpen(false)}
+                            onClick={() => {
+                              setMobileOpen(false);
+                              trackNavigation(`Mobile: ${item.label} > ${sub.label}`);
+                            }}
                           >
                             {sub.label}
                           </Link>
@@ -324,7 +338,10 @@ export function Navbar() {
             <li className="pt-2">
               <Link
                 href="/iletisim#on-kayit"
-                onClick={() => setMobileOpen(false)}
+                onClick={() => {
+                  setMobileOpen(false);
+                  trackButtonClick("Ön Kayıt", "Navbar Mobile");
+                }}
                 className={`inline-flex items-center rounded-lg px-4 py-2 font-medium transition ${
                   isHomePage
                     ? "bg-primary text-primary-foreground hover:bg-primary-hover"

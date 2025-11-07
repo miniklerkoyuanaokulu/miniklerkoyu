@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { trackPreRegistrationStart, trackPreRegistrationComplete, trackFormSubmit } from "@/lib/analytics";
 
 const schema = z.object({
   parentName: z.string().min(3, "Veli adı-soyadı gerekli"),
@@ -48,10 +49,14 @@ export default function PreRegistrationForm() {
       setSubmitStatus("idle");
       setRecaptchaError("");
 
+      // Form submit başlatıldı - GA4'e bildir
+      trackPreRegistrationStart();
+
       // reCAPTCHA token kontrolü
       const recaptchaToken = recaptchaRef.current?.getValue();
       if (!recaptchaToken) {
         setRecaptchaError("Lütfen robot olmadığınızı doğrulayın");
+        trackFormSubmit("Pre-Registration", false);
         return;
       }
 
@@ -72,6 +77,10 @@ export default function PreRegistrationForm() {
         throw new Error(errorData.error || "Başvuru gönderilemedi");
       }
 
+      // Başarılı form gönderimi - GA4'e bildir
+      trackPreRegistrationComplete();
+      trackFormSubmit("Pre-Registration", true);
+
       setSubmitStatus("success");
       reset();
       recaptchaRef.current?.reset(); // reCAPTCHA'yı sıfırla
@@ -80,6 +89,8 @@ export default function PreRegistrationForm() {
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (e) {
       console.error(e);
+      // Hatalı form gönderimi - GA4'e bildir
+      trackFormSubmit("Pre-Registration", false);
       setSubmitStatus("error");
       setTimeout(() => setSubmitStatus("idle"), 5000);
     }

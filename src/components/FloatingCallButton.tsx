@@ -2,11 +2,17 @@
 
 import { motion } from "framer-motion";
 import { LuPhone } from "react-icons/lu";
+import { trackPhoneClick } from "@/lib/analytics";
 
 export function FloatingCallButton() {
+  const handleClick = () => {
+    trackPhoneClick("Floating Button");
+  };
+
   return (
     <motion.a
       href="tel:05522897191"
+      onClick={handleClick}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.3, delay: 0.6 }}

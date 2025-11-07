@@ -2,13 +2,19 @@
 
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 export function FloatingWhatsAppButton() {
+  const handleClick = () => {
+    trackWhatsAppClick("Floating Button");
+  };
+
   return (
     <motion.a
       href="https://wa.me/905522897191"
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.3, delay: 0.5 }}

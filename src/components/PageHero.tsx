@@ -14,7 +14,7 @@ export function PageHero({ eyebrow, description }: PageHeroProps) {
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/pages/hero-for-pages3.png"
+          src="/images/pages/hero-for-pages3.avif"
           alt="Hero background"
           fill
           sizes="100vw"

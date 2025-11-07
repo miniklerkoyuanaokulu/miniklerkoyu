@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { LuInstagram, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
+import { trackNavigation, trackPhoneClick, trackEmailClick, trackInstagramClick } from "@/lib/analytics";
 
 export function Footer() {
   return (
@@ -74,6 +75,7 @@ export function Footer() {
                 <Link
                   href={item.href}
                   className="group flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-200"
+                  onClick={() => trackNavigation(`Footer: ${item.label}`)}
                 >
                   <span className="w-0 h-0.5 bg-linear-to-r from-primary to-accent group-hover:w-4 transition-all duration-300" />
                   <span className="group-hover:translate-x-1 transition-transform duration-200">
@@ -104,6 +106,7 @@ export function Footer() {
               <a
                 href="tel:05522897191"
                 className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200"
+                onClick={() => trackPhoneClick("Footer")}
               >
                 0552 289 71 91
               </a>
@@ -113,6 +116,7 @@ export function Footer() {
               <a
                 href="mailto:info@vardaokullari.com"
                 className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200"
+                onClick={() => trackEmailClick("Footer")}
               >
                 info@vardaokullari.com
               </a>
@@ -124,6 +128,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200"
+                onClick={() => trackInstagramClick("Footer")}
               >
                 @vardaliminiklerkoyu
               </a>
