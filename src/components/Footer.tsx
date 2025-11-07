@@ -3,12 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { LuInstagram, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
-import { trackNavigation, trackPhoneClick, trackEmailClick, trackInstagramClick } from "@/lib/analytics";
+import {
+  trackNavigation,
+  trackPhoneClick,
+  trackEmailClick,
+  trackInstagramClick,
+} from "@/lib/analytics";
 
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-linear-to-b from-slate-500 via-slate-700 to-slate-950 m-0 p-0">
       {/* Bulut görseli - üstte */}
+      {/*
       <div className="absolute top-0 left-0 right-0 w-full h-auto pointer-events-none select-none z-10">
         <Image
           src="/images/footer/bulut-ust.png"
@@ -19,7 +25,7 @@ export function Footer() {
           priority={false}
         />
       </div>
-
+      */}
       {/* Decorative linear blobs */}
       <div className="absolute bottom-4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-2xl pointer-events-none select-none" />
       <div className="absolute top-1/2 right-1/4 translate-y-8 w-80 h-80 bg-accent/5 rounded-full blur-2xl pointer-events-none select-none" />

@@ -19,7 +19,7 @@ import {
   LuTheater,
   LuCamera,
 } from "react-icons/lu";
-import { Hero } from "@/components/Hero";
+import { HeroSlider } from "@/components/HeroSlider";
 import { getMediaItems } from "@/lib/firestore";
 import type { MediaItem } from "@/lib/types";
 
@@ -99,10 +99,10 @@ export default function HomePage() {
   return (
     <>
       {/* HERO - Full width, behind navbar */}
-      <Hero />
+      <HeroSlider />
 
       {/* Main content wrapper */}
-      <div className="w-full bg-linear-to-b from-emerald-100/70 via-green-100/50 to-white">
+      <div className="w-full bg-linear-to-b from-green-500 via-emerald-500 to-lime-500">
         <main className="mx-auto max-w-5xl px-4">
           {/* Hoşgeldin Bölümü */}
           <section className="py-12 md:py-16">
@@ -146,11 +146,11 @@ export default function HomePage() {
                 {...fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
               >
-                <Card className="p-6 h-full relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-emerald-100/50 border-2 hover:border-emerald-200">
-                  <div className="absolute inset-0 bg-linear-to-br from-emerald-50/50 to-green-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Card className="p-6 h-full relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-green-300/70 border-2 hover:border-green-400">
+                  <div className="absolute inset-0 bg-linear-to-br from-green-100 to-emerald-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10 h-full flex flex-col">
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-emerald-100 to-green-100 text-emerald-600 group-hover:from-emerald-500 group-hover:to-green-500 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-green-300 to-emerald-300 text-green-700 group-hover:from-green-600 group-hover:to-emerald-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                         <LuSprout className="w-6 h-6" />
                       </span>
                       <h3 className="text-lg font-semibold group-hover:text-emerald-700 transition-colors">
@@ -378,11 +378,11 @@ export default function HomePage() {
                 {
                   icon: <LuFlower2 />,
                   t: "Yoga",
-                  color: "from-green-500 to-emerald-500",
-                  bgLight: "from-green-50 to-emerald-50",
-                  iconColor: "text-green-600",
-                  hoverBorder: "hover:border-green-300",
-                  hoverShadow: "hover:shadow-green-100/50",
+                  color: "from-green-600 to-emerald-600",
+                  bgLight: "from-green-200 to-emerald-200",
+                  iconColor: "text-green-700",
+                  hoverBorder: "hover:border-green-400",
+                  hoverShadow: "hover:shadow-green-300/60",
                 },
                 {
                   icon: <LuTheater />,
@@ -455,7 +455,7 @@ export default function HomePage() {
           {/* GÖRSEL ŞERİT / MEDYA TEASER */}
           <section className="relative overflow-hidden">
             {/* Decorative background elements */}
-            <div className="absolute inset-0 -z-20 bg-linear-to-br from-green-50/80 via-blue-50/60 to-purple-50/80" />
+            <div className="absolute inset-0 -z-20 bg-linear-to-br from-green-200 via-emerald-200 to-lime-200" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-green-200/20 to-blue-200/20 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-linear-to-tr from-purple-200/20 to-green-200/20 rounded-full blur-3xl" />
 
@@ -687,7 +687,7 @@ export default function HomePage() {
                     {/* Trust indicators */}
                     <div className="flex flex-wrap gap-6 justify-center md:justify-start text-sm text-gray-600">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-full bg-green-300 flex items-center justify-center">
                           <span className="text-green-600 font-bold">✓</span>
                         </div>
                         <span>Deneyimli Kadro</span>
