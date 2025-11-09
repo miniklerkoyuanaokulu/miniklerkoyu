@@ -207,7 +207,7 @@ export default function KurumsalPage() {
                   <div className="relative z-10">
                     <div className="relative h-80 w-full overflow-hidden rounded-xl">
                       <Image
-                        src="/images/kurumsal/hakkimizda.png"
+                        src="/images/kurumsal/hakkimizda1.avif"
                         alt="Doğanın içinde anaokulu"
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"

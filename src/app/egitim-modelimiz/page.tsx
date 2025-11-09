@@ -3,6 +3,8 @@
 
 "use client";
 
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, cubicBezier } from "framer-motion";
 import {
@@ -46,7 +48,7 @@ function SectionTitle({
   return (
     <motion.div {...fadeUp}>
       {eyebrow && (
-        <p className="text-xs tracking-wider uppercase text-muted-foreground">
+        <p className="text-xs tracking-wider uppercase text-white/80">
           {eyebrow}
         </p>
       )}
@@ -75,6 +77,18 @@ function Card({
 }
 
 export default function EgitimModelimizPage() {
+  const [showWatermark, setShowWatermark] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowWatermark(window.scrollY > 300);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       {/* HERO */}
@@ -83,8 +97,23 @@ export default function EgitimModelimizPage() {
         description="Oyun temelli ve doğa ile iç içe eğitim yaklaşımı. Zengin branş dersleri, düzen ve özgürlük dengesi, sürekli rehberlik."
       />
 
-      <div className="w-full bg-linear-to-b from-rose-100/70 via-pink-100/50 to-white">
-        <main className="mx-auto max-w-5xl px-4">
+      <div className="w-full bg-linear-to-b from-indigo-600 via-[#4E56C0] to-blue-500 relative">
+        {/* Filigran Logo - Arka plan (sabit) - Scroll sonrası görünür */}
+        <div
+          className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${
+            showWatermark ? "opacity-[0.09]" : "opacity-0"
+          }`}
+        >
+          <Image
+            src="/logo-removebg.png"
+            alt=""
+            fill
+            className="object-contain"
+            priority={false}
+          />
+        </div>
+
+        <main className="mx-auto max-w-5xl px-4 relative z-10">
           {/* DERSLERİMİZ */}
           <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
             <motion.div
@@ -92,7 +121,7 @@ export default function EgitimModelimizPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: cubicBezier(0.16, 1, 0.3, 1) }}
             >
-              <p className="text-xs tracking-wider uppercase text-muted-foreground">
+              <p className="text-xs tracking-wider uppercase text-white/80">
                 Branşlar
               </p>
               <h2
@@ -209,10 +238,9 @@ export default function EgitimModelimizPage() {
 
           {/* GÜNÜMÜZ NASIL GEÇER */}
           <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-            <div className="relative overflow-hidden rounded-3xl border-2 border-purple-300">
-              <div className="absolute inset-0 -z-20 bg-linear-to-br from-purple-50/80 via-pink-50/60 to-blue-50/80" />
-              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-pink-200/20 rounded-full blur-3xl" />
+            <div className="relative overflow-hidden rounded-3xl border-2 border-white/30">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/15 rounded-full blur-3xl" />
 
               <div className="px-4 py-12 md:py-16">
                 <SectionTitle
@@ -223,7 +251,10 @@ export default function EgitimModelimizPage() {
 
                 <div className="mt-8 grid md:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
                   {/* Metin */}
-                  <motion.div {...fadeUp} className="prose max-w-none">
+                  <motion.div
+                    {...fadeUp}
+                    className=" max-w-none text-white! prose-strong:!text-white prose-p:!text-white"
+                  >
                     <p>
                       Her sabah, miniklerimizi sevgi dolu bir &quot;günaydın
                       halkası&quot; karşılar. Sabah 08.00 itibariyle herkes
@@ -231,6 +262,7 @@ export default function EgitimModelimizPage() {
                       kahvaltılarını yapıp bahçede öğretmenleri eşliğinde
                       etkinlikler yapar, oyunlar oynarlar.
                     </p>
+                    <br />
                     <p>
                       Öğle yemeğine, ortak yemekhanemizde günlük, taze ve ev
                       yapımı yemeklerini yemek üzere öğretmenleri eşliğinde
@@ -242,18 +274,21 @@ export default function EgitimModelimizPage() {
                       dersleri, etkinlikler ve oyun gibi aktivitelere
                       katılırlar.
                     </p>
+                    <br />
                     <p>
                       Uyku saati ve derslerin ardından ikindi kahvaltısında
                       mutfak annemizin ellerinden çıkan taze ikindi
                       kahvaltılarını yaparlar. Günün her saati, çocukların hayal
                       gücünü destekleyecek bir etkinlik içerir.
                     </p>
+                    <br />
                     <p>
                       Günlük planlarımız mevsimlerle, hava koşullarıyla ve
                       çocukların ilgileriyle birlikte şekillenir. Kimi gün
                       bahçede hikâye zamanı, kimi gün bahçede yoga, kimi gün de
                       sessizce resim yapma alanı olur.
                     </p>
+                    <br />
                     <p>
                       Her etkinlik, bir beceri kazandırmak kadar, çocuklara
                       &quot;kendini iyi hissetme&quot; alanı da sunar.
@@ -318,25 +353,25 @@ export default function EgitimModelimizPage() {
                 transition={{ duration: 0.6 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-xl">
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl" />
+                <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-100/50 rounded-full blur-3xl" />
 
                   <div className="relative z-10">
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                      <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-indigo-500 to-[#4E56C0] flex items-center justify-center text-white text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                         🎓
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold text-blue-700">
+                        <h3 className="text-2xl font-bold text-[#4E56C0]">
                           Akademik Sunum
                         </h3>
-                        <div className="h-1 w-12 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full mt-1" />
+                        <div className="h-1 w-12 bg-[#4E56C0] rounded-full mt-1" />
                       </div>
                     </div>
 
                     <div className="flex items-center justify-center mb-6">
                       <div className="text-center">
-                        <div className="text-6xl font-bold text-blue-600 mb-2">
+                        <div className="text-6xl font-bold text-[#4E56C0] mb-2">
                           2
                         </div>
                         <div className="text-sm text-gray-600">kez / yıl</div>
@@ -359,8 +394,8 @@ export default function EgitimModelimizPage() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-pink-200 hover:border-pink-300 transition-all duration-300 hover:shadow-xl">
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-pink-200/30 to-rose-200/30 rounded-full blur-3xl" />
+                <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-pink-100/50 rounded-full blur-3xl" />
 
                   <div className="relative z-10">
                     <div className="flex items-center gap-4 mb-6">
@@ -368,10 +403,10 @@ export default function EgitimModelimizPage() {
                         🎨
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold text-pink-700">
+                        <h3 className="text-2xl font-bold text-pink-600">
                           Sanat Sergisi
                         </h3>
-                        <div className="h-1 w-12 bg-linear-to-r from-pink-500 to-rose-500 rounded-full mt-1" />
+                        <div className="h-1 w-12 bg-pink-500 rounded-full mt-1" />
                       </div>
                     </div>
 
@@ -396,9 +431,8 @@ export default function EgitimModelimizPage() {
 
           {/* REHBERLİK */}
           <section className="relative overflow-hidden">
-            <div className="absolute inset-0 -z-20 bg-linear-to-br from-teal-50/80 via-cyan-50/60 to-blue-50/80" />
-            <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-200/20 rounded-full blur-3xl" />
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/15 rounded-full blur-3xl" />
 
             <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
               <SectionTitle id="rehberlik" title="Rehberlik" eyebrow="PDR" />
@@ -411,8 +445,8 @@ export default function EgitimModelimizPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Card className="p-8 h-full relative overflow-hidden border-2 border-teal-200 hover:shadow-xl transition-all duration-300">
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-teal-200/30 rounded-full blur-3xl" />
+                  <Card className="p-8 h-full relative overflow-hidden border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-teal-100/50 rounded-full blur-3xl" />
 
                     <div className="relative z-10">
                       <div className="flex items-start gap-4 mb-6">
@@ -420,17 +454,17 @@ export default function EgitimModelimizPage() {
                           🧭
                         </div>
                         <div>
-                          <h3 className="text-2xl font-bold text-teal-700">
+                          <h3 className="text-2xl font-bold text-teal-600">
                             PDR Desteği
                           </h3>
-                          <div className="h-1 w-16 bg-linear-to-r from-teal-500 to-cyan-500 rounded-full mt-1" />
+                          <div className="h-1 w-16 bg-teal-500 rounded-full mt-1" />
                         </div>
                       </div>
 
                       <p className="text-gray-700 leading-relaxed text-lg">
                         Öğretmen-Veli iş birliği içerisinde miniğimize katkısı
                         olacak her türlü uzman görüşünü{" "}
-                        <strong className="text-teal-700">
+                        <strong className="text-teal-600">
                           alanında uzman PDR öğretmenimiz
                         </strong>{" "}
                         aracılığıyla takip edip raporlamaktayız.
@@ -479,14 +513,14 @@ export default function EgitimModelimizPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                  <Card className="p-8 h-full border-2 border-cyan-200">
+                  <Card className="p-8 h-full border-2 border-white/30 hover:border-white/50 transition-all duration-300 bg-white shadow-lg">
                     <div className="space-y-6">
                       <div className="flex items-start gap-4">
-                        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
+                        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-indigo-500 to-blue-500 flex items-center justify-center text-white shadow-md">
                           <LuUsers className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-teal-700 text-lg mb-2">
+                          <h4 className="font-bold text-[#4E56C0] text-lg mb-2">
                             Veli Görüşmeleri
                           </h4>
                           <p className="text-sm text-gray-600 leading-relaxed">
@@ -499,11 +533,11 @@ export default function EgitimModelimizPage() {
                       <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
 
                       <div className="flex items-start gap-4">
-                        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white shadow-md">
+                        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white shadow-md">
                           <LuEye className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-cyan-700 text-lg mb-2">
+                          <h4 className="font-bold text-purple-600 text-lg mb-2">
                             Gözlem Formları
                           </h4>
                           <p className="text-sm text-gray-600 leading-relaxed">
@@ -516,11 +550,11 @@ export default function EgitimModelimizPage() {
                       <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
 
                       <div className="flex items-start gap-4">
-                        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-md">
+                        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
                           <LuFileText className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-blue-700 text-lg mb-2">
+                          <h4 className="font-bold text-blue-600 text-lg mb-2">
                             Periyodik Raporlar
                           </h4>
                           <p className="text-sm text-gray-600 leading-relaxed">
@@ -548,9 +582,9 @@ export default function EgitimModelimizPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="mt-8 p-8 rounded-2xl bg-linear-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-xl"
+              className="mt-8 p-8 rounded-2xl bg-white shadow-xl border-2 border-white/30"
             >
-              <p className="text-xl text-white text-center leading-relaxed">
+              <p className="text-xl text-gray-700 text-center leading-relaxed font-semibold">
                 Tiyatro gezileri, alan gezileri, veli katılımlı sanatsal
                 etkinlikler, her ay özgün partiler, resmi ve özel gün
                 kutlamaları, drama etkinlikleri, meyve fidanı çiçek fidesi
@@ -645,9 +679,8 @@ export default function EgitimModelimizPage() {
 
           {/* VELİ BİLGİLENDİRME */}
           <section className="relative overflow-hidden">
-            <div className="absolute inset-0 -z-20 bg-linear-to-br from-green-50/80 via-emerald-50/60 to-teal-50/80" />
-            <div className="absolute top-0 left-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-teal-200/20 rounded-full blur-3xl" />
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/15 rounded-full blur-3xl" />
 
             <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
               <SectionTitle
@@ -674,16 +707,16 @@ export default function EgitimModelimizPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <motion.div
                     whileHover={{ y: -5, scale: 1.02 }}
-                    className="p-6 rounded-xl bg-linear-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 hover:border-blue-300 transition-all duration-300"
+                    className="p-6 rounded-xl bg-linear-to-br from-cyan-500 to-blue-500 border-2 border-cyan-400 hover:border-cyan-300 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30"
                   >
                     <div className="flex flex-col items-center text-center">
-                      <div className="w-16 h-16 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-cyan-600 text-3xl shadow-md mb-4">
                         <LuCamera />
                       </div>
-                      <h4 className="font-bold text-blue-700 mb-2">
+                      <h4 className="font-bold text-[#4E56C0] mb-2">
                         Günlük Paylaşım
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-white/95">
                         Fotoğraf ve video paylaşımları ile günlük aktiviteler
                       </p>
                     </div>
@@ -691,16 +724,16 @@ export default function EgitimModelimizPage() {
 
                   <motion.div
                     whileHover={{ y: -5, scale: 1.02 }}
-                    className="p-6 rounded-xl bg-linear-to-br from-green-50 to-emerald-50 border-2 border-green-200 hover:border-green-300 transition-all duration-300"
+                    className="p-6 rounded-xl bg-linear-to-br from-green-500 to-emerald-500 border-2 border-green-400 hover:border-green-300 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/30"
                   >
                     <div className="flex flex-col items-center text-center">
-                      <div className="w-16 h-16 rounded-full bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-green-600 text-3xl shadow-md mb-4">
                         📞
                       </div>
-                      <h4 className="font-bold text-green-700 mb-2">
+                      <h4 className="font-bold text-[#4E56C0] mb-2">
                         Kişisel Görüşme
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-white/95">
                         Birebir takip görüşmeleri ve özel geri bildirimler
                       </p>
                     </div>
@@ -708,16 +741,16 @@ export default function EgitimModelimizPage() {
 
                   <motion.div
                     whileHover={{ y: -5, scale: 1.02 }}
-                    className="p-6 rounded-xl bg-linear-to-br from-purple-50 to-pink-50 border-2 border-purple-200 hover:border-purple-300 transition-all duration-300"
+                    className="p-6 rounded-xl bg-linear-to-br from-purple-500 to-pink-500 border-2 border-purple-400 hover:border-purple-300 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30"
                   >
                     <div className="flex flex-col items-center text-center">
-                      <div className="w-16 h-16 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-3xl shadow-md mb-4">
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-purple-600 text-3xl shadow-md mb-4">
                         📱
                       </div>
-                      <h4 className="font-bold text-purple-700 mb-2">
+                      <h4 className="font-bold text-[#4E56C0] mb-2">
                         Anlık Bildirim
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-white/95">
                         Etkinlik ve gezilerle ilgili hızlı bilgilendirme
                       </p>
                     </div>
@@ -741,7 +774,7 @@ export default function EgitimModelimizPage() {
                     <h3 className="text-2xl md:text-3xl font-bold text-orange-600 mb-2">
                       Modelimizi yakından görün!
                     </h3>
-                    <p className="text-gray-600 text-lg">
+                    <p className="text-white/90 text-lg">
                       Okulu ziyaret edin, sınıflarımızı ve bahçemizi keşfedin.
                     </p>
                   </div>

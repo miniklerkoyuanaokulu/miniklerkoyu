@@ -7,32 +7,25 @@ import { LuChevronRight } from "react-icons/lu";
 
 const slides = [
   {
-    image: "/images/home/hero-1.avif",
-    title: "Varda Minikler Köyü'ne",
+    image: "/images/home/hero-11.avif",
+    title: "Vardalı Minikler Köyü'ne",
     subtitle: "Hoş Geldiniz!",
     description:
       "Doğanın kalbinde, çocukların kahkahalarıyla yankılanan bir öğrenme köyü. Her çocuk kendi ritminde, kendi renginde büyür.",
   },
   {
-    image: "/images/home/hero-2.avif",
+    image: "/images/home/hero-21.avif",
     title: "Doğayla İç İçe",
     subtitle: "Modern Eğitim",
     description:
       "Geniş oyun alanlarımızda çocuklarınız doğayla bağ kurarken, uzman eğitim kadromuzla en kaliteli okul öncesi eğitimi alır.",
   },
   {
-    image: "/images/home/hero-3.avif",
+    image: "/images/home/hero-31.avif",
     title: "Organik Beslenme",
     subtitle: "Sağlıklı Gelişim",
     description:
       "Çocuklarınızın sağlıklı büyümesi için organik ve dengeli beslenme programımızla her öğün özenle hazırlanır.",
-  },
-  {
-    image: "/images/home/hero-4.avif",
-    title: "Güvenli ve Huzurlu",
-    subtitle: "Bir Ortam",
-    description:
-      "Titiz güvenlik önlemlerimiz ve sevgi dolu öğretmenlerimizle çocuklarınız güvende, siz gönül rahatlığıyla işinize odaklanın.",
   },
 ];
 
@@ -144,4 +137,3 @@ export function HeroSlider() {
     </section>
   );
 }
-

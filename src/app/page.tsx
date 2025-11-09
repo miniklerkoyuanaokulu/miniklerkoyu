@@ -80,6 +80,7 @@ function Card({
 export default function HomePage() {
   const [recentPhotos, setRecentPhotos] = useState<MediaItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showWatermark, setShowWatermark] = useState(false);
 
   useEffect(() => {
     async function fetchRecentPhotos() {
@@ -96,14 +97,41 @@ export default function HomePage() {
     fetchRecentPhotos();
   }, []);
 
+  // Scroll pozisyonu takibi - Hero kaybolduğunda filigranı göster
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hero yaklaşık 70vh-100vh, 500px'den sonra filigranı göster
+      setShowWatermark(window.scrollY > 500);
+    };
+
+    handleScroll(); // İlk render'da kontrol et
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       {/* HERO - Full width, behind navbar */}
       <HeroSlider />
 
       {/* Main content wrapper */}
-      <div className="w-full bg-linear-to-b from-green-500 via-emerald-500 to-lime-500">
-        <main className="mx-auto max-w-5xl px-4">
+      <div className="w-full bg-linear-to-b from-green-500 via-emerald-500 to-lime-500 relative">
+        {/* Filigran Logo - Arka plan (sabit) - Scroll sonrası görünür */}
+        <div
+          className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${
+            showWatermark ? "opacity-[0.09]" : "opacity-0"
+          }`}
+        >
+          <Image
+            src="/logo-removebg.png"
+            alt=""
+            fill
+            className="object-contain"
+            priority={false}
+          />
+        </div>
+
+        <main className="mx-auto max-w-5xl px-4 relative z-10">
           {/* Hoşgeldin Bölümü */}
           <section className="py-12 md:py-16">
             <motion.div {...fadeUp} className="mx-auto max-w-4xl">

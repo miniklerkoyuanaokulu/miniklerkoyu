@@ -226,6 +226,7 @@ export default function MedyaPageClient() {
   const [loading, setLoading] = useState(true);
   const [lightIndex, setLightIndex] = useState<number | null>(null);
   const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([]);
+  const [showWatermark, setShowWatermark] = useState(false);
 
   // Medya ve Instagram içeriklerini Firestore'dan yükle
   useEffect(() => {
@@ -256,6 +257,17 @@ export default function MedyaPageClient() {
       }
     }
     loadMedia();
+  }, []);
+
+  // Scroll pozisyonu takibi - Hero kaybolduğunda filigranı göster
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowWatermark(window.scrollY > 300);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Basit sıralama - en yeni önce
@@ -292,8 +304,23 @@ export default function MedyaPageClient() {
           eyebrow="Medya"
           description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
         />
-        <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white">
-          <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+        <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white relative">
+          {/* Filigran Logo */}
+          <div
+            className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${
+              showWatermark ? "opacity-[0.09]" : "opacity-0"
+            }`}
+          >
+            <Image
+              src="/logo-removebg.png"
+              alt=""
+              fill
+              className="object-contain"
+              priority={false}
+            />
+          </div>
+
+          <main className="mx-auto max-w-6xl px-4 py-10 md:py-12 relative z-10">
             <div className="flex items-center justify-center min-h-[400px]">
               <div className="text-center">
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
@@ -314,8 +341,23 @@ export default function MedyaPageClient() {
         description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
       />
 
-      <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white">
-        <main className="mx-auto max-w-6xl px-4 py-10 md:py-12">
+      <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white relative">
+        {/* Filigran Logo - Arka plan (sabit) - Scroll sonrası görünür */}
+        <div
+          className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${
+            showWatermark ? "opacity-[0.09]" : "opacity-0"
+          }`}
+        >
+          <Image
+            src="/logo-removebg.png"
+            alt=""
+            fill
+            className="object-contain"
+            priority={false}
+          />
+        </div>
+
+        <main className="mx-auto max-w-6xl px-4 py-10 md:py-12 relative z-10">
           {/* Boş durum */}
           {items.length === 0 && (
             <div className="mt-10">
