@@ -1,26 +1,22 @@
 # robots.txt for Vardalı Minikler Köyü
 # https://miniklerkoyuanaokulu.com/robots.txt
 
+# General Access Rules
 User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Specific Bots
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Bingbot
 Allow: /
 Disallow: /admin/
 Disallow: /api/
 
 # Sitemap
 Sitemap: https://miniklerkoyuanaokulu.com/sitemap.xml
-
-# Crawl-delay (saniye cinsinden)
-Crawl-delay: 1
-
-# Google Bot
-User-agent: Googlebot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-# Bing Bot
-User-agent: Bingbot
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
