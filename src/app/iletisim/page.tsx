@@ -368,7 +368,7 @@ export default function IletisimPage() {
                     Gelin, birlikte çocuğunuzun dünyasını keşfedelim.
                     <br />
                     <span className="text-green-600 font-bold">
-                      Varda Minikler Köyü
+                      Vardalı Minikler Köyü
                     </span>
                     &apos;nde, minik kalplerin doğayla büyüdüğü bu masalın bir
                     parçası olun.

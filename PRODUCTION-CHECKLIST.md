@@ -101,7 +101,7 @@ Firebase Console → **Authentication** → **Users**
 
 ```typescript
 export const metadata: Metadata = {
-  title: "Varda Minikler Köyü - Doğayla İç İçe Okul Öncesi Eğitim",
+  title: "Vardalı Minikler Köyü - Doğayla İç İçe Okul Öncesi Eğitim",
   description:
     "Adana Çukurova'da, doğanın içinde çocuklarınız için modern eğitim anlayışıyla okul öncesi eğitim hizmeti sunuyoruz.",
   keywords: [
@@ -113,10 +113,10 @@ export const metadata: Metadata = {
     "minikler köyü",
   ],
   openGraph: {
-    title: "Varda Minikler Köyü",
+    title: "Vardalı Minikler Köyü",
     description: "Doğayla iç içe okul öncesi eğitim",
     url: "https://yourdomain.com",
-    siteName: "Varda Minikler Köyü",
+    siteName: "Vardalı Minikler Köyü",
     images: [
       {
         url: "/images/home/hero.avif",
@@ -129,7 +129,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Varda Minikler Köyü",
+    title: "Vardalı Minikler Köyü",
     description: "Doğayla iç içe okul öncesi eğitim",
     images: ["/images/home/hero.avif"],
   },

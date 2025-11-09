@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://miniklerkoyuanaokulu.com"),
   title: {
-    default: "Varda Minikler Köyü - Doğayla İç İçe Anaokulu | Adana",
-    template: "%s | Varda Minikler Köyü",
+    default: "Vardalı Minikler Köyü - Doğayla İç İçe Anaokulu | Adana",
+    template: "%s | Vardalı Minikler Köyü",
   },
   description:
     "Adana Çukurova'da, doğanın içinde çocuklarınız için modern eğitim anlayışıyla okul öncesi eğitim hizmeti sunuyoruz. Organik beslenme, geniş oyun alanları ve titiz güvenlik ile çocuklarınızın doğal gelişimini destekliyoruz.",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     "montessori adana",
     "özel anaokulu adana",
   ],
-  authors: [{ name: "Varda Minikler Köyü" }],
-  creator: "Varda Minikler Köyü",
-  publisher: "Varda Minikler Köyü",
+  authors: [{ name: "Vardalı Minikler Köyü" }],
+  creator: "Vardalı Minikler Köyü",
+  publisher: "Vardalı Minikler Köyü",
   formatDetection: {
     email: false,
     address: false,
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "tr_TR",
     url: "https://miniklerkoyuanaokulu.com",
-    siteName: "Varda Minikler Köyü",
-    title: "Varda Minikler Köyü - Doğayla İç İçe Anaokulu",
+    siteName: "Vardalı Minikler Köyü",
+    title: "Vardalı Minikler Köyü - Doğayla İç İçe Anaokulu",
     description:
       "Adana Çukurova'da, doğanın içinde çocuklarınız için modern eğitim anlayışıyla okul öncesi eğitim hizmeti sunuyoruz.",
     images: [
@@ -71,14 +71,14 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Varda Minikler Köyü Anaokulu",
+        alt: "Vardalı Minikler Köyü Anaokulu",
         type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Varda Minikler Köyü - Doğayla İç İçe Anaokulu",
+    title: "Vardalı Minikler Köyü - Doğayla İç İçe Anaokulu",
     description:
       "Adana Çukurova'da, doğanın içinde çocuklarınız için modern eğitim anlayışıyla okul öncesi eğitim hizmeti sunuyoruz.",
     images: ["/og-image.jpg"],

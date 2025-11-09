@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     canonical: "https://miniklerkoyuanaokulu.com/egitim-modelimiz",
   },
   openGraph: {
-    title: "Eğitim Modelimiz | Varda Minikler Köyü",
+    title: "Eğitim Modelimiz | Vardalı Minikler Köyü",
     description:
       "Oyun temelli öğrenme, doğayla iç içe eğitim ve bireysel gelişim odaklı modern eğitim modelimizi keşfedin.",
     url: "https://miniklerkoyuanaokulu.com/egitim-modelimiz",

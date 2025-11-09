@@ -24,7 +24,7 @@
 1. Sol alttaki **"Admin"** (Yönetici) sekmesine tıklayın
 2. **"Create Property"** (Property Oluştur) butonuna tıklayın
 3. Property bilgilerini doldurun:
-   - **Property adı:** "Varda Minikler Köyü"
+   - **Property adı:** "Vardalı Minikler Köyü"
    - **Saat dilimi:** "Turkey" (GMT+3)
    - **Para birimi:** "Turkish Lira (TRY)"
 4. **"Next"** butonuna tıklayın
@@ -38,7 +38,7 @@
 #### d) Web Veri Akışı Oluşturma
 1. **"Web"** seçeneğini seçin
 2. **Website URL:** Sitenizin tam URL'ini girin (örn: https://miniklerkoyuanaokulu.com)
-3. **Stream name:** "Varda Minikler Köyü Website"
+3. **Stream name:** "Vardalı Minikler Köyü Website"
 4. **"Create stream"** butonuna tıklayın
 
 #### e) Measurement ID'yi Kaydetme

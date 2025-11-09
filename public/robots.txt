@@ -1,4 +1,4 @@
-# robots.txt for Varda Minikler Köyü
+# robots.txt for Vardalı Minikler Köyü
 # https://miniklerkoyuanaokulu.com/robots.txt
 
 User-agent: *

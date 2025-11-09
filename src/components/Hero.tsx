@@ -11,7 +11,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <Image
           src="/images/home/hero.avif"
-          alt="Varda Minikler Köyü"
+          alt="Vardalı Minikler Köyü"
           fill
           sizes="100vw"
           className="object-cover object-center md:object-fill"
@@ -24,7 +24,7 @@ export function Hero() {
       {/* Content - Centered */}
       <div className="relative z-10 mx-auto max-w-5xl px-4 py-8 md:py-0 text-center">
         <p className="mt-12 md:mt-20 text-xl sm:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)] md:text-4xl lg:text-5xl font-extrabold leading-tight">
-          Varda Minikler Köyü&apos;ne Hoş Geldiniz!
+          Vardalı Minikler Köyü&apos;ne Hoş Geldiniz!
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link

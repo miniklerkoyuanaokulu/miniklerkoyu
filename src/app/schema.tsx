@@ -5,7 +5,7 @@ export default function SchemaOrg() {
       {
         "@type": "EducationalOrganization",
         "@id": "https://miniklerkoyuanaokulu.com/#organization",
-        "name": "Varda Minikler Köyü Anaokulu",
+        "name": "Vardalı Minikler Köyü Anaokulu",
         "alternateName": "Minikler Köyü",
         "url": "https://miniklerkoyuanaokulu.com",
         "logo": {
@@ -37,7 +37,7 @@ export default function SchemaOrg() {
         "@type": "WebSite",
         "@id": "https://miniklerkoyuanaokulu.com/#website",
         "url": "https://miniklerkoyuanaokulu.com",
-        "name": "Varda Minikler Köyü",
+        "name": "Vardalı Minikler Köyü",
         "description": "Doğayla iç içe anaokulu ve okul öncesi eğitim",
         "publisher": {
           "@id": "https://miniklerkoyuanaokulu.com/#organization"
@@ -47,7 +47,7 @@ export default function SchemaOrg() {
       {
         "@type": "LocalBusiness",
         "@id": "https://miniklerkoyuanaokulu.com/#localbusiness",
-        "name": "Varda Minikler Köyü Anaokulu",
+        "name": "Vardalı Minikler Köyü Anaokulu",
         "image": [
           "https://miniklerkoyuanaokulu.com/og-image.jpg",
           "https://miniklerkoyuanaokulu.com/web-app-manifest-512x512.png"

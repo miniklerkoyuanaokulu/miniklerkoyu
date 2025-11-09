@@ -2,12 +2,12 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "KVKK Aydınlatma Metni ve Açık Rıza",
-  description: "Varda Minikler Köyü KVKK (Kişisel Verilerin Korunması Kanunu) Aydınlatma Metni ve Açık Rıza Beyanı. Kişisel verilerinizin işlenmesi ve korunması hakkında bilgilendirme.",
+  description: "Vardalı Minikler Köyü KVKK (Kişisel Verilerin Korunması Kanunu) Aydınlatma Metni ve Açık Rıza Beyanı. Kişisel verilerinizin işlenmesi ve korunması hakkında bilgilendirme.",
   alternates: {
     canonical: "https://miniklerkoyuanaokulu.com/kvkk",
   },
   openGraph: {
-    title: "KVKK Aydınlatma Metni | Varda Minikler Köyü",
+    title: "KVKK Aydınlatma Metni | Vardalı Minikler Köyü",
     description: "Kişisel verilerinizin işlenmesi ve korunması hakkında bilgilendirme metni.",
     url: "https://miniklerkoyuanaokulu.com/kvkk",
     images: ["/og-image.jpg"],

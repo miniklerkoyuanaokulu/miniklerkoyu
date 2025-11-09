@@ -67,7 +67,7 @@ export default function KVKKPage() {
                 <p>
                   6698 sayılı Kişisel Verilerin Korunması Kanunu
                   (&quot;KVKK&quot;) uyarınca, kişisel verileriniz; veri
-                  sorumlusu olarak Varda Minikler Köyü (Fuar Alanı Kavşağı,
+                  sorumlusu olarak Vardalı Minikler Köyü (Fuar Alanı Kavşağı,
                   Prof. Dr. Necmettin Erbakan Bulvarı 262/1A, ÇUKUROVA/ADANA)
                   tarafından aşağıda açıklanan kapsamda işlenecektir.
                 </p>
@@ -172,7 +172,7 @@ export default function KVKKPage() {
                   bilgileri üzerinden ulaştırabilirsiniz:
                 </p>
                 <div className="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <p className="font-semibold">Varda Minikler Köyü</p>
+                  <p className="font-semibold">Vardalı Minikler Köyü</p>
                   <p className="mt-1">
                     Adres: Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan
                     Bulvarı 262/1A, ÇUKUROVA/ADANA
@@ -200,7 +200,7 @@ export default function KVKKPage() {
               <section>
                 <p>
                   6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca,
-                  <strong> Varda Minikler Köyü</strong> tarafından hazırlanan
+                  <strong> Vardalı Minikler Köyü</strong> tarafından hazırlanan
                   KVKK Aydınlatma Metni&apos;ni okudum, anladım ve kabul
                   ediyorum.
                 </p>

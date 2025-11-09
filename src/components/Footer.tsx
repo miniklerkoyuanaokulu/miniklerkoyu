@@ -40,7 +40,7 @@ export function Footer() {
             <div className="relative h-16 w-16 shrink-0">
               <Image
                 src="/logo.jpg"
-                alt="Varda Minikler Köyü Logo"
+                alt="Vardalı Minikler Köyü Logo"
                 fill
                 sizes="64px"
                 className="object-contain rounded-full group-hover:scale-110 transition-transform duration-300"

@@ -151,7 +151,7 @@ export default function HomePage() {
                       deniyor ve hissediyor.
                     </p>
                     <p>
-                      Varda Minikler Köyü Anaokulu&apos;nda eğitim dört duvarla
+                      Vardalı Minikler Köyü Anaokulu&apos;nda eğitim dört duvarla
                       sınırlı değildir: bahçemiz, atölyemiz, mutfağımız ve
                       hayvan dostlarımız en doğal sınıflarımızdır. Her çocuk
                       kendi ritminde, kendi renginde, kendi merakının izinde
