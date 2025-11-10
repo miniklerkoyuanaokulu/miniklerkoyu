@@ -4,6 +4,7 @@
  * - https://www.youtube.com/watch?v=VIDEO_ID
  * - https://youtu.be/VIDEO_ID
  * - https://www.youtube.com/embed/VIDEO_ID
+ * - https://www.youtube.com/shorts/VIDEO_ID
  */
 export function extractYouTubeVideoId(url: string): string | null {
   try {
@@ -21,6 +22,11 @@ export function extractYouTubeVideoId(url: string): string | null {
     
     // youtube.com/embed/VIDEO_ID
     if (urlObj.hostname.includes('youtube.com') && urlObj.pathname.startsWith('/embed/')) {
+      return urlObj.pathname.split('/')[2];
+    }
+    
+    // youtube.com/shorts/VIDEO_ID (YouTube Shorts)
+    if (urlObj.hostname.includes('youtube.com') && urlObj.pathname.startsWith('/shorts/')) {
       return urlObj.pathname.split('/')[2];
     }
     
