@@ -48,7 +48,7 @@ export default function IletisimPage() {
         description="Bize ulaşın, soruların yanıtını alın ve Minikler Köyü ailesinin bir parçası olun"
       />
 
-      <div className="w-full bg-linear-to-b from-orange-100/70 via-amber-50/50 to-white relative">
+      <div className="w-full bg-linear-to-b from-orange-600 via-orange-500 to-amber-500 relative">
         {/* Filigran Logo - Arka plan (sabit) - Scroll sonrası görünür */}
         <div
           className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${
@@ -75,10 +75,10 @@ export default function IletisimPage() {
               transition={{ duration: 0.6 }}
               className="text-center mb-10"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
                 Bize Ulaşın
               </h2>
-              <p className="text-gray-600 text-lg">
+              <p className="text-white/90 text-lg">
                 Gelin, birlikte çocuğunuzun dünyasını keşfedelim. &apos;Varda
                 Minikler Köyü&apos;nde, minik kalplerin doğayla büyüdüğü bu
                 masalın bir parçası olun.
@@ -94,7 +94,7 @@ export default function IletisimPage() {
                 transition={{ duration: 0.4 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-6 h-full border-2 hover:border-green-300 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                       <LuMapPin />
@@ -128,7 +128,7 @@ export default function IletisimPage() {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-6 h-full border-2 hover:border-blue-300 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                       <LuPhone />
@@ -166,7 +166,7 @@ export default function IletisimPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Card className="p-6 h-full border-2 hover:border-green-400 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                  <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                         <FaWhatsapp />
@@ -198,7 +198,7 @@ export default function IletisimPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Card className="p-6 h-full border-2 hover:border-pink-300 hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                  <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-pink-500 via-purple-500 to-orange-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                         <FaInstagram />
@@ -250,10 +250,10 @@ export default function IletisimPage() {
               transition={{ duration: 0.6 }}
               className="text-center mb-10"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
                 Konumumuz
               </h2>
-              <p className="text-gray-600 text-lg">
+              <p className="text-white/90 text-lg">
                 Fuar Alanı Kavşağı&apos;nda, kolay ulaşılabilir konumdayız
               </p>
             </motion.div>
@@ -264,7 +264,7 @@ export default function IletisimPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Card className="overflow-hidden border-2 border-blue-200 hover:border-blue-300 hover:shadow-2xl transition-all duration-300">
+              <Card className="overflow-hidden border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 bg-white">
                 <div className="relative w-full h-[400px] md:h-[500px]">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3183.977348220757!2d35.24460307585013!3d37.05802297217478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152889346d026415%3A0x737ea527e966c7dc!2zVmFyZGFsxLEgTWluaWtsZXIgS8O2ecO8!5e0!3m2!1str!2str!4v1762176462875!5m2!1str!2str"
@@ -280,7 +280,7 @@ export default function IletisimPage() {
                 </div>
 
                 {/* Harita altı bilgi kartı */}
-                <div className="p-6 bg-linear-to-r from-blue-50 to-cyan-50 border-t-2 border-blue-200">
+                <div className="p-6 bg-white border-t-2 border-gray-200">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="flex items-start gap-3">
                       <div className="w-12 h-12 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shrink-0">
@@ -324,10 +324,10 @@ export default function IletisimPage() {
               transition={{ duration: 0.6 }}
               className="text-center mb-10"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
                 Ön Kayıt Formu
               </h2>
-              <p className="text-gray-600 text-lg">
+              <p className="text-white/90 text-lg">
                 Minikler Köyü ailesine katılmak için ilk adımı atın
               </p>
             </motion.div>
@@ -352,7 +352,7 @@ export default function IletisimPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-12"
           >
-            <Card className="relative overflow-hidden border-2 border-green-200 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
+            <Card className="relative overflow-hidden border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
               <div className="absolute top-0 left-0 w-64 h-64 bg-linear-to-br from-green-200/30 to-emerald-200/30 rounded-full blur-3xl" />
               <div className="absolute bottom-0 right-0 w-64 h-64 bg-linear-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl" />
 
@@ -361,7 +361,7 @@ export default function IletisimPage() {
                   <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-green-500 to-emerald-500 text-white text-4xl mb-6 shadow-xl">
                     🌳
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                  <h3 className="text-2xl md:text-3xl font-bold text-orange-600 mb-4">
                     Doğanın İçinde Büyüyen Çocuklar
                   </h3>
                   <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-6">
@@ -385,7 +385,7 @@ export default function IletisimPage() {
                       href="https://wa.me/905522897191"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-green-500 text-green-600 font-semibold rounded-xl shadow-lg hover:bg-green-50 transition-all duration-300"
+                      className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-orange-500 text-orange-600 font-semibold rounded-xl shadow-lg hover:bg-orange-50 transition-all duration-300"
                     >
                       <FaWhatsapp />
                       WhatsApp

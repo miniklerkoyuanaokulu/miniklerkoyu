@@ -52,10 +52,10 @@ const fadeUp = {
 function SectionTitle({ title, id }: { title: string; id?: string }) {
   return (
     <motion.div {...fadeUp}>
-      <h2 id={id} className="text-2xl md:text-3xl font-bold text-primary">
+      <h2 id={id} className="text-2xl md:text-3xl font-bold text-white">
         {title}
       </h2>
-      <div className="mt-3 h-1 w-20 rounded-full bg-secondary" />
+      <div className="mt-3 h-1 w-20 rounded-full bg-white" />
     </motion.div>
   );
 }
@@ -303,8 +303,9 @@ export default function MedyaPageClient() {
         <PageHero
           eyebrow="Medya"
           description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
+          backgroundImage="/images/pages/medya-page.avif"
         />
-        <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white relative">
+        <div className="w-full bg-linear-to-b from-pink-600 via-rose-500 to-fuchsia-500 relative">
           {/* Filigran Logo */}
           <div
             className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${
@@ -339,9 +340,10 @@ export default function MedyaPageClient() {
       <PageHero
         eyebrow="Medya"
         description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
+        backgroundImage="/images/pages/medya-page.avif"
       />
 
-      <div className="w-full bg-linear-to-b from-purple-100/70 via-blue-100/50 to-white relative">
+      <div className="w-full bg-linear-to-b from-pink-600 via-rose-500 to-fuchsia-500 relative">
         {/* Filigran Logo - Arka plan (sabit) - Scroll sonrası görünür */}
         <div
           className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 transition-opacity duration-500 ${

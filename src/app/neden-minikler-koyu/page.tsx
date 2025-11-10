@@ -84,6 +84,7 @@ export default function NedenPage() {
       <PageHero
         eyebrow="Neden Minikler Köyü?"
         description="Organik beslenme, geniş oyun alanları ve titiz güvenlik prosedürleri ile miniklerin doğayla iç içe geliştiği bir ortam."
+        backgroundImage="/images/pages/neden-miniker-koyu-page.avif"
       />
 
       <div className="w-full bg-linear-to-b from-red-600 via-[#CB0404] to-rose-500 relative">
@@ -202,7 +203,7 @@ export default function NedenPage() {
                 <Card className="overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 border-white/30 hover:border-white/50 bg-white">
                   <div className="relative h-72 w-full">
                     <Image
-                      src="/images/neden/beslenme.jpg"
+                      src="/images/neden/beslenme1.avif"
                       alt="Organik beslenme"
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"

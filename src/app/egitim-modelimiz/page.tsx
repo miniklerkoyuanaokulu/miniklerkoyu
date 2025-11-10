@@ -95,6 +95,7 @@ export default function EgitimModelimizPage() {
       <PageHero
         eyebrow="Eğitim Modelimiz"
         description="Oyun temelli ve doğa ile iç içe eğitim yaklaşımı. Zengin branş dersleri, düzen ve özgürlük dengesi, sürekli rehberlik."
+        backgroundImage="/images/pages/egitim-modelimiz-page.avif"
       />
 
       <div className="w-full bg-linear-to-b from-indigo-600 via-[#4E56C0] to-blue-500 relative">

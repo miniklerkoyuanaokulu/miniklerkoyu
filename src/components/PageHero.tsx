@@ -6,15 +6,16 @@ import { motion } from "framer-motion";
 interface PageHeroProps {
   eyebrow?: string;
   description?: string;
+  backgroundImage?: string;
 }
 
-export function PageHero({ eyebrow, description }: PageHeroProps) {
+export function PageHero({ eyebrow, description, backgroundImage = "/images/pages/hero-for-pages3.avif" }: PageHeroProps) {
   return (
     <section className="relative w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/pages/hero-for-pages3.avif"
+          src={backgroundImage}
           alt="Hero background"
           fill
           sizes="100vw"
