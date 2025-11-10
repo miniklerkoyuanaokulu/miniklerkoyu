@@ -74,7 +74,7 @@ export default function KurumsalPage() {
       <PageHero
         eyebrow="Kurumsal"
         description="Çocukların duygu, zihin ve beden gelişimini doğanın ritmiyle destekleyen, oyun temelli öğrenme yaklaşımı."
-        backgroundImage="/images/pages/hakkimizda-page.avif"
+        backgroundImage="/images/pages/hakkimizda-page1.avif"
       />
 
       <div className="w-full bg-linear-to-b from-cyan-100/70 via-blue-100/50 to-white relative">
