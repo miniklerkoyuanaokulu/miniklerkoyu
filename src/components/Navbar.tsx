@@ -149,7 +149,7 @@ export function Navbar() {
           <div className="relative h-22 w-22 shrink-0">
             <Image
               src="/logo.jpg"
-              alt="Vardalı Minikler Köyü Logo"
+              alt="Vardalı Minikler Köyü Anaokulu logosu - Adana Çukurova okul öncesi eğitim"
               fill
               sizes="88px"
               className="object-contain rounded-full"

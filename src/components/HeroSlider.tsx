@@ -69,7 +69,7 @@ export function HeroSlider() {
             {/* Background Image */}
             <Image
               src={slide.image}
-              alt={slide.title}
+              alt={`Vardalı Minikler Köyü Anaokulu - ${slide.title} ${slide.subtitle} - Adana Çukurova doğa ile iç içe okul öncesi eğitim`}
               fill
               sizes="100vw"
               className="object-cover object-center md:object-fill"

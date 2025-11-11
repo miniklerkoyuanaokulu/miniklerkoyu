@@ -44,7 +44,7 @@ export default function IletisimPage() {
     <>
       {/* HERO */}
       <PageHero
-        eyebrow="İletişim"
+        eyebrow="İletişim ve Ön Kayıt"
         description="Bize ulaşın, soruların yanıtını alın ve Minikler Köyü ailesinin bir parçası olun"
       />
 
@@ -57,7 +57,7 @@ export default function IletisimPage() {
         >
           <Image
             src="/logo-removebg.png"
-            alt=""
+            alt="Vardalı Minikler Köyü Anaokulu iletişim - Adana Çukurova ön kayıt ve bilgi"
             fill
             sizes="800px"
             className="object-contain"
@@ -80,7 +80,7 @@ export default function IletisimPage() {
                 Bize Ulaşın
               </h2>
               <p className="text-white/90 text-lg">
-                Gelin, birlikte çocuğunuzun dünyasını keşfedelim. &apos;Varda
+                Gelin, birlikte çocuğunuzun dünyasını keşfedelim. &apos;Vardalı
                 Minikler Köyü&apos;nde, minik kalplerin doğayla büyüdüğü bu
                 masalın bir parçası olun.
               </p>
@@ -288,9 +288,9 @@ export default function IletisimPage() {
                         <LuMapPin className="w-6 h-6" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-800 mb-1">
+                        <h3 className="font-bold text-gray-800 mb-1">
                           Fuar Alanı Kavşağı
-                        </h4>
+                        </h3>
                         <p className="text-sm text-gray-600">
                           Prof. Dr. Necmettin Erbakan Bulvarı 262/1A
                           <br />

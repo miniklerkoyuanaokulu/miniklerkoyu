@@ -18,7 +18,7 @@ export function Footer() {
       <div className="absolute top-0 left-0 right-0 w-full h-auto pointer-events-none select-none z-10">
         <Image
           src="/images/footer/bulut-ust.png"
-          alt="Bulut dekorasyonu"
+          alt="Vardalı Minikler Köyü Anaokulu - Doğa temalı bulut dekorasyonu"
           width={1920}
           height={200}
           className="w-full h-auto object-cover"
@@ -40,7 +40,7 @@ export function Footer() {
             <div className="relative h-16 w-16 shrink-0">
               <Image
                 src="/logo.jpg"
-                alt="Vardalı Minikler Köyü Logo"
+                alt="Vardalı Minikler Köyü Anaokulu logosu - Adana Çukurova'da okul öncesi eğitim"
                 fill
                 sizes="64px"
                 className="object-contain rounded-full group-hover:scale-110 transition-transform duration-300"

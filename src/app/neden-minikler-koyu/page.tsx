@@ -96,7 +96,7 @@ export default function NedenPage() {
         >
           <Image
             src="/logo-removebg.png"
-            alt=""
+            alt="Vardalı Minikler Köyü Anaokulu logosu - Adana Çukurova organik beslenme ve güvenli eğitim"
             fill
             sizes="800px"
             className="object-contain"
@@ -135,11 +135,11 @@ export default function NedenPage() {
                     <p>
                       Çocuklarımızın beslenme ile ilgili özel durumları
                       velilerimizden bilgi alınarak menü oluştururken bize
-                      destek olur. Okulumuzun mutfağında tecrübeli bir anne ve
-                      aşçı olan <strong>Elif ablamızın</strong> tamamen organik
-                      ürünlerle hazırladığı taze yemekler sabah kahvaltısı, öğle
-                      yemeği ve ikindi kahvaltısı şeklinde miniklerimiz ve
-                      öğretmenlerimize servis edilir.
+                      destek olur. Okulumuzun mutfağında, tecrübeli birer anne
+                      olan ablalarımızın tamamen organik ürünlerle hazırladığı
+                      taze yemekler sabah kahvaltısı, öğle yemeği ve ikindi
+                      kahvaltısı şeklinde miniklerimiz ve öğretmenlerimize
+                      servis edilir.
                     </p>
                     <p>
                       Organik süt ile ev yapımı yoğurt, ev salçası, haftalık
@@ -205,7 +205,7 @@ export default function NedenPage() {
                   <div className="relative h-72 w-full">
                     <Image
                       src="/images/neden/beslenme1.avif"
-                      alt="Organik beslenme"
+                      alt="Vardalı Minikler Köyü organik beslenme - Adana'da taze ve ev yapımı ürünlerle sağlıklı anaokulu menüleri"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -368,7 +368,7 @@ export default function NedenPage() {
                 >
                   <Image
                     src={`/images/neden/${item.key}.jpg`}
-                    alt={item.label}
+                    alt={`Vardalı Minikler Köyü ${item.label} - Adana Çukurova'da 1100 m² geniş oyun alanları`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"

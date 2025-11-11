@@ -86,7 +86,7 @@ export default function KurumsalPage() {
         >
           <Image
             src="/logo-removebg.png"
-            alt=""
+            alt="Vardalı Minikler Köyü Anaokulu logosu - Adana Çukurova okul öncesi eğitim"
             fill
             sizes="800px"
             className="object-contain"
@@ -133,9 +133,9 @@ export default function KurumsalPage() {
                         💚
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-1">
+                        <h3 className="font-semibold text-gray-800 mb-1">
                           Duygusal Gelişim
-                        </h4>
+                        </h3>
                         <p className="text-sm text-gray-600">
                           Her çocuğun duygusal ihtiyaçlarına özel yaklaşım
                         </p>
@@ -150,9 +150,9 @@ export default function KurumsalPage() {
                         🧠
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-1">
+                        <h3 className="font-semibold text-gray-800 mb-1">
                           Bilişsel Gelişim
-                        </h4>
+                        </h3>
                         <p className="text-sm text-gray-600">
                           Keşfederek öğrenme ve merak odaklı eğitim
                         </p>
@@ -167,9 +167,9 @@ export default function KurumsalPage() {
                         🤝
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-1">
+                        <h3 className="font-semibold text-gray-800 mb-1">
                           Sosyal Gelişim
-                        </h4>
+                        </h3>
                         <p className="text-sm text-gray-600">
                           Paylaşma, işbirliği ve empati becerileri
                         </p>
@@ -210,7 +210,7 @@ export default function KurumsalPage() {
                     <div className="relative h-80 w-full overflow-hidden rounded-xl">
                       <Image
                         src="/images/kurumsal/hakkimizda1.avif"
-                        alt="Doğanın içinde anaokulu"
+                        alt="Vardalı Minikler Köyü Adana Çukurova - Doğanın içinde güvenli ve sıcak okul öncesi eğitim ortamı"
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -418,6 +418,13 @@ export default function KurumsalPage() {
                     olan ŞAHİN, öğrencilerinin ve çalışma arkadaşlarının
                     takdirini kazanmış, lider ruhlu bir eğitimcidir.
                   </p>
+                  <p>
+                    20 yıl aşkın eğitim tecrübesiyle, okul öncesi eğitimde de
+                    aynı disiplin ve özveriyle değerlerini bilen ve sahip çıkan
+                    bireyler yetiştirmeyi hedeflemektedir. Bununla birlikte asıl
+                    hedef çocukların doğadan uzaklaşmadan keyifle büyümelerini
+                    izlemektir.
+                  </p>
                 </motion.div>
               </div>
               <motion.div {...fadeIn}>
@@ -425,7 +432,7 @@ export default function KurumsalPage() {
                   <div className="relative h-80 w-full">
                     <Image
                       src="/images/kurumsal/kurucu.jpg"
-                      alt="Kurucumuz Mahmut Şahin"
+                      alt="Mahmut Şahin - Vardalı Minikler Köyü Anaokulu kurucusu ve eğitimci, Adana"
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
@@ -598,9 +605,9 @@ export default function KurumsalPage() {
                       <div className="w-14 h-14 rounded-full bg-linear-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-2xl shadow-lg">
                         🏏
                       </div>
-                      <h4 className="text-xl font-bold text-orange-700">
+                      <h3 className="text-xl font-bold text-orange-700">
                         Oyun, Öğrenmenin Kalbidir
-                      </h4>
+                      </h3>
                     </div>
                     <p className="text-gray-700 leading-relaxed mb-4">
                       Bizim için oyun, bir ders değil; bir yaşam biçimidir.
@@ -643,7 +650,7 @@ export default function KurumsalPage() {
                     <div className="relative h-80 w-full overflow-hidden rounded-xl">
                       <Image
                         src="/images/kurumsal/felsefe.jpg"
-                        alt="Oyun temelli öğrenme"
+                        alt="Vardalı Minikler Köyü'nde oyun temelli öğrenme ve doğa ile keşfetme aktiviteleri - Adana anaokulu"
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -736,9 +743,9 @@ export default function KurumsalPage() {
                     <div className="w-12 h-12 rounded-full bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl">
                       👩‍🏫
                     </div>
-                    <h4 className="font-bold text-gray-800">
+                    <h3 className="font-bold text-gray-800">
                       Sınıf Öğretmenleri
-                    </h4>
+                    </h3>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     Alanında deneyimli ve{" "}
@@ -765,9 +772,9 @@ export default function KurumsalPage() {
                     <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl">
                       👶
                     </div>
-                    <h4 className="font-bold text-gray-800">
+                    <h3 className="font-bold text-gray-800">
                       Yardımcı Öğretmenler
-                    </h4>
+                    </h3>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     <strong className="text-blue-700">Çocuk Gelişimi</strong>{" "}
@@ -791,9 +798,9 @@ export default function KurumsalPage() {
                     <div className="w-12 h-12 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl">
                       🎨
                     </div>
-                    <h4 className="font-bold text-gray-800">
+                    <h3 className="font-bold text-gray-800">
                       Branş Öğretmenleri
-                    </h4>
+                    </h3>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     Alanında uzman{" "}
@@ -813,9 +820,9 @@ export default function KurumsalPage() {
                     ❤️
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">
+                    <h3 className="text-xl font-bold mb-2">
                       Eğitimde Devamlılık
-                    </h4>
+                    </h3>
                     <p className="text-white text-xl leading-relaxed">
                       Okulumuzda miniklerimizin mutluluğu ve eğitimde devamlılık
                       esası için çocuklarımızın ilk kayıt oldukları dönemden
@@ -839,7 +846,7 @@ export default function KurumsalPage() {
                     <div className="relative h-56 w-full overflow-hidden">
                       <Image
                         src={`/images/kurumsal/ekip-${i}.jpg`}
-                        alt={`Ekip üyesi ${i}`}
+                        alt={`Vardalı Minikler Köyü öğretmen kadrosu - Okul öncesi eğitim uzmanı Adana`}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"

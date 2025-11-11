@@ -9,14 +9,18 @@ interface PageHeroProps {
   backgroundImage?: string;
 }
 
-export function PageHero({ eyebrow, description, backgroundImage = "/images/pages/hero-for-pages3.avif" }: PageHeroProps) {
+export function PageHero({
+  eyebrow,
+  description,
+  backgroundImage = "/images/pages/hero-for-pages3.avif",
+}: PageHeroProps) {
   return (
     <section className="relative w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
         <Image
           src={backgroundImage}
-          alt="Hero background"
+          alt="Vardalı Minikler Köyü Anaokulu - Adana Çukurova'da doğa ile iç içe okul öncesi eğitim ortamı"
           fill
           sizes="100vw"
           className="object-cover blur-[2px] scale-105"

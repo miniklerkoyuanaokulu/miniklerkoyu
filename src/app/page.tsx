@@ -124,7 +124,7 @@ export default function HomePage() {
         >
           <Image
             src="/logo-removebg.png"
-            alt=""
+            alt="Vardalı Minikler Köyü Anaokulu logosu - Adana Çukurova"
             fill
             sizes="800px"
             className="object-contain"
@@ -138,11 +138,11 @@ export default function HomePage() {
             <motion.div {...fadeUp} className="mx-auto max-w-4xl">
               <Card className="overflow-hidden bg-white border-2 border-primary/20 shadow-xl">
                 <div className="p-8 md:p-12 text-center">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6">
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6">
                     <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
                       &quot;Sil Baştan&quot; Değil &quot;En Baştan&quot;
                     </span>
-                  </h2>
+                  </h1>
                   <div className="space-y-4 text-base md:text-lg text-muted-foreground leading-relaxed">
                     <p>
                       Doğanın kalbinde, çocukların kahkahalarıyla yankılanan bir
@@ -152,9 +152,9 @@ export default function HomePage() {
                       deniyor ve hissediyor.
                     </p>
                     <p>
-                      Vardalı Minikler Köyü Anaokulu&apos;nda eğitim dört duvarla
-                      sınırlı değildir: bahçemiz, atölyemiz, mutfağımız ve
-                      hayvan dostlarımız en doğal sınıflarımızdır. Her çocuk
+                      Vardalı Minikler Köyü Anaokulu&apos;nda eğitim dört
+                      duvarla sınırlı değildir: bahçemiz, atölyemiz, mutfağımız
+                      ve hayvan dostlarımız en doğal sınıflarımızdır. Her çocuk
                       kendi ritminde, kendi renginde, kendi merakının izinde
                       büyür.
                     </p>
@@ -340,7 +340,7 @@ export default function HomePage() {
                     <div className="relative h-64 w-full overflow-hidden rounded-xl">
                       <Image
                         src="/images/home/gun-akisi.jpg"
-                        alt="Günlük akış"
+                        alt="Vardalı Minikler Köyü günlük eğitim akışı - Adana'da doğa ile iç içe anaokulu aktiviteleri"
                         fill
                         sizes="(max-width: 768px) 100vw, 600px"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -702,11 +702,11 @@ export default function HomePage() {
                       Kayıtlar Devam Ediyor
                     </div>
 
-                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
                       <span className="bg-linear-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
                         Gelin, birlikte çocuğunuzun dünyasını keşfedelim
                       </span>
-                    </h3>
+                    </h2>
 
                     <p className="text-gray-600 text-lg mb-6 max-w-2xl">
                       Minik kalplerin doğayla büyüdüğü bu masalın parçası olun.

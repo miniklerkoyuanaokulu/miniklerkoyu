@@ -107,7 +107,7 @@ export default function EgitimModelimizPage() {
         >
           <Image
             src="/logo-removebg.png"
-            alt=""
+            alt="Vardalı Minikler Köyü Anaokulu logosu - Adana oyun temelli eğitim modeli"
             fill
             sizes="800px"
             className="object-contain"
@@ -522,9 +522,9 @@ export default function EgitimModelimizPage() {
                           <LuUsers className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-[#4E56C0] text-lg mb-2">
+                          <h3 className="font-bold text-[#4E56C0] text-lg mb-2">
                             Veli Görüşmeleri
-                          </h4>
+                          </h3>
                           <p className="text-sm text-gray-600 leading-relaxed">
                             Düzenli görüşmelerle ailelerin gözlem ve
                             endişelerini dinler, birlikte çözüm üretiriz
@@ -539,9 +539,9 @@ export default function EgitimModelimizPage() {
                           <LuEye className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-purple-600 text-lg mb-2">
+                          <h3 className="font-bold text-purple-600 text-lg mb-2">
                             Gözlem Formları
-                          </h4>
+                          </h3>
                           <p className="text-sm text-gray-600 leading-relaxed">
                             Sistematik gözlemlerle çocukların gelişim alanları
                             detaylı takip edilir
@@ -556,9 +556,9 @@ export default function EgitimModelimizPage() {
                           <LuFileText className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-blue-600 text-lg mb-2">
+                          <h3 className="font-bold text-blue-600 text-lg mb-2">
                             Periyodik Raporlar
-                          </h4>
+                          </h3>
                           <p className="text-sm text-gray-600 leading-relaxed">
                             Gelişim yolculuğu kapsamlı raporlarla bütüncül
                             olarak sunulur
@@ -668,7 +668,7 @@ export default function EgitimModelimizPage() {
                 <div className="relative h-48 rounded-xl overflow-hidden border-2 border-gray-200 group-hover:border-orange-300 transition-all duration-300 shadow-md group-hover:shadow-xl">
                   <Image
                     src={`/images/egitim/etkinlik-${i}.jpg`}
-                    alt={`Etkinlik ${i}`}
+                    alt={`Vardalı Minikler Köyü eğitim etkinlikleri - Adana'da branş dersleri ve oyun temelli öğrenme`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -716,9 +716,9 @@ export default function EgitimModelimizPage() {
                       <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-cyan-600 text-3xl shadow-md mb-4">
                         <LuCamera />
                       </div>
-                      <h4 className="font-bold text-[#4E56C0] mb-2">
+                      <h3 className="font-bold text-[#4E56C0] mb-2">
                         Günlük Paylaşım
-                      </h4>
+                      </h3>
                       <p className="text-sm text-white/95">
                         Fotoğraf ve video paylaşımları ile günlük aktiviteler
                       </p>
@@ -733,9 +733,9 @@ export default function EgitimModelimizPage() {
                       <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-green-600 text-3xl shadow-md mb-4">
                         📞
                       </div>
-                      <h4 className="font-bold text-[#4E56C0] mb-2">
+                      <h3 className="font-bold text-[#4E56C0] mb-2">
                         Kişisel Görüşme
-                      </h4>
+                      </h3>
                       <p className="text-sm text-white/95">
                         Birebir takip görüşmeleri ve özel geri bildirimler
                       </p>
@@ -750,9 +750,9 @@ export default function EgitimModelimizPage() {
                       <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-purple-600 text-3xl shadow-md mb-4">
                         📱
                       </div>
-                      <h4 className="font-bold text-[#4E56C0] mb-2">
+                      <h3 className="font-bold text-[#4E56C0] mb-2">
                         Anlık Bildirim
-                      </h4>
+                      </h3>
                       <p className="text-sm text-white/95">
                         Etkinlik ve gezilerle ilgili hızlı bilgilendirme
                       </p>

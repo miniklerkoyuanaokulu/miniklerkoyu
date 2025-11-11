@@ -11,7 +11,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <Image
           src="/images/home/hero.avif"
-          alt="Vardalı Minikler Köyü"
+          alt="Vardalı Minikler Köyü Anaokulu - Adana Çukurova'da doğanın kalbinde okul öncesi eğitim"
           fill
           sizes="100vw"
           className="object-cover object-center md:object-fill"
