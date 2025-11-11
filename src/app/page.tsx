@@ -20,6 +20,7 @@ import {
   LuCamera,
 } from "react-icons/lu";
 import { HeroSlider } from "@/components/HeroSlider";
+import GoogleReviews from "@/components/GoogleReviews";
 import { getMediaItems } from "@/lib/firestore";
 import type { MediaItem } from "@/lib/types";
 
@@ -661,7 +662,12 @@ export default function HomePage() {
               </motion.div>
             </div>
           </section>
+        </main>
 
+        {/* VELI GÖRÜŞLERİ - Google Reviews (full-width) */}
+        <GoogleReviews />
+
+        <main className="mx-auto max-w-5xl px-4 relative z-10">
           {/* ALT CTA – Ön Kayıt */}
           <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
             <motion.div

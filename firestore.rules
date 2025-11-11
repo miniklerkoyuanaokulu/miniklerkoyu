@@ -28,6 +28,13 @@ service cloud.firestore {
       allow read: if true; // Public okuma
       allow write: if isAuthenticated(); // Sadece admin
     }
+    
+    // ========== Reviews (Veli Yorumları) ==========
+    // Herkes okuyabilir (anasayfa için), sadece admin yazabilir
+    match /reviews/{document} {
+      allow read: if true; // Public okuma
+      allow write: if isAuthenticated(); // Sadece admin
+    }
   }
 }
 

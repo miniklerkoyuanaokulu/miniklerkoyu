@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaClipboardList, FaVideo } from "react-icons/fa";
+import { FaClipboardList, FaVideo, FaStar } from "react-icons/fa";
 
 const menuItems = [
   {
@@ -18,6 +18,13 @@ const menuItems = [
     icon: FaVideo,
     color: "from-purple-500 to-pink-500",
     description: "Fotoğraf, Video ve Instagram Yönetimi",
+  },
+  {
+    title: "Veli Yorumları",
+    href: "/admin/yorumlar",
+    icon: FaStar,
+    color: "from-orange-500 to-amber-500",
+    description: "Manuel yorum ekle ve yönet",
   },
 
   // Diğer sayfalar - Yakında aktif olacak
