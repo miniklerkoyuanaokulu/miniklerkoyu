@@ -98,6 +98,7 @@ export default function NedenPage() {
             src="/logo-removebg.png"
             alt=""
             fill
+            sizes="800px"
             className="object-contain"
             priority={false}
           />
@@ -206,6 +207,7 @@ export default function NedenPage() {
                       src="/images/neden/beslenme1.avif"
                       alt="Organik beslenme"
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
@@ -368,6 +370,7 @@ export default function NedenPage() {
                     src={`/images/neden/${item.key}.jpg`}
                     alt={item.label}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />

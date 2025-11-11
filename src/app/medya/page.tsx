@@ -316,6 +316,7 @@ export default function MedyaPageClient() {
               src="/logo-removebg.png"
               alt=""
               fill
+              sizes="800px"
               className="object-contain"
               priority={false}
             />
@@ -354,6 +355,7 @@ export default function MedyaPageClient() {
             src="/logo-removebg.png"
             alt=""
             fill
+            sizes="800px"
             className="object-contain"
             priority={false}
           />

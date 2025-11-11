@@ -59,6 +59,7 @@ export default function IletisimPage() {
             src="/logo-removebg.png"
             alt=""
             fill
+            sizes="800px"
             className="object-contain"
             priority={false}
           />

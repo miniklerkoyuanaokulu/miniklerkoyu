@@ -126,6 +126,7 @@ export default function HomePage() {
             src="/logo-removebg.png"
             alt=""
             fill
+            sizes="800px"
             className="object-contain"
             priority={false}
           />
@@ -580,7 +581,7 @@ export default function HomePage() {
                               fill
                               className="object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[0.5deg]"
                               sizes="(min-width: 768px) 50vw, 100vw"
-                              priority={index === 0}
+                              loading="lazy"
                             />
 
                             {/* top gradient sheen */}

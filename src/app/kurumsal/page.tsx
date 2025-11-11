@@ -88,6 +88,7 @@ export default function KurumsalPage() {
             src="/logo-removebg.png"
             alt=""
             fill
+            sizes="800px"
             className="object-contain"
             priority={false}
           />
@@ -211,6 +212,7 @@ export default function KurumsalPage() {
                         src="/images/kurumsal/hakkimizda1.avif"
                         alt="Doğanın içinde anaokulu"
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
@@ -425,6 +427,7 @@ export default function KurumsalPage() {
                       src="/images/kurumsal/kurucu.jpg"
                       alt="Kurucumuz Mahmut Şahin"
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </div>
@@ -642,6 +645,7 @@ export default function KurumsalPage() {
                         src="/images/kurumsal/felsefe.jpg"
                         alt="Oyun temelli öğrenme"
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
@@ -837,6 +841,7 @@ export default function KurumsalPage() {
                         src={`/images/kurumsal/ekip-${i}.jpg`}
                         alt={`Ekip üyesi ${i}`}
                         fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

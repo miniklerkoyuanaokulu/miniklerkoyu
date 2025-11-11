@@ -76,7 +76,7 @@ export function HeroSlider() {
               // İlk görsel için priority
               priority={index === 0}
               fetchPriority={index === 0 ? "high" : "auto"}
-              quality={index === 0 ? 80 : 75}
+              quality={75}
             />
 
             {/* Dark overlay for better text readability */}

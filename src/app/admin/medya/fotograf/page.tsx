@@ -308,6 +308,7 @@ export default function AdminFotografGalerisi() {
                               src={URL.createObjectURL(file)}
                               alt={file.name}
                               fill
+                              sizes="200px"
                               className="object-cover"
                               unoptimized
                             />
