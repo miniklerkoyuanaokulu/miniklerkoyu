@@ -654,6 +654,36 @@ export default function EgitimModelimizPage() {
               ))}
             </div>
 
+            {/* Medya Sayfasına Yönlendirme Butonu */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-10 flex justify-center"
+            >
+              <Link
+                href="/medya"
+                className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-linear-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105"
+              >
+                <LuCamera className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+                Etkinlik Fotoğraflarını İnceleyin
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </motion.div>
+
             {/* Görsel galeri - Gelecekte kullanılacak */}
             {/* <motion.div
             {...fadeIn}

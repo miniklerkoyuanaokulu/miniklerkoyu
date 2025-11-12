@@ -1,26 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Reorder } from "framer-motion";
 import Image from "next/image";
-import { FaCamera, FaPlus, FaTrash, FaEdit, FaTimes } from "react-icons/fa";
+import { FaCamera, FaPlus, FaTrash, FaEdit, FaTimes, FaGripVertical, FaSortNumericDown } from "react-icons/fa";
 import {
   getMediaItems,
   addMediaItem,
   updateMediaItem,
   deleteMediaItem,
+  updateMediaItemsOrder,
 } from "@/lib/firestore";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import Toast, { ToastType } from "@/components/Toast";
+import type { MediaItem } from "@/lib/types";
 
-type MediaItem = {
-  id: string;
-  url: string;
-  type: "image" | "video" | "press";
-  caption?: string;
-  tags?: string[];
-  createdAt: number;
-};
+// MediaItem type'ı artık @/lib/types'dan import ediliyor
 
 export default function AdminFotografGalerisi() {
   const [photos, setPhotos] = useState<MediaItem[]>([]);
@@ -35,6 +30,7 @@ export default function AdminFotografGalerisi() {
     message: string;
     type: ToastType;
   } | null>(null);
+  const [isMigrating, setIsMigrating] = useState(false);
 
   const { uploadImage, progress } = useImageUpload();
 
@@ -56,6 +52,78 @@ export default function AdminFotografGalerisi() {
       showToast("Fotoğraflar yüklenirken bir hata oluştu", "error");
     } finally {
       setLoading(false);
+    }
+  }
+
+  // Drag & Drop handler
+  async function handleReorder(newOrder: MediaItem[]) {
+    // UI'da anında güncelle
+    setPhotos(newOrder);
+
+    // Backend'e yeni order'ları gönder
+    try {
+      const updates = newOrder.map((photo, index) => ({
+        id: photo.id,
+        order: index,
+      }));
+      await updateMediaItemsOrder(updates);
+      showToast("Fotoğraf sıralaması güncellendi", "success");
+    } catch (error) {
+      console.error("Sıralama güncellenirken hata:", error);
+      showToast("Sıralama güncellenemedi", "error");
+      // Hata olursa eski sıralamayı geri yükle
+      await loadPhotos();
+    }
+  }
+
+  // Migration: Mevcut fotoğraflara order ekle
+  async function migrateAddOrderToPhotos() {
+    if (!confirm("Tüm fotoğraflara sıra numarası eklenecek. Devam edilsin mi?")) {
+      return;
+    }
+
+    setIsMigrating(true);
+    try {
+      // Mevcut tüm fotoğrafları al
+      const allPhotos = await getMediaItems("image");
+      
+      // Order field'ı olmayanları filtrele
+      const photosWithoutOrder = allPhotos.filter(
+        (photo: any) => photo.order === undefined || photo.order === null
+      );
+
+      if (photosWithoutOrder.length === 0) {
+        showToast("Tüm fotoğraflarda zaten sıra numarası var! ✅", "success");
+        setIsMigrating(false);
+        return;
+      }
+
+      // createdAt'e göre sırala (eski → yeni)
+      photosWithoutOrder.sort((a: any, b: any) => (a.createdAt || 0) - (b.createdAt || 0));
+
+      // Order numaralarını ekle (mevcut en büyük order'dan devam et)
+      const existingOrders = allPhotos
+        .filter((p: any) => p.order !== undefined)
+        .map((p: any) => p.order);
+      const maxOrder = existingOrders.length > 0 ? Math.max(...existingOrders) : -1;
+
+      const updates = photosWithoutOrder.map((photo: any, index) => ({
+        id: photo.id,
+        order: maxOrder + 1 + index,
+      }));
+
+      await updateMediaItemsOrder(updates);
+      await loadPhotos();
+
+      showToast(
+        `✅ ${photosWithoutOrder.length} fotoğrafa sıra numarası eklendi!`,
+        "success"
+      );
+    } catch (error) {
+      console.error("Migration hatası:", error);
+      showToast("Sıra numarası eklenirken hata oluştu", "error");
+    } finally {
+      setIsMigrating(false);
     }
   }
 
@@ -207,13 +275,27 @@ export default function AdminFotografGalerisi() {
             Medya sayfasında görünecek fotoğrafları yönetin
           </p>
         </div>
-        <button
-          onClick={() => setShowUpload(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
-        >
-          <FaPlus />
-          Fotoğraf Ekle
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Migration Button - Sadece order olmayan fotoğraflar varsa göster */}
+          {photos.some((p) => p.order === undefined || p.order === null) && (
+            <button
+              onClick={migrateAddOrderToPhotos}
+              disabled={isMigrating}
+              className="flex items-center gap-2 px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Mevcut fotoğraflara otomatik sıra numarası ekle"
+            >
+              <FaSortNumericDown />
+              {isMigrating ? "Ekleniyor..." : "Sıra No Ekle"}
+            </button>
+          )}
+          <button
+            onClick={() => setShowUpload(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+          >
+            <FaPlus />
+            Fotoğraf Ekle
+          </button>
+        </div>
       </div>
 
       {/* Upload Modal */}
@@ -442,7 +524,7 @@ export default function AdminFotografGalerisi() {
         )}
       </AnimatePresence>
 
-      {/* Photos Grid */}
+      {/* Photos Grid with Drag & Drop */}
       {photos.length === 0 ? (
         <div className="text-center py-16">
           <FaCamera className="mx-auto text-6xl text-gray-300 mb-4" />
@@ -461,59 +543,91 @@ export default function AdminFotografGalerisi() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {photos.map((photo) => (
-            <motion.div
-              key={photo.id}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="group relative bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
-            >
-              {/* Image */}
-              <div className="relative aspect-square">
-                <Image
-                  src={photo.url}
-                  alt={photo.caption || "Fotoğraf"}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  unoptimized
-                />
-              </div>
+        <div>
+          {/* Sürükle-Bırak Bilgilendirme */}
+          <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg flex items-start gap-3">
+            <FaGripVertical className="text-blue-600 text-xl mt-1 flex-shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-blue-900 mb-1">
+                🎯 Fotoğrafların Sırasını Değiştirin
+              </p>
+              <p className="text-xs text-blue-700">
+                Fotoğrafları sürükleyerek sırasını değiştirebilirsiniz. Anasayfa ve Medya sayfasında bu sıraya göre gösterilecektir.
+              </p>
+            </div>
+          </div>
 
-              {/* Caption */}
-              {photo.caption && (
-                <div className="p-3 border-t border-gray-200">
-                  <p className="text-sm text-gray-700 line-clamp-2">
-                    {photo.caption}
-                  </p>
+          <Reorder.Group
+            axis="x"
+            values={photos}
+            onReorder={handleReorder}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          >
+            {photos.map((photo) => (
+              <Reorder.Item
+                key={photo.id}
+                value={photo}
+                className="group relative bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing"
+                whileDrag={{
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+                  zIndex: 100,
+                }}
+              >
+                {/* Drag Handle Icon */}
+                <div className="absolute top-2 left-2 z-20 bg-blue-600 text-white rounded-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                  <FaGripVertical className="text-sm" />
                 </div>
-              )}
 
-              {/* Actions Overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-                <button
-                  onClick={() => {
-                    setEditingPhoto(photo);
-                    setCurrentCaption(photo.caption || "");
-                  }}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
-                >
-                  <FaEdit />
-                  Düzenle
-                </button>
-                <button
-                  onClick={() => handleDelete(photo.id)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium flex items-center gap-2"
-                >
-                  <FaTrash />
-                  Sil
-                </button>
-              </div>
-            </motion.div>
-          ))}
+                {/* Order Badge */}
+                <div className="absolute top-2 right-2 z-20 bg-gray-800/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-xs font-bold">
+                  {photos.indexOf(photo) + 1}
+                </div>
+
+                {/* Image */}
+                <div className="relative aspect-square">
+                  <Image
+                    src={photo.url}
+                    alt={photo.caption || "Fotoğraf"}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    unoptimized
+                  />
+                </div>
+
+                {/* Caption */}
+                {photo.caption && (
+                  <div className="p-3 border-t border-gray-200 bg-white">
+                    <p className="text-sm text-gray-700 line-clamp-2">
+                      {photo.caption}
+                    </p>
+                  </div>
+                )}
+
+                {/* Actions Overlay */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => {
+                      setEditingPhoto(photo);
+                      setCurrentCaption(photo.caption || "");
+                    }}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
+                  >
+                    <FaEdit />
+                    Düzenle
+                  </button>
+                  <button
+                    onClick={() => handleDelete(photo.id)}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium flex items-center gap-2"
+                  >
+                    <FaTrash />
+                    Sil
+                  </button>
+                </div>
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
         </div>
       )}
 

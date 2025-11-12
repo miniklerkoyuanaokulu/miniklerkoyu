@@ -13,7 +13,9 @@ export type MediaItem = {
   url: string;
   caption?: string;
   tags?: string[];
+  order: number; // Drag & drop sıralaması için
   publishedAt?: number;
+  createdAt?: number;
 };
 
 export type PageDoc = {

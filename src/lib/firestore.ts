@@ -90,19 +90,26 @@ export async function getInstagramPost(id: string) {
 export async function getMediaItems(type?: "image" | "video" | "press") {
   const itemsRef = collection(db, "mediaItems");
   
-  // Basit query - sadece orderBy (index gerektirmez)
-  const q = query(itemsRef, orderBy("createdAt", "desc"));
-  
-  const snapshot = await getDocs(q);
+  // Basit query - tüm dökümanları çek
+  const snapshot = await getDocs(itemsRef);
   let items = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
   
-  // Client-side filtreleme (index gerekmez)
+  // Client-side filtreleme ve sıralama
   if (type) {
     items = items.filter((item: any) => item.type === type);
   }
+  
+  // Order field'ı varsa ona göre, yoksa createdAt'e göre sırala
+  items.sort((a: any, b: any) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    // Order yoksa createdAt'e göre sırala (yeni → eski)
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  });
   
   return items;
 }
@@ -112,9 +119,21 @@ export async function addMediaItem(input: {
   type: "image" | "video" | "press";
   caption?: string;
   tags?: string[];
+  order?: number;
 }) {
+  // Order belirtilmemişse, mevcut en büyük order + 1
+  let order = input.order ?? 0;
+  if (!input.order) {
+    const items = await getMediaItems(input.type);
+    if (items.length > 0) {
+      const maxOrder = Math.max(...items.map((i: any) => i.order || 0));
+      order = maxOrder + 1;
+    }
+  }
+  
   const docRef = await addDoc(collection(db, "mediaItems"), {
     ...input,
+    order,
     createdAt: Date.now(),
   });
   return docRef.id;
@@ -125,10 +144,21 @@ export async function updateMediaItem(
   input: Partial<{
     caption: string;
     tags: string[];
+    order: number;
   }>
 ) {
   const docRef = doc(db, "mediaItems", id);
   await updateDoc(docRef, input);
+}
+
+// Toplu order güncelleme (Drag & Drop için)
+export async function updateMediaItemsOrder(items: { id: string; order: number }[]) {
+  const promises = items.map((item) => {
+    const docRef = doc(db, "mediaItems", item.id);
+    return updateDoc(docRef, { order: item.order });
+  });
+  
+  await Promise.all(promises);
 }
 
 export async function deleteMediaItem(id: string) {
