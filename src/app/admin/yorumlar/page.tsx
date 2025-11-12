@@ -313,8 +313,8 @@ export default function AdminReviewsPage() {
                 </div>
               </div>
 
-                     {/* Önizleme */}
-                     <div className="mt-3 p-4 bg-linear-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg">
+              {/* Önizleme */}
+              <div className="mt-3 p-4 bg-linear-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg">
                 <p className="text-sm font-semibold text-blue-900 mb-2">
                   📋 Önizleme:
                 </p>
