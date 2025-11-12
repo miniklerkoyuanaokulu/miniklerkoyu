@@ -347,7 +347,7 @@ export default function MedyaPageClient() {
       <PageHero
         eyebrow="Medya"
         description="Okuldan fotoğraflar, videolar ve özel anlar – Minikler Köyü'nde yaşanan mutluluklar"
-        backgroundImage="/images/pages/medya-page.avif"
+        backgroundImage="/images/pages/medya-page1.avif"
       />
 
       <div className="w-full bg-linear-to-b from-pink-600 via-rose-500 to-fuchsia-500 relative">
