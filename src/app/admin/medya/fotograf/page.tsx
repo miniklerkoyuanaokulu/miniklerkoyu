@@ -31,11 +31,13 @@ export default function AdminFotografGalerisi() {
     type: ToastType;
   } | null>(null);
   const [isMigrating, setIsMigrating] = useState(false);
+  const [localOrderDirty, setLocalOrderDirty] = useState(false);
 
   const { uploadImage, progress } = useImageUpload();
 
   useEffect(() => {
     loadPhotos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const showToast = (message: string, type: ToastType) => {
@@ -45,8 +47,16 @@ export default function AdminFotografGalerisi() {
   async function loadPhotos() {
     try {
       setLoading(true);
-      const data = await getMediaItems("image");
-      setPhotos(data as MediaItem[]);
+      const data = (await getMediaItems("image")) as MediaItem[];
+      
+      // HER ZAMAN order'a göre sırala (order olmayanları sona at)
+      const sorted = [...data].sort((a, b) => {
+        const ao = a.order ?? Number.POSITIVE_INFINITY;
+        const bo = b.order ?? Number.POSITIVE_INFINITY;
+        return ao - bo;
+      });
+      
+      setPhotos(sorted);
     } catch (error) {
       console.error("Fotoğraflar yüklenirken hata:", error);
       showToast("Fotoğraflar yüklenirken bir hata oluştu", "error");
@@ -55,22 +65,27 @@ export default function AdminFotografGalerisi() {
     }
   }
 
-  // Drag & Drop handler
-  async function handleReorder(newOrder: MediaItem[]) {
-    // UI'da anında güncelle
+  // SÜRÜKLERKEN: sadece UI'da sırayı değiştir (DB'ye yazma)
+  function handleReorder(newOrder: MediaItem[]) {
     setPhotos(newOrder);
+    setLocalOrderDirty(true); // Drop'ta DB'ye yazacağız
+  }
 
-    // Backend'e yeni order'ları gönder
+  // BIRAKINCA: tek seferde DB'ye sırayı kaydet
+  async function commitOrderToBackend() {
+    if (!localOrderDirty) return;
+
     try {
-      const updates = newOrder.map((photo, index) => ({
+      const updates = photos.map((photo, index) => ({
         id: photo.id,
         order: index,
       }));
       await updateMediaItemsOrder(updates);
-      showToast("Fotoğraf sıralaması güncellendi", "success");
+      setLocalOrderDirty(false);
+      showToast("Fotoğraf sıralaması kaydedildi ✅", "success");
     } catch (error) {
       console.error("Sıralama güncellenirken hata:", error);
-      showToast("Sıralama güncellenemedi", "error");
+      showToast("Sıralama kaydedilemedi, geri alınıyor", "error");
       // Hata olursa eski sıralamayı geri yükle
       await loadPhotos();
     }
@@ -85,11 +100,11 @@ export default function AdminFotografGalerisi() {
     setIsMigrating(true);
     try {
       // Mevcut tüm fotoğrafları al
-      const allPhotos = await getMediaItems("image");
+      const allPhotos = (await getMediaItems("image")) as MediaItem[];
       
       // Order field'ı olmayanları filtrele
       const photosWithoutOrder = allPhotos.filter(
-        (photo: any) => photo.order === undefined || photo.order === null
+        (photo) => photo.order === undefined || photo.order === null
       );
 
       if (photosWithoutOrder.length === 0) {
@@ -99,15 +114,15 @@ export default function AdminFotografGalerisi() {
       }
 
       // createdAt'e göre sırala (eski → yeni)
-      photosWithoutOrder.sort((a: any, b: any) => (a.createdAt || 0) - (b.createdAt || 0));
+      photosWithoutOrder.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
 
       // Order numaralarını ekle (mevcut en büyük order'dan devam et)
       const existingOrders = allPhotos
-        .filter((p: any) => p.order !== undefined)
-        .map((p: any) => p.order);
+        .filter((p) => p.order !== undefined)
+        .map((p) => p.order as number);
       const maxOrder = existingOrders.length > 0 ? Math.max(...existingOrders) : -1;
 
-      const updates = photosWithoutOrder.map((photo: any, index) => ({
+      const updates = photosWithoutOrder.map((photo, index) => ({
         id: photo.id,
         order: maxOrder + 1 + index,
       }));
@@ -546,7 +561,7 @@ export default function AdminFotografGalerisi() {
         <div>
           {/* Sürükle-Bırak Bilgilendirme */}
           <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg flex items-start gap-3">
-            <FaGripVertical className="text-blue-600 text-xl mt-1 flex-shrink-0" />
+            <FaGripVertical className="text-blue-600 text-xl mt-1 shrink-0" />
             <div>
               <p className="text-sm font-semibold text-blue-900 mb-1">
                 🎯 Fotoğrafların Sırasını Değiştirin
@@ -558,20 +573,22 @@ export default function AdminFotografGalerisi() {
           </div>
 
           <Reorder.Group
-            axis="x"
             values={photos}
             onReorder={handleReorder}
+            layout
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           >
-            {photos.map((photo) => (
+            {photos.map((photo, idx) => (
               <Reorder.Item
                 key={photo.id}
                 value={photo}
+                layout
+                onDragEnd={commitOrderToBackend}
                 className="group relative bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing"
                 whileDrag={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
-                  zIndex: 100,
+                  scale: 1.03,
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+                  zIndex: 10,
                 }}
               >
                 {/* Drag Handle Icon */}
@@ -579,9 +596,9 @@ export default function AdminFotografGalerisi() {
                   <FaGripVertical className="text-sm" />
                 </div>
 
-                {/* Order Badge */}
+                {/* Order Badge - Mevcut dizideki sıra */}
                 <div className="absolute top-2 right-2 z-20 bg-gray-800/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-xs font-bold">
-                  {photos.indexOf(photo) + 1}
+                  {idx + 1}
                 </div>
 
                 {/* Image */}
