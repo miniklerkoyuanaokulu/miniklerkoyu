@@ -63,7 +63,7 @@ export default function AdminFotografGalerisi() {
 
   // Debounced persist için timer ref
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
-  
+
   // Auto-scroll için ref
   const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
 
@@ -184,34 +184,34 @@ export default function AdminFotografGalerisi() {
   // Otomatik kaydırma (büyük listelerde yararlı) - Hızlı ve dinamik
   function handleDragMove(event: DragMoveEvent) {
     if (!event.active) return;
-    
+
     const activatorEvent = event.activatorEvent as PointerEvent;
     if (!activatorEvent) return;
-    
+
     const y = event.delta.y + activatorEvent.clientY;
     const margin = 100; // Daha geniş margin (100px)
     const topEdge = y < margin;
     const bottomEdge = window.innerHeight - y < margin;
-    
+
     // Scroll bölgesinden çıkıldıysa interval'ı temizle
     if (!topEdge && !bottomEdge) {
       stopAutoScroll();
       return;
     }
-    
+
     // Zaten scroll yapılıyorsa yeni interval başlatma
     if (autoScrollInterval.current) return;
-    
+
     // Dinamik hız: Margin'e ne kadar yakınsa o kadar hızlı
-    const distanceFromEdge = topEdge 
-      ? margin - y 
+    const distanceFromEdge = topEdge
+      ? margin - y
       : margin - (window.innerHeight - y);
-    
+
     // Hız faktörü: 0.2 - 1.0 arası (yaklaştıkça hızlanır)
     const speedFactor = Math.min(distanceFromEdge / margin, 1);
     const baseSpeed = 30; // Temel hız (piksel/frame)
     const scrollSpeed = baseSpeed * (0.5 + speedFactor * 0.5); // 15-30px arası
-    
+
     // Sürekli scroll loop
     autoScrollInterval.current = setInterval(() => {
       if (topEdge) {

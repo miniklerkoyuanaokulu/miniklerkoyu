@@ -27,6 +27,7 @@ export type MediaItem = {
   caption?: string | null;
   type?: MediaType; // yoksa uzantıdan çıkaracağız
   createdAt?: string | number;
+  order?: number; // Admin'den ayarlanan sıralama
   tags?: string[];
   thumbnailUrl?: string; // video için poster
 };
@@ -270,12 +271,17 @@ export default function MedyaPageClient() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Basit sıralama - en yeni önce
-  const sortedItems = useMemo(
-    () =>
-      items.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0)),
-    [items]
-  );
+  // Sıralama: order field'ı varsa ona göre, yoksa createdAt'e göre (en yeni önce)
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      // Order field'ı varsa ona göre sırala (küçükten büyüğe)
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
+      }
+      // Order yoksa createdAt'e göre (en yeni önce)
+      return Number(b.createdAt || 0) - Number(a.createdAt || 0);
+    });
+  }, [items]);
 
   // Fotoğraf ve videoları ayır
   const photos = useMemo(
