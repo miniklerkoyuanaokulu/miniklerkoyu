@@ -13,7 +13,7 @@ interface Review {
   text: string;
   time?: string;
   relative_time?: string;
-  reviewDate?: Date;
+  reviewDate?: string | Date; // API'den string gelir, Date'e çevrilir
   profile_photo_url?: string;
   source?: "google" | "manual";
 }
@@ -117,7 +117,7 @@ export default function GoogleReviews() {
         // Yorumları birleştir
         const googleReviews = (googleData.reviews || []).map((r: Review) => ({
           ...r,
-          source: "google",
+          source: "google" as const,
         }));
 
         const manualReviews = (firebaseData.reviews || []).map((r: Review) => ({
@@ -259,7 +259,7 @@ export default function GoogleReviews() {
                     <motion.div
                       key={index}
                       ref={index === 0 ? firstCardRef : undefined}
-                      className="flex-shrink-0 w-full md:basis-[calc(50%-0.75rem)] lg:basis-[calc(33.333%-1rem)]"
+                      className="shrink-0 w-full md:basis-[calc(50%-0.75rem)] lg:basis-[calc(33.333%-1rem)]"
                       whileHover={{ y: -8, scale: 1.02 }}
                       transition={{ duration: 0.3 }}
                     >
