@@ -22,8 +22,8 @@ cat .env.local | grep GOOGLE
 **Sonuç:**
 
 ```
-✅ GOOGLE_MAPS_API_KEY=AIzaSyAoxQlVD5PDe1PV3YexkMmyq7mi6Hh8NJk
-✅ NEXT_PUBLIC_GOOGLE_PLACE_ID=ChIJFWQCbTSJKBUR3Mdm6SelfnM
+✅ GOOGLE_MAPS_API_KEY=YOUR_API_KEY_HERE
+✅ NEXT_PUBLIC_GOOGLE_PLACE_ID=YOUR_PLACE_ID_HERE
 ```
 
 **Durum:** ✅ Değişkenler mevcut
@@ -117,7 +117,7 @@ cat .env.local | grep GOOGLE
 **Şu an kullandığınız:**
 
 ```
-ChIJFWQCbTSJKBUR3Mdm6SelfnM
+YOUR_PLACE_ID (Place ID Finder'dan alın)
 ```
 
 **Doğru mu?** Finder'da çıkan ile aynı olmalı!
@@ -144,7 +144,7 @@ Eğer hızlıca test etmek istiyorsanız, geçici olarak API key kısıtlamalar�
 
 ```bash
 # API Key ve Place ID'nizi kullanarak:
-curl "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJFWQCbTSJKBUR3Mdm6SelfnM&fields=name,rating&key=AIzaSyAoxQlVD5PDe1PV3YexkMmyq7mi6Hh8NJk"
+curl "https://maps.googleapis.com/maps/api/place/details/json?place_id=YOUR_PLACE_ID&fields=name,rating&key=YOUR_API_KEY"
 ```
 
 **Beklenen Sonuç (OK):**
@@ -242,7 +242,7 @@ curl "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJFWQCb
 Tarayıcınızda direkt şu URL'yi açın:
 
 ```
-https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJFWQCbTSJKBUR3Mdm6SelfnM&fields=name,rating&key=AIzaSyAoxQlVD5PDe1PV3YexkMmyq7mi6Hh8NJk
+https://maps.googleapis.com/maps/api/place/details/json?place_id=YOUR_PLACE_ID&fields=name,rating&key=YOUR_API_KEY
 ```
 
 **Sonuç:**
