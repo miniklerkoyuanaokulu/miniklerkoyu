@@ -42,7 +42,8 @@ export default function SortablePhotoCard({
     <div
       ref={setNodeRef}
       style={style}
-      className="group relative bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 overflow-hidden will-change-transform"
+      className="group relative bg-white rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 overflow-hidden will-change-transform transform-gpu"
+      role="listitem"
     >
       {/* Drag Handle - Sadece buradan sürüklenebilir */}
       <button

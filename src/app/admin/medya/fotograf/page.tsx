@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import {
@@ -20,6 +20,7 @@ import {
   closestCenter,
   DragEndEvent,
   DragStartEvent,
+  DragMoveEvent,
 } from "@dnd-kit/core";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import {
@@ -59,6 +60,9 @@ export default function AdminFotografGalerisi() {
   } | null>(null);
   const [isMigrating, setIsMigrating] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Debounced persist için timer ref
+  const saveTimer = useRef<NodeJS.Timeout | null>(null);
 
   const { uploadImage, progress } = useImageUpload();
 
@@ -111,15 +115,36 @@ export default function AdminFotografGalerisi() {
     }
   }
 
+  // Debounced persist - Arka arkaya sürüklemelerde gereksiz yazımı azaltır
+  function persistOrderDebounced(newOrderIds: string[]) {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    
+    saveTimer.current = setTimeout(async () => {
+      try {
+        const updates = newOrderIds.map((id, index) => ({ id, order: index }));
+        await updateMediaItemsOrder(updates);
+        showToast("Fotoğraf sıralaması kaydedildi ✅", "success");
+      } catch (error) {
+        console.error("Sıralama güncellenirken hata:", error);
+        showToast("Sıralama kaydedilemedi", "error");
+        await loadPhotos(); // Geri yükle
+      }
+    }, 250); // 250ms debounce
+  }
+
   // Drag başladığında
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
+    // Sayfa kaymasını engelle
+    document.body.style.overscrollBehavior = "contain";
   }
 
   // Drag bittiğinde
-  async function handleDragEnd(event: DragEndEvent) {
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     setActiveId(null);
+    // Overscroll'u geri al
+    document.body.style.overscrollBehavior = "";
 
     if (!over || active.id === over.id) return;
 
@@ -132,22 +157,32 @@ export default function AdminFotografGalerisi() {
     const newOrder = arrayMove(order, oldIndex, newIndex);
     setOrder(newOrder);
 
-    // Backend'e persist et
-    try {
-      const updates = newOrder.map((id, index) => ({ id, order: index }));
-      await updateMediaItemsOrder(updates);
-      showToast("Fotoğraf sıralaması kaydedildi ✅", "success");
-    } catch (error) {
-      console.error("Sıralama güncellenirken hata:", error);
-      showToast("Sıralama kaydedilemedi, geri alınıyor", "error");
-      // Hata olursa eski sıralamayı geri yükle
-      await loadPhotos();
-    }
+    // Debounced persist (arka arkaya sürüklemelerde optimize eder)
+    persistOrderDebounced(newOrder);
   }
 
   // Drag iptal edildiğinde
   function handleDragCancel() {
     setActiveId(null);
+    // Overscroll'u geri al
+    document.body.style.overscrollBehavior = "";
+  }
+
+  // Otomatik kaydırma (büyük listelerde yararlı)
+  function handleDragMove(event: DragMoveEvent) {
+    if (!event.active) return;
+    
+    const activatorEvent = event.activatorEvent as PointerEvent;
+    if (!activatorEvent) return;
+    
+    const y = event.delta.y + activatorEvent.clientY;
+    const margin = 80;
+    
+    if (y < margin) {
+      window.scrollBy(0, -12);
+    } else if (window.innerHeight - y < margin) {
+      window.scrollBy(0, 12);
+    }
   }
 
   // Migration: Mevcut fotoğraflara order ekle
@@ -264,18 +299,27 @@ export default function AdminFotografGalerisi() {
     setUploadingFiles(true);
 
     try {
-      for (const file of selectedFiles) {
+      // Mevcut en büyük order'ı bul
+      const maxOrder = photos.length > 0
+        ? Math.max(...photos.map((p) => p.order ?? 0))
+        : -1;
+
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        
         // Firebase Storage'a yükle (optimize edilmiş)
         const url = await uploadImage(file, "media/photos");
 
-        // Firestore'a kaydet
+        // Firestore'a kaydet - Stabil order ekle
         const mediaData: {
           url: string;
           type: "image";
           caption?: string;
+          order: number;
         } = {
           url,
           type: "image",
+          order: maxOrder + i + 1, // Yeni fotoğraflara stabil order
         };
 
         // Caption varsa ekle
@@ -644,9 +688,14 @@ export default function AdminFotografGalerisi() {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDragCancel={handleDragCancel}
+            onDragMove={handleDragMove}
           >
             <SortableContext items={order} strategy={rectSortingStrategy}>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div 
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                role="list"
+                aria-label="Fotoğraf galerisi"
+              >
                 {order.map((id, idx) => {
                   const photo = byId[id];
                   if (!photo) return null;
@@ -669,9 +718,9 @@ export default function AdminFotografGalerisi() {
             </SortableContext>
 
             {/* DragOverlay: Sürüklenen kartın preview'ı */}
-            <DragOverlay adjustScale={false}>
+            <DragOverlay adjustScale={false} dropAnimation={null}>
               {activeId && byId[activeId] ? (
-                <div className="w-full max-w-[400px] rounded-xl overflow-hidden shadow-2xl border-4 border-blue-500 bg-white">
+                <div className="w-full max-w-[400px] rounded-xl overflow-hidden shadow-2xl border-4 border-blue-500 bg-white transform-gpu will-change-transform rotate-2">
                   <div className="relative aspect-square">
                     <Image
                       src={byId[activeId].url}
