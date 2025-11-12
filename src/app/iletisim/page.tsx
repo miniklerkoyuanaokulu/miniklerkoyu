@@ -95,7 +95,7 @@ export default function IletisimPage() {
                 transition={{ duration: 0.4 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
+                <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group  bg-white">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                       <LuMapPin />
@@ -129,7 +129,7 @@ export default function IletisimPage() {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
+                <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group  bg-white">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                       <LuPhone />
@@ -167,7 +167,7 @@ export default function IletisimPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
+                  <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group  bg-white">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                         <FaWhatsapp />
@@ -199,7 +199,7 @@ export default function IletisimPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group cursor-pointer bg-white">
+                  <Card className="p-6 h-full border-2 border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-300 group  bg-white">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-pink-500 via-purple-500 to-orange-500 flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                         <FaInstagram />

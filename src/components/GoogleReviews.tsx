@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { LuStar, LuQuote, LuChevronLeft, LuChevronRight } from "react-icons/lu";
@@ -30,7 +30,11 @@ export default function GoogleReviews() {
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(1);
-  const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
+  const [stepPx, setStepPx] = useState(0);
+
+  // Refs
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const firstCardRef = useRef<HTMLDivElement | null>(null);
 
   // Responsive items per view
   useEffect(() => {
@@ -48,6 +52,23 @@ export default function GoogleReviews() {
     window.addEventListener("resize", updateItemsPerView);
     return () => window.removeEventListener("resize", updateItemsPerView);
   }, []);
+
+  // Kart genişliği + gap'i ölç (piksel bazlı hesaplama)
+  useEffect(() => {
+    const calculateStep = () => {
+      if (!trackRef.current || !firstCardRef.current) return;
+
+      const cardRect = firstCardRef.current.getBoundingClientRect();
+      const styles = window.getComputedStyle(trackRef.current);
+      const gap = parseFloat(styles.columnGap || styles.gap || "0");
+
+      setStepPx(cardRect.width + gap);
+    };
+
+    calculateStep();
+    window.addEventListener("resize", calculateStep);
+    return () => window.removeEventListener("resize", calculateStep);
+  }, [data, itemsPerView]);
 
   const nextSlide = () => {
     if (data && currentIndex < data.reviews.length - itemsPerView) {
@@ -99,9 +120,9 @@ export default function GoogleReviews() {
           source: "google",
         }));
 
-        const manualReviews = (firebaseData.reviews || []).map((r: any) => ({
+        const manualReviews = (firebaseData.reviews || []).map((r: Review) => ({
           ...r,
-          source: "manual",
+          source: "manual" as const,
           reviewDate: r.reviewDate ? new Date(r.reviewDate) : undefined,
         }));
 
@@ -165,45 +186,14 @@ export default function GoogleReviews() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-2 mb-4">
-            <FaGoogle className="w-8 h-8 text-[#4285F4]" />
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-              Veli Görüşleri
-            </h2>
-          </div>
-
-          {/* Rating Summary */}
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <div className="flex items-center gap-1">
-              <span className="text-4xl font-bold text-orange-600">
-                {data.totalRating.toFixed(1)}
-              </span>
-              <div className="flex text-yellow-400 text-xl">
-                {[...Array(5)].map((_, i) => (
-                  <LuStar
-                    key={i}
-                    className={
-                      i < Math.round(data.totalRating)
-                        ? "fill-current"
-                        : "fill-none"
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="text-gray-600">
-              <span className="font-semibold">{data.totalReviews}</span> Google
-              yorumu
-            </div>
-          </div>
-
-          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-            Velilerimizin Google&apos;da paylaştığı deneyimler
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-orange-500">
+            Velilerimizin Paylaştığı Deneyimler
+          </h2>
+          <div className="mt-3 h-1 w-20 mx-auto rounded-full bg-secondary" />
         </motion.div>
 
         {/* Carousel Container */}
-        <div className="relative pt-4 pb-8 px-2 md:px-8 lg:px-12">
+        <div className="relative pb-8 px-2 md:px-8 lg:px-12">
           <div className="relative">
             {/* Navigation Buttons - Dışarıda, kartların ortasında */}
             <button
@@ -238,12 +228,13 @@ export default function GoogleReviews() {
               style={{ maxWidth: "100%" }}
             >
               <motion.div
+                ref={trackRef}
                 className="flex gap-4 md:gap-6 py-4 md:justify-start"
                 animate={{
                   x:
                     itemsPerView === 1
                       ? 0 // Mobilde merkezli kalsın
-                      : `${-currentIndex * (100 / itemsPerView)}%`,
+                      : -currentIndex * stepPx, // Piksel bazlı hesaplama
                 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 drag="x"
@@ -267,13 +258,14 @@ export default function GoogleReviews() {
                   return (
                     <motion.div
                       key={index}
-                      className="flex-shrink-0 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                      ref={index === 0 ? firstCardRef : undefined}
+                      className="flex-shrink-0 w-full md:basis-[calc(50%-0.75rem)] lg:basis-[calc(33.333%-1rem)]"
                       whileHover={{ y: -8, scale: 1.02 }}
                       transition={{ duration: 0.3 }}
                     >
                       <div className="rounded-2xl border-2 border-white/50 p-6 shadow-lg bg-white/80 backdrop-blur-sm min-h-[340px] flex flex-col relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-orange-200 group">
                         {/* Quote Icon */}
-                        <div className="absolute top-4 right-4 text-orange-200 opacity-20 group-hover:opacity-30 transition-opacity">
+                        <div className="absolute top-4 right-4 text-orange-200 opacity-60 group-hover:opacity-30 transition-opacity">
                           <LuQuote className="w-12 h-12" />
                         </div>
 
@@ -357,27 +349,6 @@ export default function GoogleReviews() {
             ))}
           </div>
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12"
-        >
-          {placeId && (
-            <a
-              href={`https://search.google.com/local/writereview?placeid=${placeId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-linear-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-            >
-              <FaGoogle className="w-5 h-5" />
-              Google&apos;da Yorum Yap
-            </a>
-          )}
-        </motion.div>
       </div>
     </section>
   );

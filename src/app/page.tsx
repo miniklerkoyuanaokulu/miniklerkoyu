@@ -335,7 +335,7 @@ export default function HomePage() {
                 {...fadeIn}
                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
               >
-                <Card className="p-4 group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 hover:border-purple-200 overflow-hidden relative bg-white">
+                <Card className="p-4 group transition-all duration-300 hover:shadow-2xl border-2 hover:border-purple-200 overflow-hidden relative bg-white">
                   <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10">
                     <div className="relative h-64 w-full overflow-hidden rounded-xl">
@@ -434,7 +434,7 @@ export default function HomePage() {
                   }}
                 >
                   <Card
-                    className={`p-5 text-center h-full group cursor-pointer transition-all duration-300 hover:shadow-xl ${it.hoverShadow} border-2 ${it.hoverBorder} relative overflow-hidden`}
+                    className={`p-5 text-center h-full group transition-all duration-300 hover:shadow-xl ${it.hoverShadow} border-2 ${it.hoverBorder} relative overflow-hidden`}
                   >
                     <div
                       className={`absolute inset-0 bg-linear-to-br ${it.bgLight} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}

@@ -210,7 +210,7 @@ export default function EgitimModelimizPage() {
                   whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 >
                   <Card
-                    className={`p-6 h-full relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl ${item.hoverShadow} border-2 ${item.hoverBorder}`}
+                    className={`p-6 h-full relative overflow-hidden group transition-all duration-300 hover:shadow-xl ${item.hoverShadow} border-2 ${item.hoverBorder}`}
                   >
                     <div
                       className={`absolute inset-0 bg-linear-to-br ${item.bgLight} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
@@ -355,7 +355,7 @@ export default function EgitimModelimizPage() {
                 transition={{ duration: 0.6 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
+                <Card className="p-8 h-full relative overflow-hidden group border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-100/50 rounded-full blur-3xl" />
 
                   <div className="relative z-10">
@@ -396,7 +396,7 @@ export default function EgitimModelimizPage() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <Card className="p-8 h-full relative overflow-hidden group cursor-pointer border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
+                <Card className="p-8 h-full relative overflow-hidden group border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:shadow-xl bg-white">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-pink-100/50 rounded-full blur-3xl" />
 
                   <div className="relative z-10">
@@ -646,7 +646,7 @@ export default function EgitimModelimizPage() {
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.08 }}
                   whileHover={{ y: -8, rotate: 3 }}
-                  className={`p-5 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-lg cursor-pointer`}
+                  className={`p-5 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-lg`}
                 >
                   <div className="text-4xl mb-3">{item.icon}</div>
                   <div className="text-sm font-semibold">{item.label}</div>

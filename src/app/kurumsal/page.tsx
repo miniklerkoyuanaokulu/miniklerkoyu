@@ -204,7 +204,7 @@ export default function KurumsalPage() {
                 whileHover={{ y: -8 }}
                 className="md:pl-6 space-y-6"
               >
-                <Card className="p-4 group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 hover:border-orange-200 overflow-hidden relative">
+                <Card className="p-4 group transition-all duration-300 hover:shadow-2xl border-2 hover:border-orange-200 overflow-hidden relative">
                   <div className="absolute inset-0 bg-linear-to-br from-orange-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10">
                     <div className="relative h-80 w-full overflow-hidden rounded-xl">
@@ -371,7 +371,7 @@ export default function KurumsalPage() {
                       viewport={{ once: true }}
                       transition={{ delay: idx * 0.1 }}
                       whileHover={{ scale: 1.05, rotate: 2 }}
-                      className={`p-4 rounded-xl bg-linear-to-br ${it.color} text-white shadow-lg cursor-pointer`}
+                      className={`p-4 rounded-xl bg-linear-to-br ${it.color} text-white shadow-lg`}
                     >
                       <div className="text-3xl mb-2">{it.icon}</div>
                       <div className="text-xs opacity-90 mb-1">{it.k}</div>
@@ -644,7 +644,7 @@ export default function KurumsalPage() {
               {/* Sağ - Görsel */}
               <motion.div {...fadeIn} className="flex flex-col gap-6">
                 {/* Görsel - mobilde altta */}
-                <Card className="p-4 group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 hover:border-green-300 overflow-hidden relative order-2 md:order-1">
+                <Card className="p-4 group transition-all duration-300 hover:shadow-2xl border-2 hover:border-green-300 overflow-hidden relative order-2 md:order-1">
                   <div className="absolute inset-0 bg-linear-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10">
                     <div className="relative h-80 w-full overflow-hidden rounded-xl">
@@ -694,7 +694,7 @@ export default function KurumsalPage() {
                       viewport={{ once: true }}
                       transition={{ delay: idx * 0.1 }}
                       whileHover={{ y: -8, rotate: 5 }}
-                      className={`p-4 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-lg cursor-pointer`}
+                      className={`p-4 rounded-xl bg-linear-to-br ${item.color} text-white text-center shadow-lg`}
                     >
                       <div className="text-3xl mb-2">{item.icon}</div>
                       <div className="text-xs font-medium">{item.label}</div>
@@ -737,7 +737,7 @@ export default function KurumsalPage() {
                   viewport={{ once: true, margin: "-10%" }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -8, scale: 1.02 }}
-                  className="p-6 rounded-xl bg-white border-2 border-green-200 hover:border-green-300 transition-all duration-300 hover:shadow-xl cursor-pointer"
+                  className="p-6 rounded-xl bg-white border-2 border-green-200 hover:border-green-300 transition-all duration-300 hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 rounded-full bg-linear-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white text-2xl">
@@ -766,7 +766,7 @@ export default function KurumsalPage() {
                     delay: 0.1,
                   }}
                   whileHover={{ y: -8, scale: 1.02 }}
-                  className="p-6 rounded-xl bg-white border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-xl cursor-pointer"
+                  className="p-6 rounded-xl bg-white border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl">
@@ -792,7 +792,7 @@ export default function KurumsalPage() {
                     delay: 0.2,
                   }}
                   whileHover={{ y: -8, scale: 1.02 }}
-                  className="p-6 rounded-xl bg-white border-2 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl cursor-pointer"
+                  className="p-6 rounded-xl bg-white border-2 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 rounded-full bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl">

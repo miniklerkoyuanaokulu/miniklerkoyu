@@ -185,7 +185,7 @@ export default function NedenPage() {
                     <motion.div
                       key={i}
                       whileHover={{ scale: 1.05 }}
-                      className={`p-4 rounded-xl bg-linear-to-br ${it.color} text-white shadow-md cursor-pointer transition-all`}
+                      className={`p-4 rounded-xl bg-linear-to-br ${it.color} text-white shadow-md  transition-all`}
                     >
                       <div className="flex items-center gap-3 mb-1">
                         <div className="text-2xl">{it.icon}</div>
@@ -201,7 +201,7 @@ export default function NedenPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
               >
-                <Card className="overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 border-white/30 hover:border-white/50 bg-white">
+                <Card className="overflow-hidden group  transition-all duration-300 hover:shadow-2xl border-2 border-white/30 hover:border-white/50 bg-white">
                   <div className="relative h-72 w-full">
                     <Image
                       src="/images/neden/beslenme1.avif"
@@ -295,7 +295,7 @@ export default function NedenPage() {
                       <motion.div
                         key={it.k}
                         whileHover={{ scale: 1.02, x: 4 }}
-                        className={`rounded-xl p-3 bg-linear-to-r ${it.color} text-white shadow-md cursor-pointer transition-all flex items-center justify-between`}
+                        className={`rounded-xl p-3 bg-linear-to-r ${it.color} text-white shadow-md  transition-all flex items-center justify-between`}
                       >
                         <div className="flex items-center gap-3">
                           <div className="text-2xl">{it.icon}</div>
@@ -309,7 +309,7 @@ export default function NedenPage() {
                   {/* Toplam Kartı */}
                   <motion.div
                     whileHover={{ scale: 1.03, y: -2 }}
-                    className="rounded-xl p-5 bg-linear-to-br from-cyan-500 via-blue-500 to-indigo-500 text-white shadow-xl cursor-pointer transition-all border-2 border-white/50 relative overflow-hidden"
+                    className="rounded-xl p-5 bg-linear-to-br from-cyan-500 via-blue-500 to-indigo-500 text-white shadow-xl  transition-all border-2 border-white/50 relative overflow-hidden"
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
                     <div className="relative z-10 flex items-center justify-between">
@@ -364,7 +364,7 @@ export default function NedenPage() {
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.05, y: -4 }}
-                  className="relative h-40 rounded-xl overflow-hidden border-2 border-white shadow-lg group cursor-pointer"
+                  className="relative h-40 rounded-xl overflow-hidden border-2 border-white shadow-lg group "
                 >
                   <Image
                     src={`/images/neden/${item.key}.jpg`}
@@ -448,7 +448,7 @@ export default function NedenPage() {
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.05, y: -2 }}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-xl bg-linear-to-br ${it.color} text-white shadow-md cursor-pointer transition-all text-center`}
+                  className={`flex flex-col items-center gap-3 p-5 rounded-xl bg-linear-to-br ${it.color} text-white shadow-md  transition-all text-center`}
                 >
                   <div className="text-3xl">{it.icon}</div>
                   <div className="text-sm font-semibold">{it.t}</div>
@@ -498,7 +498,7 @@ export default function NedenPage() {
                   whileHover={{ scale: 1.02 }}
                   className="group relative"
                 >
-                  <div className="h-full flex items-start gap-4 p-5 rounded-xl bg-white border-2 border-white/30 hover:border-white/50 shadow-md hover:shadow-lg transition-all cursor-pointer">
+                  <div className="h-full flex items-start gap-4 p-5 rounded-xl bg-white border-2 border-white/30 hover:border-white/50 shadow-md hover:shadow-lg transition-all ">
                     {/* Numara */}
                     <div
                       className={`shrink-0 w-12 h-12 rounded-lg bg-linear-to-br ${row.color} text-white flex items-center justify-center font-bold`}
