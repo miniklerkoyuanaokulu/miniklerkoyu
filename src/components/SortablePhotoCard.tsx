@@ -61,8 +61,8 @@ export default function SortablePhotoCard({
         {index + 1}
       </div>
 
-      {/* Görsel */}
-      <div className="relative aspect-square">
+      {/* Görsel - Caption varsa kare, yoksa daha uzun (caption alanını kaplasın) */}
+      <div className={`relative ${photo.caption ? 'aspect-square' : 'aspect-[1/1.13]'}`}>
         <Image
           src={photo.url}
           alt={photo.caption || "Fotoğraf"}
@@ -74,10 +74,12 @@ export default function SortablePhotoCard({
         />
       </div>
 
-      {/* Caption */}
+      {/* Caption - Sabit yükseklik, sadece caption varsa göster */}
       {photo.caption && (
-        <div className="p-3 border-t border-gray-200 bg-white">
-          <p className="text-sm text-gray-700 line-clamp-2">{photo.caption}</p>
+        <div className="bg-white h-9 flex items-center border-t border-gray-200">
+          <p className="px-3 py-2 text-xs text-gray-700 font-medium line-clamp-2">
+            {photo.caption}
+          </p>
         </div>
       )}
 

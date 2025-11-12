@@ -409,7 +409,7 @@ export default function MedyaPageClient() {
 
                       {/* Caption alanı - sadece caption varsa göster */}
                       {m.caption && (
-                        <div className="bg-white h-12 flex items-center border-t border-border">
+                        <div className="bg-white h-9 flex items-center border-t border-border">
                           <p className="px-3 py-2 text-xs text-gray-700 font-medium line-clamp-2 w-full">
                             {m.caption}
                           </p>
