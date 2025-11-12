@@ -63,6 +63,9 @@ export default function AdminFotografGalerisi() {
 
   // Debounced persist için timer ref
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
+  
+  // Auto-scroll için ref
+  const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
 
   const { uploadImage, progress } = useImageUpload();
 
@@ -118,7 +121,7 @@ export default function AdminFotografGalerisi() {
   // Debounced persist - Arka arkaya sürüklemelerde gereksiz yazımı azaltır
   function persistOrderDebounced(newOrderIds: string[]) {
     if (saveTimer.current) clearTimeout(saveTimer.current);
-    
+
     saveTimer.current = setTimeout(async () => {
       try {
         const updates = newOrderIds.map((id, index) => ({ id, order: index }));
@@ -132,6 +135,14 @@ export default function AdminFotografGalerisi() {
     }, 250); // 250ms debounce
   }
 
+  // Auto-scroll'u durdur
+  function stopAutoScroll() {
+    if (autoScrollInterval.current) {
+      clearInterval(autoScrollInterval.current);
+      autoScrollInterval.current = null;
+    }
+  }
+
   // Drag başladığında
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
@@ -143,6 +154,7 @@ export default function AdminFotografGalerisi() {
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     setActiveId(null);
+    stopAutoScroll(); // Auto-scroll'u durdur
     // Overscroll'u geri al
     document.body.style.overscrollBehavior = "";
 
@@ -164,11 +176,12 @@ export default function AdminFotografGalerisi() {
   // Drag iptal edildiğinde
   function handleDragCancel() {
     setActiveId(null);
+    stopAutoScroll(); // Auto-scroll'u durdur
     // Overscroll'u geri al
     document.body.style.overscrollBehavior = "";
   }
 
-  // Otomatik kaydırma (büyük listelerde yararlı)
+  // Otomatik kaydırma (büyük listelerde yararlı) - Hızlı ve dinamik
   function handleDragMove(event: DragMoveEvent) {
     if (!event.active) return;
     
@@ -176,13 +189,37 @@ export default function AdminFotografGalerisi() {
     if (!activatorEvent) return;
     
     const y = event.delta.y + activatorEvent.clientY;
-    const margin = 80;
+    const margin = 100; // Daha geniş margin (100px)
+    const topEdge = y < margin;
+    const bottomEdge = window.innerHeight - y < margin;
     
-    if (y < margin) {
-      window.scrollBy(0, -12);
-    } else if (window.innerHeight - y < margin) {
-      window.scrollBy(0, 12);
+    // Scroll bölgesinden çıkıldıysa interval'ı temizle
+    if (!topEdge && !bottomEdge) {
+      stopAutoScroll();
+      return;
     }
+    
+    // Zaten scroll yapılıyorsa yeni interval başlatma
+    if (autoScrollInterval.current) return;
+    
+    // Dinamik hız: Margin'e ne kadar yakınsa o kadar hızlı
+    const distanceFromEdge = topEdge 
+      ? margin - y 
+      : margin - (window.innerHeight - y);
+    
+    // Hız faktörü: 0.2 - 1.0 arası (yaklaştıkça hızlanır)
+    const speedFactor = Math.min(distanceFromEdge / margin, 1);
+    const baseSpeed = 30; // Temel hız (piksel/frame)
+    const scrollSpeed = baseSpeed * (0.5 + speedFactor * 0.5); // 15-30px arası
+    
+    // Sürekli scroll loop
+    autoScrollInterval.current = setInterval(() => {
+      if (topEdge) {
+        window.scrollBy({ top: -scrollSpeed, behavior: "auto" });
+      } else if (bottomEdge) {
+        window.scrollBy({ top: scrollSpeed, behavior: "auto" });
+      }
+    }, 16); // ~60fps (16ms)
   }
 
   // Migration: Mevcut fotoğraflara order ekle
@@ -300,13 +337,12 @@ export default function AdminFotografGalerisi() {
 
     try {
       // Mevcut en büyük order'ı bul
-      const maxOrder = photos.length > 0
-        ? Math.max(...photos.map((p) => p.order ?? 0))
-        : -1;
+      const maxOrder =
+        photos.length > 0 ? Math.max(...photos.map((p) => p.order ?? 0)) : -1;
 
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
-        
+
         // Firebase Storage'a yükle (optimize edilmiş)
         const url = await uploadImage(file, "media/photos");
 
@@ -691,7 +727,7 @@ export default function AdminFotografGalerisi() {
             onDragMove={handleDragMove}
           >
             <SortableContext items={order} strategy={rectSortingStrategy}>
-              <div 
+              <div
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                 role="list"
                 aria-label="Fotoğraf galerisi"
