@@ -391,7 +391,9 @@ export default function MedyaPageClient() {
                     onClick={() => openLightbox(sortedItems.indexOf(m))}
                   >
                     <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                      <div className="relative w-full aspect-square overflow-hidden">
+                      {/* Caption varsa: kare fotoğraf + caption alanı */}
+                      {/* Caption yoksa: fotoğraf caption alanını da kaplasın (daha büyük) */}
+                      <div className={`relative w-full overflow-hidden ${m.caption ? 'aspect-square' : 'aspect-[1/1.15]'}`}>
                         <Image
                           src={m.url}
                           alt={m.caption || "Fotoğraf"}
@@ -401,14 +403,14 @@ export default function MedyaPageClient() {
                         />
                       </div>
 
-                      {/* Caption alanı - sabit yükseklik, caption varsa göster */}
-                      <div className="bg-white h-14 flex items-center">
-                        {m.caption && (
+                      {/* Caption alanı - sadece caption varsa göster */}
+                      {m.caption && (
+                        <div className="bg-white h-14 flex items-center border-t border-border">
                           <p className="px-3 text-sm text-gray-700 font-medium line-clamp-2 w-full">
                             {m.caption}
                           </p>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 ))}
@@ -432,7 +434,9 @@ export default function MedyaPageClient() {
                     onClick={() => openLightbox(sortedItems.indexOf(m))}
                   >
                     <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                      <div className="relative w-full aspect-square overflow-hidden">
+                      {/* Caption varsa: kare video + caption alanı */}
+                      {/* Caption yoksa: video caption alanını da kaplasın (daha büyük) */}
+                      <div className={`relative w-full overflow-hidden ${m.caption ? 'aspect-square' : 'aspect-[1/1.15]'}`}>
                         {m.thumbnailUrl ? (
                           <Image
                             src={m.thumbnailUrl}
@@ -456,14 +460,14 @@ export default function MedyaPageClient() {
                         </div>
                       </div>
 
-                      {/* Caption alanı - sabit yükseklik, caption varsa göster */}
-                      <div className="bg-white h-14 flex items-center">
-                        {m.caption && (
+                      {/* Caption alanı - sadece caption varsa göster */}
+                      {m.caption && (
+                        <div className="bg-white h-14 flex items-center border-t border-border">
                           <p className="px-3 text-sm text-gray-700 font-medium line-clamp-2 w-full">
                             {m.caption}
                           </p>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 ))}
