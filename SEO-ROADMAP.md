@@ -12,6 +12,7 @@
 **Sorun:** Şu anda sayfalar `"use client"` ile çalıştığı için dinamik. SEO için H1-H6 yapısı önemli.
 
 **Yapılacak:**
+
 ```typescript
 // Her sayfada:
 // ✅ 1 adet H1 (sayfa başlığı)
@@ -33,12 +34,14 @@
 **Mevcut Durum:** Bazı resimlerde alt text var ama SEO'ya optimize değil.
 
 **Kötü:**
+
 ```tsx
 <Image alt="Fotoğraf" />
 <Image alt="Görsel 1" />
 ```
 
 **İyi:**
+
 ```tsx
 <Image alt="Adana Çukurova'da organik beslenme ile anaokulu bahçesi" />
 <Image alt="Vardalı Minikler Köyü oyun alanında çocuklar" />
@@ -55,12 +58,14 @@
 **Mevcut:** Sayfa içerikleri yeterli ama daha fazla metin eklenebilir.
 
 **Yapılacak:**
+
 - ✅ Her sayfa min. 800-1000 kelime olmalı
 - ✅ SSS (FAQ) bölümü ekle (Schema markup ile)
 - ✅ Blog bölümü eklemeyi düşünün (uzun vadede)
 
 **Öneri Sayfalar:**
-1. **SSS Sayfası:** "Kayıt nasıl yapılır?", "Ücretler nedir?", "Yaş grupları?" 
+
+1. **SSS Sayfası:** "Kayıt nasıl yapılır?", "Ücretler nedir?", "Yaş grupları?"
 2. **Veli Yorumları:** Testimonials (Schema.org ReviewRating ile)
 3. **Etkinlikler:** Aylık etkinlik takvimi (fresh content için)
 
@@ -75,8 +80,10 @@
 **EN ÖNEMLİ!** Henüz yapılmadıysa hemen yap.
 
 **Adımlar:**
+
 1. https://business.google.com → Hesap oluştur
 2. İşletme Bilgileri:
+
    - **Ad:** Vardalı Minikler Köyü Anaokulu
    - **Kategori:** Preschool / Anaokulu
    - **Adres:** Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan Bulvarı 262/1A, Çukurova, Adana
@@ -85,6 +92,7 @@
    - **Çalışma Saatleri:** Pazartesi-Cuma 08:00-18:00
 
 3. **Fotoğraflar Ekle:**
+
    - Dış mekan (en az 10 adet)
    - İç mekan (en az 10 adet)
    - Logo
@@ -92,6 +100,7 @@
    - Ekip fotoğrafları
 
 4. **Özellikler:**
+
    - "Kadınlara ait işletme"
    - "Ücretsiz Wi-Fi"
    - "Otopark mevcut"
@@ -117,6 +126,7 @@ Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan Bulvarı 262/1A
 ```
 
 **Kontrol Edilecek Yerler:**
+
 - ✅ Web sitesi footer
 - ✅ Google My Business
 - ✅ Facebook Sayfası
@@ -132,20 +142,15 @@ Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan Bulvarı 262/1A
 **Yapılacak:** Aşağıdaki sitelere işletmenizi ekleyin:
 
 **Türkiye Spesifik:**
+
 1. **Yandex Maps** - https://business.yandex.com
 2. **Yelp Türkiye** - https://biz.yelp.com
 3. **N11 Mağaza** (potansiyel müşteri kaynağı)
 4. **Hürriyet Emlak** (iş yeri listelemeleri)
 
-**Eğitim/Okul Dizinleri:**
-5. **Okul Bul** - okulliste.com
-6. **Anaokulu Rehberi** sitelerine kayıt
-7. **BabyCenter Türkiye** - forumlar/dizin
+**Eğitim/Okul Dizinleri:** 5. **Okul Bul** - okulliste.com 6. **Anaokulu Rehberi** sitelerine kayıt 7. **BabyCenter Türkiye** - forumlar/dizin
 
-**Sosyal Medya:**
-8. **Facebook Business Page** (varsa güncel tut)
-9. **Instagram Business Account** (varsa güncel tut)
-10. **LinkedIn Company Page** (profesyonel görünüm)
+**Sosyal Medya:** 8. **Facebook Business Page** (varsa güncel tut) 9. **Instagram Business Account** (varsa güncel tut) 10. **LinkedIn Company Page** (profesyonel görünüm)
 
 **Etki:** 🟡 Orta - Backlink & NAP signals
 
@@ -158,14 +163,17 @@ Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan Bulvarı 262/1A
 **Kolay Kazanılacak Linkler:**
 
 1. **Yerel Haberler:**
+
    - Adana yerel haber sitelerine haber gönderin
    - Örnek: "Çukurova'da yeni eğitim anlayışı"
 
 2. **Eğitim Blogları:**
+
    - Misafir blog yazısı yaz
    - Örnek: "Okul öncesi eğitimde doğanın önemi"
 
 3. **Partner İşletmeler:**
+
    - Tedarikçilerinizden link isteyin (organik ürün sağlayıcıları)
    - Çevredeki işletmelerle "dostluk linkleri"
 
@@ -180,6 +188,7 @@ Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan Bulvarı 262/1A
 ### 3.2 Sosyal Sinyaller
 
 **Yapılacak:**
+
 - ✅ Instagram'da düzenli paylaşım (haftada 3-5 post)
 - ✅ Facebook sayfa oluştur + paylaşımlar
 - ✅ LinkedIn'de kurum sayfası + blog paylaşımları
@@ -194,16 +203,19 @@ Fuar Alanı Kavşağı, Prof. Dr. Necmettin Erbakan Bulvarı 262/1A
 ### 4.1 Core Web Vitals İyileştirme
 
 **Test Et:**
+
 ```bash
 npx lighthouse https://miniklerkoyuanaokulu.com --view
 ```
 
 **Hedef:**
+
 - LCP (Largest Contentful Paint): <2.5s
 - FID (First Input Delay): <100ms
 - CLS (Cumulative Layout Shift): <0.1
 
 **İyileştirmeler:**
+
 - ✅ Hero image'leri daha optimize et
 - ✅ Font loading optimize et (font-display: swap)
 - ✅ Lazy load video/iframe'ler
@@ -215,9 +227,11 @@ npx lighthouse https://miniklerkoyuanaokulu.com --view
 ### 4.2 Mobil Optimizasyon
 
 **Kontrol:**
+
 - https://search.google.com/test/mobile-friendly
 
 **Yapılacak:**
+
 - ✅ Touch target'lar en az 48x48px
 - ✅ Font size mobilde en az 16px
 - ✅ Viewport genişliği doğru ayarlanmış
@@ -229,17 +243,18 @@ npx lighthouse https://miniklerkoyuanaokulu.com --view
 ### 4.3 Sayfa Hızı Optimizasyonu
 
 **Yapılacak:**
+
 ```typescript
 // next.config.ts
 export default {
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     // ✅ Zaten var
   },
   compress: true, // Gzip sıkıştırma
   poweredByHeader: false, // X-Powered-By header'ı kaldır
-}
+};
 ```
 
 **Etki:** 🟡 Orta - User experience & SEO
@@ -251,11 +266,13 @@ export default {
 ### 5.1 Blog Bölümü Ekle
 
 **Yararları:**
+
 - Sürekli fresh content
 - Long-tail keyword hedefleme
 - Backlink kazanma fırsatı
 
 **Blog Post Önerileri:**
+
 1. "Okul Öncesi Eğitimde Beslenmenin Önemi"
 2. "Çocuklarda Doğa Sevgisi Nasıl Geliştirilir?"
 3. "Adana'da Anaokulu Seçerken Dikkat Edilmesi Gerekenler"
@@ -271,12 +288,14 @@ export default {
 ### 5.2 Video İçerik
 
 **YouTube SEO:**
+
 - Okul tanıtım videosu (3-5 dk)
 - Sanal tur videosu
 - Veli röportajları
 - Günlük aktivite klipler
 
 **Optimizasyon:**
+
 - Video title'da keyword kullan
 - Description'da web site linki
 - Tags: "anaokulu adana", "okul öncesi eğitim", vs.
@@ -290,6 +309,7 @@ export default {
 ### 6.1 Google Search Console Takibi
 
 **Yapılacak:**
+
 1. Haftalık performans kontrolü
 2. Click-through rate (CTR) düşük sayfalarda title/description iyileştir
 3. İmpressions yüksek ama CTR düşük keywordler için içerik optimize et
@@ -301,6 +321,7 @@ export default {
 ### 6.2 Google Analytics 4 Hedefleri
 
 **Ayarlanacak Conversion Goals:**
+
 - Ön kayıt formu gönderimi
 - İletişim sayfası ziyareti
 - Telefon numarasına tıklama
@@ -315,6 +336,7 @@ export default {
 **Tool Önerisi:** Microsoft Clarity (ücretsiz)
 
 **Yapılacak:**
+
 - Hangi bölümler okunuyor?
 - Nereden çıkış yapılıyor?
 - Form'da takılma var mı?
@@ -332,17 +354,17 @@ export default {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "Kayıt ücreti ne kadar?",
-      "acceptedAnswer": {
+      name: "Kayıt ücreti ne kadar?",
+      acceptedAnswer: {
         "@type": "Answer",
-        "text": "Kayıt ücretleri için lütfen bizi arayın..."
-      }
-    }
-  ]
-}
+        text: "Kayıt ücretleri için lütfen bizi arayın...",
+      },
+    },
+  ],
+};
 ```
 
 **Etki:** 🟢 Yüksek - Rich snippets (arama sonuçlarında öne çıkar)
@@ -356,21 +378,21 @@ const faqSchema = {
 const reviewSchema = {
   "@context": "https://schema.org",
   "@type": "Review",
-  "itemReviewed": {
+  itemReviewed: {
     "@type": "EducationalOrganization",
-    "name": "Vardalı Minikler Köyü"
+    name: "Vardalı Minikler Köyü",
   },
-  "author": {
+  author: {
     "@type": "Person",
-    "name": "Ayşe Y."
+    name: "Ayşe Y.",
   },
-  "reviewRating": {
+  reviewRating: {
     "@type": "Rating",
-    "ratingValue": 5,
-    "bestRating": 5
+    ratingValue: 5,
+    bestRating: 5,
   },
-  "reviewBody": "Çocuğum çok mutlu..."
-}
+  reviewBody: "Çocuğum çok mutlu...",
+};
 ```
 
 **Etki:** 🟢 Yüksek - Yıldız rating arama sonuçlarında görünür
@@ -384,14 +406,14 @@ const reviewSchema = {
 const eventSchema = {
   "@context": "https://schema.org",
   "@type": "Event",
-  "name": "Açık Hava Okul Tanıtımı",
-  "startDate": "2025-01-15T10:00",
-  "location": {
+  name: "Açık Hava Okul Tanıtımı",
+  startDate: "2025-01-15T10:00",
+  location: {
     "@type": "Place",
-    "name": "Vardalı Minikler Köyü",
-    "address": "..."
-  }
-}
+    name: "Vardalı Minikler Köyü",
+    address: "...",
+  },
+};
 ```
 
 **Etki:** 🟡 Orta - Google Events'te görünürlük
@@ -401,12 +423,14 @@ const eventSchema = {
 ## 📅 ZAMAN ÇİZELGESİ & ÖNCELIK PLANI
 
 ### 🔴 HEMEN YAP (1. Hafta)
+
 1. ✅ Google My Business profili oluştur
 2. ✅ NAP tutarlılığını kontrol et
 3. ✅ Alt text'leri düzelt (tüm resimler)
 4. ✅ H1/H2/H3 yapısını iyileştir
 
 ### 🟠 KISA VADELİ (1. Ay)
+
 5. ✅ Yerel dizinlere kayıt (10+ site)
 6. ✅ Veli yorumları topla (Google Reviews)
 7. ✅ Core Web Vitals iyileştirme
@@ -414,6 +438,7 @@ const eventSchema = {
 9. ✅ Microsoft Clarity kurulumu
 
 ### 🟡 ORTA VADELİ (2-3 Ay)
+
 10. ✅ Blog bölümü ekle (ilk 5-10 post)
 11. ✅ YouTube kanalı oluştur + video içerik
 12. ✅ Basın bültenleri gönder
@@ -421,6 +446,7 @@ const eventSchema = {
 14. ✅ Review Schema ekle
 
 ### 🟢 UZUN VADELİ (3-6 Ay+)
+
 15. ✅ Düzenli blog yazısı (ayda 4)
 16. ✅ Video içerik (ayda 2)
 17. ✅ Backlink building devam et
@@ -432,13 +458,17 @@ const eventSchema = {
 ## 🎓 EĞİTİM KAYNAKLARI
 
 ### Öğrenilecek Konular:
+
 1. **Google Search Console Kullanımı**
+
    - https://support.google.com/webmasters
 
 2. **Local SEO Best Practices**
+
    - Moz Local Learning Center
 
 3. **Schema.org Markup**
+
    - https://schema.org/docs/gs.html
 
 4. **Core Web Vitals**
@@ -449,6 +479,7 @@ const eventSchema = {
 ## 📊 BAŞARI METRİKLERİ
 
 ### 3 Ay Sonra Hedefler:
+
 - 🎯 Google'da "anaokulu adana" → 1. sayfa (top 10)
 - 🎯 Google'da "çukurova anaokulu" → Top 5
 - 🎯 Google My Business → 25+ yorum (4.5+ yıldız)
@@ -456,6 +487,7 @@ const eventSchema = {
 - 🎯 Ön kayıt formu → 10+ lead/ay
 
 ### 6 Ay Sonra Hedefler:
+
 - 🎯 "anaokulu adana" → Top 3
 - 🎯 Organik trafik → 1000+ ziyaretçi/ay
 - 🎯 Google My Business → 50+ yorum
@@ -467,6 +499,7 @@ const eventSchema = {
 ## 🛠️ ARAÇLAR & KAYNAKLAR
 
 ### Ücretsiz SEO Tools:
+
 1. **Google Search Console** - Arama performansı
 2. **Google Analytics 4** - Trafik analizi
 3. **Google My Business** - Yerel görünürlük
@@ -475,6 +508,7 @@ const eventSchema = {
 6. **Google Rich Results Test** - Schema validation
 
 ### Ücretli Tools (Opsiyonel):
+
 1. **Ahrefs** (~$99/ay) - Backlink analizi, keyword research
 2. **SEMrush** (~$119/ay) - Competitor analysis
 3. **Moz Pro** (~$99/ay) - Local SEO tracking
@@ -484,22 +518,27 @@ const eventSchema = {
 ## 💡 BONUS İPUÇLARI
 
 ### 1. Rakip Analizi
+
 **Yapılacak:**
+
 - Adana'daki diğer anaokullarının web sitelerini incele
 - Hangi keywordlerde sıralanıyorlar?
 - Neleri daha iyi yapabilirsiniz?
 
-**Tool:** 
+**Tool:**
+
 ```
 https://ahrefs.com/site-explorer (ücretsiz 5 arama/gün)
 ```
 
 ### 2. Yerel Basın İlişkileri
+
 - Adana yerel gazetelere okul hakkında haber gönderin
 - "Yenilikçi eğitim anlayışı" açısından
 - Backlink + brand awareness
 
 ### 3. Veli Referans Programı
+
 - Velilerden arkadaşlarını önermeleri için teşvik et
 - Her öneri için mini hediye
 - Word-of-mouth SEO'dan daha güçlü!
@@ -525,4 +564,3 @@ Bu 5 şeyi yaparsanız, 30 gün içinde Google'da görünürlüğünüz **%50-10
 **Versiyon:** 1.0
 
 **Not:** Bu roadmap'i yazdırmak ve duvarınıza asmak için özgürsünüz! 📌
-
