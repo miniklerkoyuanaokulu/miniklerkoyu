@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaStar, FaTrash, FaPlus, FaGoogle } from "react-icons/fa";
+import { FaStar, FaTrash, FaPlus } from "react-icons/fa";
 import { addManualReview, getRelativeTime } from "@/lib/reviews";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -13,7 +13,13 @@ interface Review {
   text: string;
   time?: string;
   relative_time?: string;
-  reviewDate?: any; // Firebase Timestamp
+  reviewDate?: {
+    toDate: () => Date;
+    toMillis: () => number;
+  };
+  createdAt?: {
+    toMillis: () => number;
+  };
   source: "google" | "manual";
 }
 
@@ -61,11 +67,7 @@ export default function AdminReviewsPage() {
   // Seçilen aydaki gün sayısı
   const daysInMonth = new Date(formData.year, formData.month + 1, 0).getDate();
 
-  // Yorumları yükle
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
+  // Yorumları yükle fonksiyonu
   const fetchReviews = async () => {
     try {
       // Basit query - index gerektirmeyen
@@ -75,10 +77,12 @@ export default function AdminReviewsPage() {
           id: doc.id,
           ...doc.data(),
         }))
-        .sort((a: any, b: any) => {
+        .sort((a, b) => {
           // En yeni yorumlar önce (client-side sorting)
-          const timeA = a.createdAt?.toMillis() || 0;
-          const timeB = b.createdAt?.toMillis() || 0;
+          const reviewA = a as Review;
+          const reviewB = b as Review;
+          const timeA = reviewA.createdAt?.toMillis() || 0;
+          const timeB = reviewB.createdAt?.toMillis() || 0;
           return timeB - timeA;
         }) as Review[];
 
@@ -89,6 +93,12 @@ export default function AdminReviewsPage() {
       setIsLoading(false);
     }
   };
+
+  // Yorumları yükle
+  useEffect(() => {
+    // eslint-disable-next-line
+    fetchReviews();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -303,8 +313,8 @@ export default function AdminReviewsPage() {
                 </div>
               </div>
 
-              {/* Önizleme */}
-              <div className="mt-3 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg">
+                     {/* Önizleme */}
+                     <div className="mt-3 p-4 bg-linear-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg">
                 <p className="text-sm font-semibold text-blue-900 mb-2">
                   📋 Önizleme:
                 </p>
