@@ -393,7 +393,11 @@ export default function MedyaPageClient() {
                     <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
                       {/* Caption varsa: kare fotoğraf + caption alanı */}
                       {/* Caption yoksa: fotoğraf caption alanını da kaplasın (daha büyük) */}
-                      <div className={`relative w-full overflow-hidden ${m.caption ? 'aspect-square' : 'aspect-[1/1.15]'}`}>
+                      <div
+                        className={`relative w-full overflow-hidden ${
+                          m.caption ? "aspect-square" : "aspect-[1/1.13]"
+                        }`}
+                      >
                         <Image
                           src={m.url}
                           alt={m.caption || "Fotoğraf"}
@@ -405,8 +409,8 @@ export default function MedyaPageClient() {
 
                       {/* Caption alanı - sadece caption varsa göster */}
                       {m.caption && (
-                        <div className="bg-white h-14 flex items-center border-t border-border">
-                          <p className="px-3 text-sm text-gray-700 font-medium line-clamp-2 w-full">
+                        <div className="bg-white h-12 flex items-center border-t border-border">
+                          <p className="px-3 py-2 text-xs text-gray-700 font-medium line-clamp-2 w-full">
                             {m.caption}
                           </p>
                         </div>
@@ -436,7 +440,11 @@ export default function MedyaPageClient() {
                     <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
                       {/* Caption varsa: kare video + caption alanı */}
                       {/* Caption yoksa: video caption alanını da kaplasın (daha büyük) */}
-                      <div className={`relative w-full overflow-hidden ${m.caption ? 'aspect-square' : 'aspect-[1/1.15]'}`}>
+                      <div
+                        className={`relative w-full overflow-hidden ${
+                          m.caption ? "aspect-square" : "aspect-[1/1.15]"
+                        }`}
+                      >
                         {m.thumbnailUrl ? (
                           <Image
                             src={m.thumbnailUrl}
@@ -462,8 +470,8 @@ export default function MedyaPageClient() {
 
                       {/* Caption alanı - sadece caption varsa göster */}
                       {m.caption && (
-                        <div className="bg-white h-14 flex items-center border-t border-border">
-                          <p className="px-3 text-sm text-gray-700 font-medium line-clamp-2 w-full">
+                        <div className="bg-white h-12 flex items-center border-t border-border">
+                          <p className="px-3 py-2 text-xs text-gray-700 font-medium line-clamp-2 w-full">
                             {m.caption}
                           </p>
                         </div>
