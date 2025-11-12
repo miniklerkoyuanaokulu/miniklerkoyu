@@ -379,7 +379,7 @@ export default function MedyaPageClient() {
           {photos.length > 0 && (
             <section className="mb-16">
               <SectionTitle title="Fotoğraflarımız" id="fotograflar" />
-              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-fr">
                 {photos.map((m) => (
                   <motion.div
                     key={m.id}
@@ -387,11 +387,11 @@ export default function MedyaPageClient() {
                     animate={{ opacity: 1, scale: 1 }}
                     whileHover={{ y: -8, scale: 1.02 }}
                     transition={{ duration: 0.3 }}
-                    className="group cursor-zoom-in"
+                    className="group cursor-zoom-in h-full"
                     onClick={() => openLightbox(sortedItems.indexOf(m))}
                   >
-                    <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                      <div className="relative w-full overflow-hidden aspect-square">
+                    <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                      <div className="relative w-full overflow-hidden flex-1 min-h-0">
                         <Image
                           src={m.url}
                           alt={m.caption || "Fotoğraf"}
@@ -401,11 +401,14 @@ export default function MedyaPageClient() {
                         />
                       </div>
 
-                      {m.caption && (
-                        <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
-                          {m.caption}
-                        </div>
-                      )}
+                      {/* Caption alanı - caption varsa göster, yoksa h-0 */}
+                      <div className={`bg-white ${m.caption ? 'p-3 min-h-14 border-t border-border' : 'h-0'}`}>
+                        {m.caption && (
+                          <p className="text-sm text-gray-700 font-medium line-clamp-2">
+                            {m.caption}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -417,7 +420,7 @@ export default function MedyaPageClient() {
           {videos.length > 0 && (
             <section className="mb-16">
               <SectionTitle title="Videolarımız" id="videolar" />
-              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-fr">
                 {videos.map((m) => (
                   <motion.div
                     key={m.id}
@@ -425,11 +428,11 @@ export default function MedyaPageClient() {
                     animate={{ opacity: 1, scale: 1 }}
                     whileHover={{ y: -8, scale: 1.02 }}
                     transition={{ duration: 0.3 }}
-                    className="group cursor-zoom-in"
+                    className="group cursor-zoom-in h-full"
                     onClick={() => openLightbox(sortedItems.indexOf(m))}
                   >
-                    <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300">
-                      <div className="relative w-full overflow-hidden aspect-square">
+                    <div className="rounded-xl overflow-hidden border-2 border-border hover:border-orange-300 hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                      <div className="relative w-full overflow-hidden flex-1 min-h-0">
                         {m.thumbnailUrl ? (
                           <Image
                             src={m.thumbnailUrl}
@@ -453,11 +456,14 @@ export default function MedyaPageClient() {
                         </div>
                       </div>
 
-                      {m.caption && (
-                        <div className="p-3 bg-white border-t border-border text-sm text-gray-700 font-medium">
-                          {m.caption}
-                        </div>
-                      )}
+                      {/* Caption alanı - caption varsa göster, yoksa h-0 */}
+                      <div className={`bg-white ${m.caption ? 'p-3 min-h-14 border-t border-border' : 'h-0'}`}>
+                        {m.caption && (
+                          <p className="text-sm text-gray-700 font-medium line-clamp-2">
+                            {m.caption}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
