@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaClipboardList, FaVideo, FaStar } from "react-icons/fa";
+import { FaClipboardList, FaVideo, FaStar, FaBullhorn } from "react-icons/fa";
 
 const menuItems = [
   {
@@ -25,6 +25,13 @@ const menuItems = [
     icon: FaStar,
     color: "from-orange-500 to-amber-500",
     description: "Manuel yorum ekle ve yönet",
+  },
+  {
+    title: "Duyurular",
+    href: "/admin/duyurular",
+    icon: FaBullhorn,
+    color: "from-blue-600 to-purple-600",
+    description: "Duyuru ekle, düzenle ve yönet",
   },
 
   // Diğer sayfalar - Yakında aktif olacak
@@ -74,7 +81,7 @@ export default function AdminHome() {
       </div>
 
       {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {menuItems.map((item, idx) => (
           <motion.div
             key={item.href}

@@ -4,7 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { trackNavigation, trackMobileMenu, trackButtonClick } from "@/lib/analytics";
+import {
+  trackNavigation,
+  trackMobileMenu,
+  trackButtonClick,
+} from "@/lib/analytics";
 
 type MenuItem = {
   label: string;
@@ -64,6 +68,7 @@ const menu: MenuItem[] = [
     ],
   },
   { label: "Medya", href: "/medya" },
+  { label: "Duyurularımız", href: "/duyurular" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
@@ -141,7 +146,7 @@ export function Navbar() {
       } z-50 ${headerBg}`}
       style={{ height: "var(--header-height)" }}
     >
-      <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 md:px-8">
         <Link
           href="/"
           className="flex items-center gap-3 py-2 transition-opacity hover:opacity-80"
@@ -157,7 +162,7 @@ export function Navbar() {
             />
           </div>
           <span
-            className={`text-base md:text-lg font-bold transition-colors ${linkColor}`}
+            className={`text-base md:text-lg font-extrabold transition-colors ${linkColor}`}
           >
             Minikler Köyü
           </span>
@@ -165,7 +170,7 @@ export function Navbar() {
 
         {/* Desktop */}
         <nav
-          className="relative hidden items-center gap-1 md:flex"
+          className="relative hidden items-center gap-0.5 md:flex ml-auto"
           aria-label="Ana menü"
         >
           {menu.map((item) => {
@@ -228,15 +233,15 @@ export function Navbar() {
           })}
 
           <Link
-            href="/iletisim#on-kayit"
-            className={`ml-2 inline-flex items-center rounded-full px-5 py-2.5 font-medium shadow-sm transition ${
+            href="/iletisim#on-kayit-formu"
+            className={`ml-4 inline-flex items-center rounded-full px-5 py-2.5 font-medium shadow-sm transition ${
               isHomePage
                 ? "bg-primary text-primary-foreground hover:bg-primary-hover"
                 : "border-2 border-primary text-primary hover:bg-primary hover:text-white"
             }`}
-            onClick={() => trackButtonClick("Ön Kayıt", "Navbar Desktop")}
+            onClick={() => trackButtonClick("Ön Kayıt Formu", "Navbar Desktop")}
           >
-            Ön Kayıt
+            Ön Kayıt Formu
           </Link>
         </nav>
 
@@ -322,7 +327,9 @@ export function Navbar() {
                             }`}
                             onClick={() => {
                               setMobileOpen(false);
-                              trackNavigation(`Mobile: ${item.label} > ${sub.label}`);
+                              trackNavigation(
+                                `Mobile: ${item.label} > ${sub.label}`
+                              );
                             }}
                           >
                             {sub.label}
@@ -337,10 +344,10 @@ export function Navbar() {
 
             <li className="pt-2">
               <Link
-                href="/iletisim#on-kayit"
+                href="/iletisim#on-kayit-formu"
                 onClick={() => {
                   setMobileOpen(false);
-                  trackButtonClick("Ön Kayıt", "Navbar Mobile");
+                  trackButtonClick("Ön Kayıt Formu", "Navbar Mobile");
                 }}
                 className={`inline-flex items-center rounded-lg px-4 py-2 font-medium transition ${
                   isHomePage
@@ -348,7 +355,7 @@ export function Navbar() {
                     : "border-2 border-primary text-primary hover:bg-primary hover:text-white"
                 }`}
               >
-                Ön Kayıt
+                Ön Kayıt Formu
               </Link>
             </li>
           </ul>

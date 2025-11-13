@@ -35,6 +35,13 @@ service cloud.firestore {
       allow read: if true; // Public okuma
       allow write: if isAuthenticated(); // Sadece admin
     }
+    
+    // ========== Announcements (Duyurular) ==========
+    // Herkes okuyabilir (duyurular sayfası için), sadece admin yazabilir
+    match /announcements/{document} {
+      allow read: if true; // Public okuma
+      allow write: if isAuthenticated(); // Sadece admin
+    }
   }
 }
 

@@ -12,7 +12,7 @@ import {
   getDoc
 } from "firebase/firestore";
 import { db } from "./firebase";
-import type { PreApplication, InstagramPost } from "./types";
+import type { PreApplication, InstagramPost, Announcement } from "./types";
 
 export async function savePreApplication(input: Omit<PreApplication, "status" | "createdAt">) {
   const doc = await addDoc(collection(db, "preApplications"), {
@@ -163,6 +163,61 @@ export async function updateMediaItemsOrder(items: { id: string; order: number }
 
 export async function deleteMediaItem(id: string) {
   const docRef = doc(db, "mediaItems", id);
+  await deleteDoc(docRef);
+}
+
+// ========== Announcements CRUD ==========
+
+export async function getAnnouncements() {
+  const announcementsRef = collection(db, "announcements");
+  const q = query(announcementsRef, orderBy("date", "desc"));
+  const snapshot = await getDocs(q);
+  
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Announcement[];
+}
+
+export async function getAnnouncementBySlug(slug: string) {
+  const announcementsRef = collection(db, "announcements");
+  const q = query(announcementsRef, where("slug", "==", slug));
+  const snapshot = await getDocs(q);
+  
+  if (snapshot.empty) {
+    return null;
+  }
+  
+  const doc = snapshot.docs[0];
+  return {
+    id: doc.id,
+    ...doc.data(),
+  } as Announcement;
+}
+
+export async function addAnnouncement(
+  input: Omit<Announcement, "id" | "createdAt" | "updatedAt">
+) {
+  const docRef = await addDoc(collection(db, "announcements"), {
+    ...input,
+    createdAt: serverTimestamp(),
+  });
+  return docRef.id;
+}
+
+export async function updateAnnouncement(
+  id: string,
+  input: Partial<Omit<Announcement, "id" | "createdAt">>
+) {
+  const docRef = doc(db, "announcements", id);
+  await updateDoc(docRef, {
+    ...input,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function deleteAnnouncement(id: string) {
+  const docRef = doc(db, "announcements", id);
   await deleteDoc(docRef);
 }
 

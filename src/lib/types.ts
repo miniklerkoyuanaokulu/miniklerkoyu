@@ -64,4 +64,14 @@ export type InstagramPost = {
   updatedAt?: number;
 };
 
+export type Announcement = {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  date: number; // Duyuru tarihi (timestamp)
+  createdAt: number;
+  updatedAt?: number;
+};
+
 

@@ -60,3 +60,25 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+// Türkçe karakterleri dönüştür ve slug oluştur
+export function generateSlug(text: string): string {
+  const turkishMap: Record<string, string> = {
+    'ç': 'c', 'Ç': 'C',
+    'ğ': 'g', 'Ğ': 'G',
+    'ı': 'i', 'İ': 'I',
+    'ö': 'o', 'Ö': 'O',
+    'ş': 's', 'Ş': 'S',
+    'ü': 'u', 'Ü': 'U',
+  };
+
+  return text
+    .split('')
+    .map(char => turkishMap[char] || char)
+    .join('')
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '') // Özel karakterleri kaldır
+    .replace(/[\s_]+/g, '-') // Boşlukları tire ile değiştir
+    .replace(/^-+|-+$/g, ''); // Başta ve sondaki tireleri kaldır
+}
