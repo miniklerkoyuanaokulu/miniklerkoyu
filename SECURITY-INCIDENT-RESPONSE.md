@@ -5,8 +5,8 @@
 Google API Key'iniz GitHub'da public olarak yayınlandı ve Google tarafından tespit edildi.
 
 **Dosya:** `GOOGLE-API-TROUBLESHOOTING.md`  
-**Exposed Key:** AIzaSyAoxQlVD5PDe1PV3YexkMmyq7mi6Hh8NJk  
-**Exposed Place ID:** ChIJFWQCbTSJKBUR3Mdm6SelfnM
+**Exposed Key:** AIzaSy... (eski key, zaten silindi)  
+**Exposed Place ID:** ChIJ... (Place ID'ler public olabilir)
 
 ---
 
@@ -79,8 +79,8 @@ git clone --mirror https://github.com/KULLANICI_ADINIZ/vardaminiklerkoyu.git
 bfg --replace-text passwords.txt vardaminiklerkoyu.git
 
 # passwords.txt içeriği:
-# AIzaSyAoxQlVD5PDe1PV3YexkMmyq7mi6Hh8NJk
-# ChIJFWQCbTSJKBUR3Mdm6SelfnM
+# EXPOSED_API_KEY_BURAYA
+# EXPOSED_PLACE_ID_BURAYA (opsiyonel)
 
 # History'yi temizle
 cd vardaminiklerkoyu.git
