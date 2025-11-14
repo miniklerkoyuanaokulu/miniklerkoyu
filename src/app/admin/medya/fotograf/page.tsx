@@ -754,7 +754,13 @@ export default function AdminFotografGalerisi() {
             </SortableContext>
 
             {/* DragOverlay: Sürüklenen kartın preview'ı */}
-            <DragOverlay adjustScale={false} dropAnimation={null}>
+            <DragOverlay 
+              adjustScale={false} 
+              dropAnimation={{
+                duration: 300,
+                easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+              }}
+            >
               {activeId && byId[activeId] ? (
                 <div className="w-full max-w-[400px] rounded-xl overflow-hidden shadow-2xl border-4 border-blue-500 bg-white transform-gpu will-change-transform rotate-2">
                   <div className="relative aspect-square">

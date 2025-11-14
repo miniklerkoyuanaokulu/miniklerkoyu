@@ -1,29 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaInstagram,
   FaPlus,
-  FaTrash,
-  FaEdit,
-  FaEye,
-  FaEyeSlash,
   FaUpload,
+  FaGripVertical,
+  FaSortNumericDown,
 } from "react-icons/fa";
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+  DragEndEvent,
+  DragStartEvent,
+  DragMoveEvent,
+} from "@dnd-kit/core";
+import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import {
+  restrictToParentElement,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 import {
   getInstagramPosts,
   addInstagramPost,
   updateInstagramPost,
   deleteInstagramPost,
+  updateInstagramPostsOrder,
 } from "@/lib/firestore";
 import { isValidInstagramUrl } from "@/lib/instagram";
 import type { InstagramPost } from "@/lib/types";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import Toast, { ToastType } from "@/components/Toast";
+import SortableInstagramCard from "@/components/SortableInstagramCard";
+import { arrayMove } from "@/lib/arrayMove";
 
 export default function AdminMedyaInstagram() {
-  const [posts, setPosts] = useState<InstagramPost[]>([]);
+  // ID-based ordering için state'ler
+  const [order, setOrder] = useState<string[]>([]); // Sadece ID'lerin sırası
+  const [byId, setById] = useState<Record<string, InstagramPost>>({}); // ID → InstagramPost map
+
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingPost, setEditingPost] = useState<InstagramPost | null>(null);
@@ -31,7 +52,6 @@ export default function AdminMedyaInstagram() {
     url: "",
     caption: "",
     thumbnailUrl: "",
-    order: 0,
     isActive: true,
   });
   const [thumbnailPreview, setThumbnailPreview] = useState<string>("");
@@ -40,6 +60,14 @@ export default function AdminMedyaInstagram() {
     message: string;
     type: ToastType;
   } | null>(null);
+  const [isMigrating, setIsMigrating] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Debounced persist için timer ref
+  const saveTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-scroll için ref
+  const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
 
   const {
     uploadImage,
@@ -47,8 +75,20 @@ export default function AdminMedyaInstagram() {
     progress: uploadProgress,
   } = useImageUpload();
 
+  // Helper: order state'inden posts array'i türet
+  const posts = order.map((id) => byId[id]).filter(Boolean);
+
+  // dnd-kit sensörleri
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 }, // 5px taşındığında aktive et
+    }),
+    useSensor(KeyboardSensor)
+  );
+
   useEffect(() => {
     loadPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const showToast = (message: string, type: ToastType) => {
@@ -59,7 +99,23 @@ export default function AdminMedyaInstagram() {
     try {
       setLoading(true);
       const data = await getInstagramPosts();
-      setPosts(data);
+
+      // HER ZAMAN order'a göre sırala (order olmayanları sona at)
+      const sorted = [...data].sort((a, b) => {
+        const ao = a.order ?? Number.POSITIVE_INFINITY;
+        const bo = b.order ?? Number.POSITIVE_INFINITY;
+        return ao - bo;
+      });
+
+      // ID → InstagramPost map oluştur
+      const map: Record<string, InstagramPost> = {};
+      sorted.forEach((p) => {
+        map[p.id] = p;
+      });
+
+      // State'leri güncelle
+      setById(map);
+      setOrder(sorted.map((p) => p.id));
     } catch (error) {
       console.error("Instagram postları yüklenirken hata:", error);
       showToast("Postlar yüklenirken bir hata oluştu", "error");
@@ -68,12 +124,171 @@ export default function AdminMedyaInstagram() {
     }
   }
 
+  // Debounced persist - Arka arkaya sürüklemelerde gereksiz yazımı azaltır
+  function persistOrderDebounced(newOrderIds: string[]) {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+
+    saveTimer.current = setTimeout(async () => {
+      try {
+        const updates = newOrderIds.map((id, index) => ({ id, order: index }));
+        await updateInstagramPostsOrder(updates);
+        showToast("Post sıralaması kaydedildi ✅", "success");
+      } catch (error) {
+        console.error("Sıralama güncellenirken hata:", error);
+        showToast("Sıralama kaydedilemedi", "error");
+        await loadPosts(); // Geri yükle
+      }
+    }, 250); // 250ms debounce
+  }
+
+  // Auto-scroll'u durdur
+  function stopAutoScroll() {
+    if (autoScrollInterval.current) {
+      clearInterval(autoScrollInterval.current);
+      autoScrollInterval.current = null;
+    }
+  }
+
+  // Drag başladığında
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id as string);
+    // Sayfa kaymasını engelle
+    document.body.style.overscrollBehavior = "contain";
+  }
+
+  // Drag bittiğinde
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    setActiveId(null);
+    stopAutoScroll(); // Auto-scroll'u durdur
+    // Overscroll'u geri al
+    document.body.style.overscrollBehavior = "";
+
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = order.indexOf(active.id as string);
+    const newIndex = order.indexOf(over.id as string);
+
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    // UI'da anında sırayı değiştir
+    const newOrder = arrayMove(order, oldIndex, newIndex);
+    setOrder(newOrder);
+
+    // Debounced persist (arka arkaya sürüklemelerde optimize eder)
+    persistOrderDebounced(newOrder);
+  }
+
+  // Drag iptal edildiğinde
+  function handleDragCancel() {
+    setActiveId(null);
+    stopAutoScroll(); // Auto-scroll'u durdur
+    // Overscroll'u geri al
+    document.body.style.overscrollBehavior = "";
+  }
+
+  // Otomatik kaydırma (büyük listelerde yararlı) - Hızlı ve dinamik
+  function handleDragMove(event: DragMoveEvent) {
+    if (!event.active) return;
+
+    const activatorEvent = event.activatorEvent as PointerEvent;
+    if (!activatorEvent) return;
+
+    const y = event.delta.y + activatorEvent.clientY;
+    const margin = 100; // Daha geniş margin (100px)
+    const topEdge = y < margin;
+    const bottomEdge = window.innerHeight - y < margin;
+
+    // Scroll bölgesinden çıkıldıysa interval'ı temizle
+    if (!topEdge && !bottomEdge) {
+      stopAutoScroll();
+      return;
+    }
+
+    // Zaten scroll yapılıyorsa yeni interval başlatma
+    if (autoScrollInterval.current) return;
+
+    // Dinamik hız: Margin'e ne kadar yakınsa o kadar hızlı
+    const distanceFromEdge = topEdge
+      ? margin - y
+      : margin - (window.innerHeight - y);
+
+    // Hız faktörü: 0.2 - 1.0 arası (yaklaştıkça hızlanır)
+    const speedFactor = Math.min(distanceFromEdge / margin, 1);
+    const baseSpeed = 30; // Temel hız (piksel/frame)
+    const scrollSpeed = baseSpeed * (0.5 + speedFactor * 0.5); // 15-30px arası
+
+    // Sürekli scroll loop
+    autoScrollInterval.current = setInterval(() => {
+      if (topEdge) {
+        window.scrollBy({ top: -scrollSpeed, behavior: "auto" });
+      } else if (bottomEdge) {
+        window.scrollBy({ top: scrollSpeed, behavior: "auto" });
+      }
+    }, 16); // ~60fps (16ms)
+  }
+
+  // Migration: Mevcut postlara order ekle
+  async function migrateAddOrderToPosts() {
+    if (
+      !confirm(
+        "Tüm Instagram postlarına sıra numarası eklenecek. Devam edilsin mi?"
+      )
+    ) {
+      return;
+    }
+
+    setIsMigrating(true);
+    try {
+      // Mevcut tüm postları al
+      const allPosts = await getInstagramPosts();
+
+      // Order field'ı olmayanları filtrele
+      const postsWithoutOrder = allPosts.filter(
+        (post) => post.order === undefined || post.order === null
+      );
+
+      if (postsWithoutOrder.length === 0) {
+        showToast("Tüm postlarda zaten sıra numarası var! ✅", "success");
+        setIsMigrating(false);
+        return;
+      }
+
+      // createdAt'e göre sırala (eski → yeni)
+      postsWithoutOrder.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+
+      // Order numaralarını ekle (mevcut en büyük order'dan devam et)
+      const existingOrders = allPosts
+        .filter((p) => p.order !== undefined)
+        .map((p) => p.order as number);
+      const maxOrder =
+        existingOrders.length > 0 ? Math.max(...existingOrders) : -1;
+
+      const updates = postsWithoutOrder.map((post, index) => ({
+        id: post.id,
+        order: maxOrder + 1 + index,
+      }));
+
+      await updateInstagramPostsOrder(updates);
+      await loadPosts();
+
+      showToast(
+        `✅ ${postsWithoutOrder.length} posta sıra numarası eklendi!`,
+        "success"
+      );
+    } catch (error) {
+      console.error("Migration hatası:", error);
+      showToast("Sıra numarası eklenirken hata oluştu", "error");
+    } finally {
+      setIsMigrating(false);
+    }
+  }
+
   function resetForm() {
     setFormData({
       url: "",
       caption: "",
       thumbnailUrl: "",
-      order: 0,
       isActive: true,
     });
     setEditingPost(null);
@@ -88,7 +303,6 @@ export default function AdminMedyaInstagram() {
       url: post.url,
       caption: post.caption || "",
       thumbnailUrl: post.thumbnailUrl || "",
-      order: post.order,
       isActive: post.isActive,
     });
     setThumbnailPreview(post.thumbnailUrl || "");
@@ -175,8 +389,16 @@ export default function AdminMedyaInstagram() {
         await updateInstagramPost(editingPost.id, formData);
         showToast("Post başarıyla güncellendi", "success");
       } else {
-        await addInstagramPost(formData);
-        showToast("Post başarıyla eklendi", "success");
+        // Mevcut en büyük order'ı bul
+        const maxOrder =
+          posts.length > 0 ? Math.max(...posts.map((p) => p.order ?? 0)) : -1;
+
+        // Yeni post için order ekle
+        await addInstagramPost({
+          ...formData,
+          order: maxOrder + 1, // Stabil order
+        });
+        showToast("Post başarıyla eklendi! ✅", "success");
       }
       await loadPosts();
       resetForm();
@@ -236,13 +458,27 @@ export default function AdminMedyaInstagram() {
             Medya sayfasında görünecek Instagram postlarını yönetin
           </p>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-        >
-          <FaPlus />
-          Yeni Post Ekle
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Migration Button - Sadece order olmayan postlar varsa göster */}
+          {posts.some((p) => p.order === undefined || p.order === null) && (
+            <button
+              onClick={migrateAddOrderToPosts}
+              disabled={isMigrating}
+              className="flex items-center gap-2 px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Mevcut postlara otomatik sıra numarası ekle"
+            >
+              <FaSortNumericDown />
+              {isMigrating ? "Ekleniyor..." : "Sıra No Ekle"}
+            </button>
+          )}
+          <button
+            onClick={() => setShowForm(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+          >
+            <FaPlus />
+            Yeni Post Ekle
+          </button>
+        </div>
       </div>
 
       {/* Form Modal */}
@@ -399,44 +635,28 @@ export default function AdminMedyaInstagram() {
                   />
                 </div>
 
-                {/* Order & Active */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Sıralama
-                    </label>
+                {/* Active Status */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Durum
+                  </label>
+                  <label className="flex items-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
                     <input
-                      type="number"
-                      value={formData.order}
+                      type="checkbox"
+                      checked={formData.isActive}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          order: parseInt(e.target.value),
+                          isActive: e.target.checked,
                         })
                       }
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors"
+                      className="w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Durum
-                    </label>
-                    <label className="flex items-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={formData.isActive}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            isActive: e.target.checked,
-                          })
-                        }
-                        className="w-5 h-5 text-purple-600 rounded focus:ring-purple-500"
-                      />
-                      <span className="text-gray-700 font-medium">Aktif</span>
-                    </label>
-                  </div>
+                    <span className="text-gray-700 font-medium">Aktif</span>
+                  </label>
+                  <p className="mt-2 text-xs text-gray-600">
+                    📌 Sıralama için postları sürükleyip bırakın
+                  </p>
                 </div>
 
                 {/* Buttons */}
@@ -461,7 +681,7 @@ export default function AdminMedyaInstagram() {
         )}
       </AnimatePresence>
 
-      {/* Posts Grid */}
+      {/* Posts Grid with Drag & Drop */}
       {posts.length === 0 ? (
         <div className="text-center py-16">
           <FaInstagram className="mx-auto text-6xl text-gray-300 mb-4" />
@@ -480,87 +700,90 @@ export default function AdminMedyaInstagram() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <motion.div
-              key={post.id}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className={`bg-white rounded-xl border-2 ${
-                post.isActive ? "border-purple-200" : "border-gray-200"
-              } shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden`}
+        <div>
+          {/* Sürükle-Bırak Bilgilendirme */}
+          <div className="mb-6 p-4 bg-purple-50 border-2 border-purple-200 rounded-lg flex items-start gap-3">
+            <FaGripVertical className="text-purple-600 text-xl mt-1 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-purple-900 mb-1">
+                🎯 Postların Sırasını Değiştirin
+              </p>
+              <p className="text-xs text-purple-700">
+                Instagram postlarını sürükleyerek sırasını değiştirebilirsiniz.
+                Medya sayfasında bu sıraya göre gösterilecektir.
+              </p>
+            </div>
+          </div>
+
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToWindowEdges, restrictToParentElement]}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
+            onDragMove={handleDragMove}
+          >
+            <SortableContext items={order} strategy={rectSortingStrategy}>
+              <div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                role="list"
+                aria-label="Instagram postları"
+              >
+                {order.map((id, idx) => {
+                  const post = byId[id];
+                  if (!post) return null;
+
+                  return (
+                    <SortableInstagramCard
+                      key={id}
+                      id={id}
+                      post={post}
+                      index={idx}
+                      onEdit={() => handleEdit(post)}
+                      onDelete={() => handleDelete(post.id)}
+                      onToggleActive={() => toggleActive(post)}
+                    />
+                  );
+                })}
+              </div>
+            </SortableContext>
+
+            {/* DragOverlay: Sürüklenen kartın preview'ı */}
+            <DragOverlay
+              adjustScale={false}
+              dropAnimation={{
+                duration: 300,
+                easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
+              }}
             >
-              {/* Thumbnail */}
-              <div className="relative aspect-square bg-linear-to-br from-pink-100 via-purple-100 to-orange-100">
-                {post.thumbnailUrl ? (
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${post.thumbnailUrl})` }}
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <FaInstagram className="text-6xl text-purple-300" />
+              {activeId && byId[activeId] ? (
+                <div className="w-full max-w-[400px] rounded-xl overflow-hidden shadow-2xl border-4 border-purple-500 bg-white transform-gpu will-change-transform rotate-2">
+                  <div className="relative aspect-square bg-linear-to-br from-pink-100 via-purple-100 to-orange-100">
+                    {byId[activeId].thumbnailUrl ? (
+                      <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url(${byId[activeId].thumbnailUrl})`,
+                        }}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <FaInstagram className="text-6xl text-purple-300" />
+                      </div>
+                    )}
                   </div>
-                )}
-                {!post.isActive && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <span className="px-4 py-2 bg-gray-800 text-white rounded-lg font-semibold">
-                      Pasif
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="p-4">
-                {post.caption && (
-                  <p className="text-sm text-gray-700 mb-3 line-clamp-2">
-                    {post.caption}
-                  </p>
-                )}
-                <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                  <span>Sıra: {post.order}</span>
-                  <a
-                    href={post.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-purple-600 hover:text-purple-700 underline"
-                  >
-                    Instagram&apos;da Gör
-                  </a>
+                  {byId[activeId].caption && (
+                    <div className="p-3 bg-white">
+                      <p className="text-sm text-gray-700 line-clamp-2">
+                        {byId[activeId].caption}
+                      </p>
+                    </div>
+                  )}
                 </div>
-
-                {/* Actions */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => toggleActive(post)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium transition-colors ${
-                      post.isActive
-                        ? "bg-green-100 text-green-700 hover:bg-green-200"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                  >
-                    {post.isActive ? <FaEye /> : <FaEyeSlash />}
-                    {post.isActive ? "Aktif" : "Pasif"}
-                  </button>
-                  <button
-                    onClick={() => handleEdit(post)}
-                    className="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(post.id)}
-                    className="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              ) : null}
+            </DragOverlay>
+          </DndContext>
         </div>
       )}
 

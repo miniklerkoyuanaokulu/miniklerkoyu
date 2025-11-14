@@ -9,7 +9,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
-  getDoc
+  getDoc,
+  writeBatch
 } from "firebase/firestore";
 import { db } from "./firebase";
 import type { PreApplication, InstagramPost, Announcement } from "./types";
@@ -70,6 +71,21 @@ export async function updateInstagramPost(
 export async function deleteInstagramPost(id: string) {
   const docRef = doc(db, "instagramPosts", id);
   await deleteDoc(docRef);
+}
+
+// Batch update for Instagram posts order (drag & drop)
+export async function updateInstagramPostsOrder(items: { id: string; order: number }[]) {
+  const batch = writeBatch(db);
+  
+  items.forEach(({ id, order }) => {
+    const docRef = doc(db, "instagramPosts", id);
+    batch.update(docRef, { 
+      order,
+      updatedAt: serverTimestamp() 
+    });
+  });
+  
+  await batch.commit();
 }
 
 export async function getInstagramPost(id: string) {

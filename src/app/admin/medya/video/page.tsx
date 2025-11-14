@@ -1,21 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   FaVideo,
   FaPlus,
-  FaTrash,
-  FaEdit,
   FaTimes,
   FaYoutube,
   FaUpload,
+  FaGripVertical,
+  FaSortNumericDown,
 } from "react-icons/fa";
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+  DragEndEvent,
+  DragStartEvent,
+  DragMoveEvent,
+} from "@dnd-kit/core";
+import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import {
+  restrictToParentElement,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 import {
   getMediaItems,
   addMediaItem,
   updateMediaItem,
   deleteMediaItem,
+  updateMediaItemsOrder,
 } from "@/lib/firestore";
 import { useVideoUpload } from "@/hooks/useVideoUpload";
 import {
@@ -24,19 +43,15 @@ import {
   getYouTubeThumbnailUrl,
   isValidYouTubeUrl,
 } from "@/lib/youtube";
-
-type MediaItem = {
-  id: string;
-  url: string;
-  type: "video";
-  caption?: string;
-  thumbnailUrl?: string;
-  source?: "upload" | "youtube";
-  createdAt: number;
-};
+import type { MediaItem } from "@/lib/types";
+import SortableVideoCard from "@/components/SortableVideoCard";
+import { arrayMove } from "@/lib/arrayMove";
+import Toast, { ToastType } from "@/components/Toast";
 
 export default function AdminVideoGalerisi() {
-  const [videos, setVideos] = useState<MediaItem[]>([]);
+  // ID-based ordering için state'ler
+  const [order, setOrder] = useState<string[]>([]); // Sadece ID'lerin sırası
+  const [byId, setById] = useState<Record<string, MediaItem>>({}); // ID → MediaItem map
   const [loading, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
   const [uploadType, setUploadType] = useState<"file" | "youtube">("file");
@@ -46,23 +61,225 @@ export default function AdminVideoGalerisi() {
   const [editingVideo, setEditingVideo] = useState<MediaItem | null>(null);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: ToastType;
+  } | null>(null);
+  const [isMigrating, setIsMigrating] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Debounced persist için timer ref
+  const saveTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-scroll için ref
+  const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
 
   const { uploadVideo, uploading: progress } = useVideoUpload();
 
+  // Helper: order state'inden videos array'i türet
+  const videos = order.map((id) => byId[id]).filter(Boolean);
+
+  // dnd-kit sensörleri
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 }, // 5px taşındığında aktive et
+    }),
+    useSensor(KeyboardSensor)
+  );
+
+  const showToast = (message: string, type: ToastType) => {
+    setToast({ message, type });
+  };
+
   useEffect(() => {
     loadVideos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function loadVideos() {
     try {
       setLoading(true);
-      const data = await getMediaItems("video");
-      setVideos(data as MediaItem[]);
+      const data = (await getMediaItems("video")) as MediaItem[];
+
+      // HER ZAMAN order'a göre sırala (order olmayanları sona at)
+      const sorted = [...data].sort((a, b) => {
+        const ao = a.order ?? Number.POSITIVE_INFINITY;
+        const bo = b.order ?? Number.POSITIVE_INFINITY;
+        return ao - bo;
+      });
+
+      // ID → MediaItem map oluştur
+      const map: Record<string, MediaItem> = {};
+      sorted.forEach((v) => {
+        map[v.id] = v;
+      });
+
+      // State'leri güncelle
+      setById(map);
+      setOrder(sorted.map((v) => v.id));
     } catch (error) {
       console.error("Videolar yüklenirken hata:", error);
-      alert("Videolar yüklenirken bir hata oluştu");
+      showToast("Videolar yüklenirken bir hata oluştu", "error");
     } finally {
       setLoading(false);
+    }
+  }
+
+  // Debounced persist - Arka arkaya sürüklemelerde gereksiz yazımı azaltır
+  function persistOrderDebounced(newOrderIds: string[]) {
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+
+    saveTimer.current = setTimeout(async () => {
+      try {
+        const updates = newOrderIds.map((id, index) => ({ id, order: index }));
+        await updateMediaItemsOrder(updates);
+        showToast("Video sıralaması kaydedildi ✅", "success");
+      } catch (error) {
+        console.error("Sıralama güncellenirken hata:", error);
+        showToast("Sıralama kaydedilemedi", "error");
+        await loadVideos(); // Geri yükle
+      }
+    }, 250); // 250ms debounce
+  }
+
+  // Auto-scroll'u durdur
+  function stopAutoScroll() {
+    if (autoScrollInterval.current) {
+      clearInterval(autoScrollInterval.current);
+      autoScrollInterval.current = null;
+    }
+  }
+
+  // Drag başladığında
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id as string);
+    // Sayfa kaymasını engelle
+    document.body.style.overscrollBehavior = "contain";
+  }
+
+  // Drag bittiğinde
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    setActiveId(null);
+    stopAutoScroll(); // Auto-scroll'u durdur
+    // Overscroll'u geri al
+    document.body.style.overscrollBehavior = "";
+
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = order.indexOf(active.id as string);
+    const newIndex = order.indexOf(over.id as string);
+
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    // UI'da anında sırayı değiştir
+    const newOrder = arrayMove(order, oldIndex, newIndex);
+    setOrder(newOrder);
+
+    // Debounced persist (arka arkaya sürüklemelerde optimize eder)
+    persistOrderDebounced(newOrder);
+  }
+
+  // Drag iptal edildiğinde
+  function handleDragCancel() {
+    setActiveId(null);
+    stopAutoScroll(); // Auto-scroll'u durdur
+    // Overscroll'u geri al
+    document.body.style.overscrollBehavior = "";
+  }
+
+  // Otomatik kaydırma (büyük listelerde yararlı) - Hızlı ve dinamik
+  function handleDragMove(event: DragMoveEvent) {
+    if (!event.active) return;
+
+    const activatorEvent = event.activatorEvent as PointerEvent;
+    if (!activatorEvent) return;
+
+    const y = event.delta.y + activatorEvent.clientY;
+    const margin = 100; // Daha geniş margin (100px)
+    const topEdge = y < margin;
+    const bottomEdge = window.innerHeight - y < margin;
+
+    // Scroll bölgesinden çıkıldıysa interval'ı temizle
+    if (!topEdge && !bottomEdge) {
+      stopAutoScroll();
+      return;
+    }
+
+    // Zaten scroll yapılıyorsa yeni interval başlatma
+    if (autoScrollInterval.current) return;
+
+    // Dinamik hız: Margin'e ne kadar yakınsa o kadar hızlı
+    const distanceFromEdge = topEdge
+      ? margin - y
+      : margin - (window.innerHeight - y);
+
+    // Hız faktörü: 0.2 - 1.0 arası (yaklaştıkça hızlanır)
+    const speedFactor = Math.min(distanceFromEdge / margin, 1);
+    const baseSpeed = 30; // Temel hız (piksel/frame)
+    const scrollSpeed = baseSpeed * (0.5 + speedFactor * 0.5); // 15-30px arası
+
+    // Sürekli scroll loop
+    autoScrollInterval.current = setInterval(() => {
+      if (topEdge) {
+        window.scrollBy({ top: -scrollSpeed, behavior: "auto" });
+      } else if (bottomEdge) {
+        window.scrollBy({ top: scrollSpeed, behavior: "auto" });
+      }
+    }, 16); // ~60fps (16ms)
+  }
+
+  // Migration: Mevcut videolara order ekle
+  async function migrateAddOrderToVideos() {
+    if (!confirm("Tüm videolara sıra numarası eklenecek. Devam edilsin mi?")) {
+      return;
+    }
+
+    setIsMigrating(true);
+    try {
+      // Mevcut tüm videoları al
+      const allVideos = (await getMediaItems("video")) as MediaItem[];
+
+      // Order field'ı olmayanları filtrele
+      const videosWithoutOrder = allVideos.filter(
+        (video) => video.order === undefined || video.order === null
+      );
+
+      if (videosWithoutOrder.length === 0) {
+        showToast("Tüm videolarda zaten sıra numarası var! ✅", "success");
+        setIsMigrating(false);
+        return;
+      }
+
+      // createdAt'e göre sırala (eski → yeni)
+      videosWithoutOrder.sort(
+        (a, b) => (a.createdAt || 0) - (b.createdAt || 0)
+      );
+
+      // Order numaralarını ekle (mevcut en büyük order'dan devam et)
+      const existingOrders = allVideos
+        .filter((v) => v.order !== undefined)
+        .map((v) => v.order as number);
+      const maxOrder =
+        existingOrders.length > 0 ? Math.max(...existingOrders) : -1;
+
+      const updates = videosWithoutOrder.map((video, index) => ({
+        id: video.id,
+        order: maxOrder + 1 + index,
+      }));
+
+      await updateMediaItemsOrder(updates);
+      await loadVideos();
+
+      showToast(
+        `✅ ${videosWithoutOrder.length} videoya sıra numarası eklendi!`,
+        "success"
+      );
+    } catch (error) {
+      console.error("Migration hatası:", error);
+      showToast("Sıra numarası eklenirken hata oluştu", "error");
+    } finally {
+      setIsMigrating(false);
     }
   }
 
@@ -134,7 +351,7 @@ export default function AdminVideoGalerisi() {
       if (uploadType === "file") {
         // Dosya yükleme
         if (!selectedFile) {
-          alert("Lütfen bir video dosyası seçin");
+          showToast("Lütfen bir video dosyası seçin", "error");
           return;
         }
 
@@ -143,20 +360,21 @@ export default function AdminVideoGalerisi() {
       } else {
         // YouTube linki
         if (!youtubeUrl.trim()) {
-          alert("Lütfen bir YouTube linki girin");
+          showToast("Lütfen bir YouTube linki girin", "error");
           return;
         }
 
         if (!isValidYouTubeUrl(youtubeUrl)) {
-          alert(
-            "Geçersiz YouTube linki. Lütfen geçerli bir YouTube video linki girin."
+          showToast(
+            "Geçersiz YouTube linki. Lütfen geçerli bir YouTube video linki girin.",
+            "error"
           );
           return;
         }
 
         const videoId = extractYouTubeVideoId(youtubeUrl);
         if (!videoId) {
-          alert("YouTube video ID'si alınamadı");
+          showToast("YouTube video ID'si alınamadı", "error");
           return;
         }
 
@@ -165,17 +383,23 @@ export default function AdminVideoGalerisi() {
         source = "youtube";
       }
 
-      // Firestore'a kaydet
+      // Mevcut en büyük order'ı bul
+      const maxOrder =
+        videos.length > 0 ? Math.max(...videos.map((v) => v.order ?? 0)) : -1;
+
+      // Firestore'a kaydet - Stabil order ekle
       const videoData: {
         url: string;
         type: "video";
         caption?: string;
         thumbnailUrl?: string;
         source?: "upload" | "youtube";
+        order: number;
       } = {
         url: videoUrl,
         type: "video",
         source,
+        order: maxOrder + 1, // Yeni videoya stabil order
       };
 
       if (currentCaption?.trim()) {
@@ -193,10 +417,10 @@ export default function AdminVideoGalerisi() {
       setYoutubeUrl("");
       setCurrentCaption("");
       setShowUpload(false);
-      alert("Video başarıyla eklendi!");
+      showToast("Video başarıyla eklendi! ✅", "success");
     } catch (error) {
       console.error("Upload hatası:", error);
-      alert("Video yüklenirken bir hata oluştu");
+      showToast("Video yüklenirken bir hata oluştu", "error");
     } finally {
       setUploadingVideo(false);
     }
@@ -210,9 +434,10 @@ export default function AdminVideoGalerisi() {
     try {
       await deleteMediaItem(id);
       await loadVideos();
+      showToast("Video başarıyla silindi", "success");
     } catch (error) {
       console.error("Silme hatası:", error);
-      alert("Video silinemedi");
+      showToast("Video silinemedi", "error");
     }
   }
 
@@ -226,9 +451,10 @@ export default function AdminVideoGalerisi() {
       await loadVideos();
       setEditingVideo(null);
       setCurrentCaption("");
+      showToast("Açıklama başarıyla güncellendi", "success");
     } catch (error) {
       console.error("Güncelleme hatası:", error);
-      alert("Açıklama güncellenemedi");
+      showToast("Açıklama güncellenemedi", "error");
     }
   }
 
@@ -257,13 +483,27 @@ export default function AdminVideoGalerisi() {
               Medya sayfasında görünecek videoları yönetin
             </p>
           </div>
-          <button
-            onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
-          >
-            <FaPlus />
-            Video Ekle
-          </button>
+          <div className="flex items-center gap-3">
+            {/* Migration Button - Sadece order olmayan videolar varsa göster */}
+            {videos.some((v) => v.order === undefined || v.order === null) && (
+              <button
+                onClick={migrateAddOrderToVideos}
+                disabled={isMigrating}
+                className="flex items-center gap-2 px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Mevcut videolara otomatik sıra numarası ekle"
+              >
+                <FaSortNumericDown />
+                {isMigrating ? "Ekleniyor..." : "Sıra No Ekle"}
+              </button>
+            )}
+            <button
+              onClick={() => setShowUpload(true)}
+              className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+            >
+              <FaPlus />
+              Video Ekle
+            </button>
+          </div>
         </div>
 
         {/* Info Banner */}
@@ -608,7 +848,7 @@ export default function AdminVideoGalerisi() {
         )}
       </AnimatePresence>
 
-      {/* Videos Grid */}
+      {/* Videos Grid with Drag & Drop */}
       {videos.length === 0 ? (
         <div className="text-center py-16">
           <FaVideo className="mx-auto text-6xl text-gray-300 mb-4" />
@@ -627,85 +867,103 @@ export default function AdminVideoGalerisi() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((video) => (
-            <motion.div
-              key={video.id}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="group relative bg-white rounded-xl border-2 border-gray-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 overflow-hidden"
-            >
-              {/* Video Thumbnail */}
-              <div className="relative aspect-video bg-gray-100">
-                {video.source === "youtube" ? (
-                  // YouTube Thumbnail
-                  video.thumbnailUrl ? (
-                    <img
-                      src={video.thumbnailUrl}
-                      alt={video.caption || "Video"}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <FaYoutube className="text-6xl text-red-500" />
-                    </div>
-                  )
-                ) : (
-                  // Uploaded Video
-                  <video
-                    src={video.url}
-                    className="w-full h-full object-cover"
-                    muted
-                  />
-                )}
+        <div>
+          {/* Sürükle-Bırak Bilgilendirme */}
+          <div className="mb-6 p-4 bg-green-50 border-2 border-green-200 rounded-lg flex items-start gap-3">
+            <FaGripVertical className="text-green-600 text-xl mt-1 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-green-900 mb-1">
+                🎯 Videoların Sırasını Değiştirin
+              </p>
+              <p className="text-xs text-green-700">
+                Videoları sürükleyerek sırasını değiştirebilirsiniz. Medya
+                sayfasında bu sıraya göre gösterilecektir.
+              </p>
+            </div>
+          </div>
 
-                {/* Source Badge */}
-                <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-black/70 text-white text-xs font-medium flex items-center gap-1">
-                  {video.source === "youtube" ? (
-                    <>
-                      <FaYoutube /> YouTube
-                    </>
-                  ) : (
-                    <>
-                      <FaVideo /> Upload
-                    </>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToWindowEdges, restrictToParentElement]}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
+            onDragMove={handleDragMove}
+          >
+            <SortableContext items={order} strategy={rectSortingStrategy}>
+              <div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                role="list"
+                aria-label="Video galerisi"
+              >
+                {order.map((id, idx) => {
+                  const video = byId[id];
+                  if (!video) return null;
+
+                  return (
+                    <SortableVideoCard
+                      key={id}
+                      id={id}
+                      video={video}
+                      index={idx}
+                      onEdit={() => {
+                        setEditingVideo(video);
+                        setCurrentCaption(video.caption || "");
+                      }}
+                      onDelete={() => handleDelete(video.id)}
+                    />
+                  );
+                })}
+              </div>
+            </SortableContext>
+
+            {/* DragOverlay: Sürüklenen kartın preview'ı */}
+            <DragOverlay
+              adjustScale={false}
+              dropAnimation={{
+                duration: 300,
+                easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
+              }}
+            >
+              {activeId && byId[activeId] ? (
+                <div className="w-full max-w-[400px] rounded-xl overflow-hidden shadow-2xl border-4 border-green-500 bg-white transform-gpu will-change-transform rotate-2">
+                  <div className="relative aspect-video bg-gray-100">
+                    {byId[activeId].source === "youtube" ? (
+                      byId[activeId].thumbnailUrl ? (
+                        <Image
+                          src={byId[activeId].thumbnailUrl || ""}
+                          alt={byId[activeId].caption || "Video"}
+                          fill
+                          className="object-cover"
+                          draggable={false}
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <FaYoutube className="text-6xl text-red-500" />
+                        </div>
+                      )
+                    ) : (
+                      <video
+                        src={byId[activeId].url}
+                        className="w-full h-full object-cover"
+                        muted
+                        draggable={false}
+                      />
+                    )}
+                  </div>
+                  {byId[activeId].caption && (
+                    <div className="p-3 bg-white">
+                      <p className="text-sm text-gray-700 line-clamp-2">
+                        {byId[activeId].caption}
+                      </p>
+                    </div>
                   )}
                 </div>
-              </div>
-
-              {/* Caption */}
-              {video.caption && (
-                <div className="p-3 border-t border-gray-200">
-                  <p className="text-sm text-gray-700 line-clamp-2">
-                    {video.caption}
-                  </p>
-                </div>
-              )}
-
-              {/* Actions Overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-                <button
-                  onClick={() => {
-                    setEditingVideo(video);
-                    setCurrentCaption(video.caption || "");
-                  }}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center gap-2"
-                >
-                  <FaEdit />
-                  Düzenle
-                </button>
-                <button
-                  onClick={() => handleDelete(video.id)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium flex items-center gap-2"
-                >
-                  <FaTrash />
-                  Sil
-                </button>
-              </div>
-            </motion.div>
-          ))}
+              ) : null}
+            </DragOverlay>
+          </DndContext>
         </div>
       )}
 
@@ -717,6 +975,15 @@ export default function AdminVideoGalerisi() {
             video
           </p>
         </div>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

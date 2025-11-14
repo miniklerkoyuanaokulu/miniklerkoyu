@@ -13,9 +13,12 @@ export type MediaItem = {
   url: string;
   caption?: string;
   tags?: string[];
-  order: number; // Drag & drop sıralaması için
+  order?: number; // Drag & drop sıralaması için
   publishedAt?: number;
   createdAt?: number;
+  // Video-specific fields
+  source?: "upload" | "youtube"; // Video kaynağı
+  thumbnailUrl?: string; // YouTube thumbnail veya video önizlemesi
 };
 
 export type PageDoc = {
