@@ -11,6 +11,7 @@ import {
   FaWhatsapp,
   FaLinkedin,
   FaShareAlt,
+  FaInstagram,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { getAnnouncementBySlug } from "@/lib/firestore";
@@ -25,6 +26,7 @@ export default function DuyuruDetayPage() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 
   useEffect(() => {
     // URL'yi client-side'da set et
@@ -58,11 +60,50 @@ export default function DuyuruDetayPage() {
     });
   }
 
+  function copyToClipboardFallback(text: string) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      setCopiedToClipboard(true);
+      setTimeout(() => setCopiedToClipboard(false), 3000);
+    } catch (err) {
+      console.error("Kopyalama hatası:", err);
+    }
+    document.body.removeChild(textArea);
+  }
+
   function handleShare(platform: string) {
     if (!announcement) return;
 
     const title = encodeURIComponent(announcement.title);
     const url = encodeURIComponent(shareUrl);
+
+    // Instagram için özel işlem - URL'yi panoya kopyala
+    // Not: Instagram web için resmi paylaşım URL'i sağlamıyor,
+    // bu yüzden linki panoya kopyalayıp kullanıcının Instagram'da manuel paylaşmasını sağlıyoruz
+    if (platform === "instagram") {
+      const textToCopy = `${announcement.title}\n${shareUrl}`;
+      
+      // URL'yi panoya kopyala
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          setCopiedToClipboard(true);
+          setTimeout(() => setCopiedToClipboard(false), 3000);
+        }).catch(() => {
+          // Hata durumunda fallback kullan
+          copyToClipboardFallback(textToCopy);
+        });
+      } else {
+        // Fallback: Eski tarayıcılar için
+        copyToClipboardFallback(textToCopy);
+      }
+      return;
+    }
 
     let shareLink = "";
 
@@ -182,7 +223,7 @@ export default function DuyuruDetayPage() {
                   Bu Duyuruyu Paylaş
                 </h3>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 <motion.button
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -206,6 +247,25 @@ export default function DuyuruDetayPage() {
                 <motion.button
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => handleShare("instagram")}
+                  className={`w-12 h-12 flex items-center justify-center rounded-xl shadow-md hover:shadow-lg transition-all relative ${
+                    copiedToClipboard
+                      ? "bg-green-600 text-white"
+                      : "bg-linear-to-br from-pink-500 via-purple-500 to-orange-500 text-white"
+                  }`}
+                  title={copiedToClipboard ? "Link kopyalandı! Instagram'a yapıştırabilirsiniz" : "Instagram'da Paylaş"}
+                >
+                  <FaInstagram className="text-xl" />
+                  {copiedToClipboard && (
+                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                      ✓ Kopyalandı!
+                    </span>
+                  )}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => handleShare("whatsapp")}
                   className="w-12 h-12 flex items-center justify-center bg-green-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all"
                   title="WhatsApp'ta Paylaş"
@@ -222,6 +282,17 @@ export default function DuyuruDetayPage() {
                 >
                   <FaLinkedin className="text-xl" />
                 </motion.button>
+              </div>
+              {/* Mesaj için sabit alan - yükseklik değişimini önler */}
+              <div className="h-8 mt-3">
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: copiedToClipboard ? 1 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-sm text-green-600 font-medium"
+                >
+                  ✓ Link panoya kopyalandı! Instagram'da paylaşırken yapıştırabilirsiniz.
+                </motion.p>
               </div>
             </div>
           </div>
