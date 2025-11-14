@@ -359,7 +359,8 @@ export default function AdminMedyaInstagram() {
     }
 
     try {
-      const url = await uploadImage(file);
+      // Instagram thumbnail için düşük kalite yeterli
+      const url = await uploadImage(file, "instagram-thumbnails", "low");
       setFormData((prev) => ({ ...prev, thumbnailUrl: url }));
       setThumbnailPreview(url);
       showToast("Görsel başarıyla yüklendi", "success");

@@ -343,8 +343,8 @@ export default function AdminFotografGalerisi() {
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
 
-        // Firebase Storage'a yükle (optimize edilmiş)
-        const url = await uploadImage(file, "media/photos");
+        // Firebase Storage'a yükle (yüksek kalite - fotoğraf galerisi için)
+        const url = await uploadImage(file, "media/photos", "high");
 
         // Firestore'a kaydet - Stabil order ekle
         const mediaData: {
